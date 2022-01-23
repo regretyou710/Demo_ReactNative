@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 對象的解構賦值</title>
+</head>
+
+<body>
+    <script>
+        //對象解構賦值要注意，左右兩邊的變量名要一樣，和對象中變量的順序無關
+        // let {
+        //     hd,
+        //     rn
+        // } = {
+        //     hd: '後盾',
+        //     rn: 'react native'
+        // };
+        
+        let {
+            rn,
+            hd
+        } = {
+            hd: '後盾',
+            rn: 'react native'
+        };
+
+        console.log(hd, rn);
+    </script>
+</body>
+
+</html>

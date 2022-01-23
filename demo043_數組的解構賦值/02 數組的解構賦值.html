@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 數組的解構賦值</title>
+</head>
+
+<body>
+    <script>
+        //解構賦值是"模式匹配"，只要左右兩邊結構依樣，就能一一對應
+        let [a, [b, [c]],
+            [
+                [d]
+            ]
+        ] = [1, [2, [3]],
+            [
+                [4]
+            ]
+        ];
+        console.log(c);//3
+    </script>
+</body>
+
+</html>
