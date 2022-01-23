@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 symbol</title>
+    <script>
+        var a = Symbol('a');
+        var obj = {
+            [a]: 1,
+            b: 2,
+            c: 3
+        };
+
+        obj.a = 4;
+        console.log(obj.a);
+        console.log(obj[a]);
+
+        //新增一個屬性名獨一無二的數據
+        var b = Symbol('b');
+        obj[b] = '後盾人';
+
+        console.log(obj[b]);
+        console.log(obj.b);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

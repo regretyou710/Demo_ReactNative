@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 函數默認值</title>
+</head>
+
+<body>
+    <script>
+        // function foo(x, y) {
+        //     y = y || 0;
+        //     return x + y;
+        // }
+
+        // console.log(foo(5));
+
+        let foo = (x = 1, y = 1) => x + y;
+        console.log(foo());
+        console.log(foo(2));
+        console.log(foo(undefined, 3));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 神奇三點</title>
+</head>
+
+<body>
+    <script>
+        function foo(x, y) {
+            return x + y;
+        }
+
+        //在非行參的情況，三個點表示將數組拆分成獨立的值
+        let arr = [3, 4];
+        console.log(foo(...arr));
+
+        let arr2 = [1, 2, 3];
+        let arr3 = [4, 5, 6, ...arr2];
+        console.log(arr3);//[4, 5, 6, 1, 2, 3]
+    </script>
+</body>
+
+</html>

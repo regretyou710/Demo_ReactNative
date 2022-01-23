@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 let</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            list-style: none;
+            float: left;
+            width: 200px;
+            height: 150px;
+            background: purple;
+            color: white;
+            line-height: 150px;
+            text-align: center;
+            font-size: 30px;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>TEXT01</li>
+        <li>TEXT02</li>
+        <li>TEXT03</li>
+        <li>TEXT04</li>
+        <li>TEXT05</li>
+        <li>TEXT06</li>
+    </ul>
+    <script>
+        //為li綁定單擊響應函數
+
+        //#region 傳統寫法
+        // var lis = document.getElementsByTagName('li');
+        // for (var i = 0; i < lis.length; i++) {
+        //     lis[i].onclick = function () {
+        //         alert(i);
+        //     };
+        // }
+        //#endregion
+
+        //#region 閉包寫法
+        // var lis = document.getElementsByTagName('li');
+        // for (var i = 0; i < lis.length; i++) {
+        //     //立即執行函數
+        //     (function (x) {
+        //         lis[x].onclick = function () {
+        //             alert(x);
+        //         };
+        //     })(i);
+        // }
+        //#endregion
+
+        //#region let寫法
+        var lis = document.getElementsByTagName('li');
+        for (var i = 0; i < lis.length; i++) {
+            //let聲明
+            let x = i;
+            lis[x].onclick = function () {
+                alert(x);
+            };
+        }
+        //#endregion
+    </script>
+</body>
+
+</html>

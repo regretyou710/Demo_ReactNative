@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 map方法</title>
+</head>
+
+<body>
+    <script>
+        let arr = ['user01', 'user02', 'user03', 'user04', 'user05', 'user06', 'user07', 'user08'];
+        let arr2 = arr.map(x => 'NAME:' + x);
+        console.log(arr2);
+
+        let arr3 = arr.map(x => x == 'user01' ? 'N/A' : x);
+        console.log(arr3);
+    </script>
+</body>
+
+</html>

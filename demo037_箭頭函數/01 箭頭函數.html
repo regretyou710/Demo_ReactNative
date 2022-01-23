@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 箭頭函數</title>
+</head>
+
+<body>
+    <script>
+        //#region 以前寫法
+        //計算平方的函數
+        // function square(x) {
+        //     var result = x * x;
+        //     console.log(result);
+        //     //return x * x;
+        // }
+
+        // square(9);
+        //#endregion
+
+        //#region es6寫法
+        //箭頭函數可以理解為一種新的語法糖
+        //如果函數體就一行程式碼，就不用寫花括號，也不用return，一行程式碼的結果會自動return返回
+
+        // let square = function (x) {
+        //     return x * x
+        // };
+
+        let square = (x) => x * x;
+        var result = square(9);
+        console.log(result);
+
+        console.log('---------------------------');
+
+        // let add = function (x, y) {
+        //     x = x + 1;
+        //     y = y + 1;
+        //     return x + y;
+        // };
+
+        //如果函數體有多行就要加花括號
+        let add = (x, y) => {
+            x = x + 1;
+            y = y + 1;
+            return x + y;
+        };
+
+        console.log(add(1, 2));
+        //#endregion
+    </script>
+</body>
+
+</html>
