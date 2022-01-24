@@ -9,10 +9,10 @@
 
 <body>
     <script>
-        //數組去重複
+        //數組去重複(使用擴展運算符...將Set類型數據拆分)
         let arr1 = [1, 2, 4, 1, 3, 5, 2, 3, 5, 4];
         let arr2 = [...new Set(arr1)];
-        console.log(arr2); //(5) [1, 2, 4, 3, 5]
+        console.log(arr2); //Array(5) [1, 2, 4, 3, 5]
     </script>
 </body>
 

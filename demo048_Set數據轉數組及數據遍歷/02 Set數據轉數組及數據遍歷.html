@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 Set數據轉數組及數據遍歷</title>
+</head>
+
+<body>
+    <script>
+        let s = new Set([1, 2, 3, 4, 5, 5, 5]);
+        console.log(s); //Set(5) {1, 2, 3, 4, 5}
+        console.log(s.keys()); //SetIterator {1, 2, 3, 4, 5}
+        console.log(s.values()); //SetIterator {1, 2, 3, 4, 5}
+
+        //用x去遍歷s.key()產生的集合
+        for (x of s.values()) {
+            console.log(x);
+        }
+
+        //s.entries()將Set數據的值組成鍵值對，形成一個集合
+        for (x of s.entries()) {
+            console.log(x);
+        }
+
+        s.forEach(x => console.log(x));
+    </script>
+</body>
+
+</html>

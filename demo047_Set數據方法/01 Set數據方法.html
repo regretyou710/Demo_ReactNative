@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 Set數據方法</title>
+</head>
+
+<body>
+    <script>
+        let s = new Set([1, 2, 3, 4, 5, 5, 5]);
+        console.log(s);//Set(5) {1, 2, 3, 4, 5}
+
+        //追加新數據
+        s.add(7);
+        console.log(s);//Set(6) {1, 2, 3, 4, 5, 7}
+
+        //刪除數據
+        s.delete(3);
+        console.log(s);//Set(5) {1, 2, 4, 5, 7}
+
+        //判斷數據中是否有某值
+        console.log(s.has(2));//true
+
+        //清除所有數據
+        s.clear()
+        console.log(s);//Set(0) {size: 0}
+    </script>
+</body>
+
+</html>
