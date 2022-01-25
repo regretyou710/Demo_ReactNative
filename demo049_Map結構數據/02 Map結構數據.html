@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 Map結構數據</title>
+</head>
+
+<body>
+    <script>
+        //創建一個Map結構數據
+        let m = new Map();
+
+        //給Map數據添加內容
+        m.set('name', '後盾人');
+
+        //獲得Map結構數據中的內容
+        console.log(m.get('name')); //後盾人
+        console.log(m); //Map(1) {'name' => '後盾人'}
+
+        //在Map結構的數據中，key可以是任意類型
+        m.set(123, 'abc');
+        console.log(m.get(123)); //abc
+
+        let obj = {
+            a: 1
+        };
+        m.set(obj, 123456);
+        console.log(m.get(obj)); //123456
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 Map結構數據初始化和特點</title>
+</head>
+
+<body>
+    <script>
+        let m = new Map([
+            [123, '後盾人'],
+            ['rn', 'react native']
+        ]);
+
+        console.log(m);//Map(2) {123 => '後盾人', 'rn' => 'react native'}
+        console.log(m.get(123));//後盾人
+    </script>
+</body>
+
+</html>

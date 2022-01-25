@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 Map結構數據遍歷</title>
+</head>
+
+<body>
+    <script>
+        let m = new Map([
+            [123, 'abc'],
+            ['name', '後盾人'],
+            ['a', 'b']
+        ]);
+
+        //獲得並遍歷所有鍵名
+        for (let x of m.keys()) {
+            console.log(x);
+        }
+        console.log('-------------------------------');
+        for (let x of m.values()) {
+            console.log(x);
+        }
+        console.log('-------------------------------');
+        //entries()相當於返回=>[[123, 'abc'], ['name', '後盾人'], ['a', 'b']]
+        for (let x of m.entries()) {
+            console.log(x[0], x[1]);
+        }
+        console.log('-------------------------------');
+        m.forEach((v, k) => console.log(v, k));
+    </script>
+</body>
+
+</html>

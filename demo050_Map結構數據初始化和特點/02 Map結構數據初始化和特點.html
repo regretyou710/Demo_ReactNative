@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 Map結構數據初始化和特點</title>
+</head>
+
+<body>
+    <script>
+        //#region 
+        // let m = new Map();
+
+        // //key為字串陣列但並未賦值給變數
+        // m.set(['a'], 123);
+
+        // //此處的['a']與set中的key是不同物件
+        // console.log(m.get(['a'])); //undefined
+
+        // let m = new Map();
+        // let obj = ['a'];
+        // m.set(obj, 123);
+        // console.log(m.get(obj)); //123
+        //#endregion
+
+        //#region key相同時會被覆蓋
+        let m = new Map();
+        m.set(1, 'a');
+        m.set(1, 'b');
+        console.log(m.get(1)); //b
+        //#endregion
+    </script>
+</body>
+
+</html>

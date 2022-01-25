@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 Map結構數據轉數組</title>
+</head>
+
+<body>
+    <script>
+        const m = new Map([
+            [1, 'one'],
+            [2, 'two'],
+            [3, 'three'],
+            [4, 'four'],
+            [5, 'five']
+        ]);
+        
+        let arr = [...m.keys()];
+        console.log(arr); //Array(5) [1, 2, 3, 4, 5]
+    </script>
+</body>
+
+</html>
