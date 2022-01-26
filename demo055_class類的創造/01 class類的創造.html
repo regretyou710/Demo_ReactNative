@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 class類的創造</title>
+</head>
+
+<body>
+    <script>
+        class Animal {
+            //構造函數會在類被實例化時自動執行，需要定義的屬性都生在constructor中
+            //如果不需要在類中聲明屬性，constructor可以不用寫(隱含無參構造函數)
+            constructor() {
+                this.weight = '重量';
+                this.color = '顏色';
+            }
+
+            //創建類的時候，方法之間不需要逗號或分號
+            //類裡面的方法不需要用function聲明
+            move() {
+                console.log('會動');
+            }
+        }
+
+        //透過類創造對象
+        let cat = new Animal();
+        console.log(cat.weight);
+        cat.move();
+    </script>
+</body>
+
+</html>

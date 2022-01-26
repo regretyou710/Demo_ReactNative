@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 for of循環</title>
+</head>
+
+<body>
+    <script>
+        var obj = {
+            a: 1,
+            b: 2,
+            c: 3
+        };
+
+        //for in循環中的x代表當前遍歷到的鍵值對的鍵名
+        for (x in obj) {
+            console.log('key:' + x, 'value:' + obj[x]);
+        }
+        console.log('-------------------------------');
+        
+        //for of循環中的x代表當前遍歷到的鍵值對的鍵值
+        //#region 
+        const m = new Map([
+            [1, 'one'],
+            [2, 'two'],
+            [3, 'three'],
+            [4, 'four'],
+            [5, 'five']
+        ]);
+
+        for (x of m) {
+            console.log(x);
+        }
+        //#endregion
+        console.log('-------------------------------');
+        //#region 
+        let s = new Set([1, 2, 3, 4, 5, 5, 5]);
+        for (x of s) {
+            console.log(x);
+        }
+        //#endregion
+    </script>
+</body>
+
+</html>

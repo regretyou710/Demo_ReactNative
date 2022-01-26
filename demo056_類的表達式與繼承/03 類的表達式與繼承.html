@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 類的表達式與繼承</title>
+</head>
+
+<body>
+    <script>
+        //父類
+        class Animal {
+            constructor() {
+                this.weight = '重量';
+                this.color = '顏色';
+            }
+
+            move() {
+                console.log('會動');
+            }
+        }
+
+        //衍生類
+        class Fish extends Animal {
+            //宣告子類的屬性
+            constructor() {
+                //如果子類要用this關鍵字來指定屬性，就必須在constructor方法裡先寫super()方法
+                //super()方法代表父類的constructor方法
+                //必須先執行super方法再使用this關鍵字
+                super();
+                this.tail = '尾巴';
+            }
+            //Fish特有的方法
+            swim() {
+                console.log('魚游動');
+            }
+        }
+
+        let fish1 = new Fish();
+        fish1.swim();
+        console.log(fish1.weight);
+        console.log(fish1.tail);
+    </script>
+</body>
+
+</html>

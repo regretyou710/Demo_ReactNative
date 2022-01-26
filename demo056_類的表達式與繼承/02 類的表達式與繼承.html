@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 類的表達式與繼承</title>
+</head>
+
+<body>
+    <script>
+        //父類
+        class Animal {
+            constructor() {
+                this.weight = '重量';
+                this.color = '顏色';
+            }
+
+            move() {
+                console.log('會動');
+            }
+        }
+
+        //衍生類
+        class Fish extends Animal {
+            swim() {
+                console.log('魚游動');
+            }
+        }
+
+        let fish1 = new Fish();
+        fish1.swim();
+        console.log(fish1.weight);
+    </script>
+</body>
+
+</html>

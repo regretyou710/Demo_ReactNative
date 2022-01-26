@@ -13,17 +13,17 @@
         console.log(s); //Set(5) {1, 2, 3, 4, 5}
         console.log(s.keys()); //SetIterator {1, 2, 3, 4, 5}
         console.log(s.values()); //SetIterator {1, 2, 3, 4, 5}
-
+        console.log('-------------------------------');
         //用x去遍歷s.key()產生的集合
         for (x of s.values()) {
             console.log(x);
         }
-
+        console.log('-------------------------------');
         //s.entries()將Set數據的值組成鍵值對，形成一個集合
         for (x of s.entries()) {
             console.log(x);
         }
-
+        console.log('-------------------------------');
         s.forEach(x => console.log(x));
     </script>
 </body>

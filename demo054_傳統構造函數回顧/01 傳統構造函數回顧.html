@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 傳統構造函數回顧</title>
+</head>
+
+<body>
+    <script>
+        //類:一些有相同或相似屬性的對象的抽象
+        //類用來實例化(創建)對象
+        //對象是通過類來創造
+
+        //構造函數
+        function Ren() {
+            this.name = '姓名';
+            this.age = '年齡';
+            this.height = '身高';
+            this.eat = function () {
+                console.log('會吃飯');
+            };
+        }
+
+        var ren = new Ren();
+        console.log(ren.name);
+        ren.eat();
+    </script>
+</body>
+
+</html>

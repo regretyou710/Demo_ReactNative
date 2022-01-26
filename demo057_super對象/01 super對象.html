@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 super對象</title>
+</head>
+
+<body>
+    <script>
+        //父類
+        class Animal {
+            constructor() {
+                this.weight = '重量';
+                this.color = '顏色';
+            }
+
+            move() {
+                console.log('會動');
+            }
+        }
+
+        //衍生類
+        class Fish extends Animal {
+            constructor() {
+                super();
+
+                //super當作對象用時，指向的是父類的原型(prototype)
+                //可以透過super對象獲得父類中的方法
+                super.move();
+            }
+        }
+
+        let fish1 = new Fish();
+    </script>
+</body>
+
+</html>
