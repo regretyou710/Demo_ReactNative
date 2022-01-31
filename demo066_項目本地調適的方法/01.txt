@@ -1,0 +1,2 @@
+專案項目下若缺少node_modules文件，則開啟cmd切換至項目路徑
+執行npm install

@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -18,24 +19,36 @@ import {
   StyleSheet
 } from 'react-native';
 
+
+
 export default class App extends Component<{}> {
+  //定義狀態state需要在構造函數中進行
+  constructor() {
+    super();
+    this.state = {
+      name: 'TOM'
+    };
+
+    //設置定時器，3秒鐘後修改state值
+    setTimeout(() => {
+      this.setState(() => { return { name: 'MARY' } });
+    }, 3000);
+  }
+
   render() {
     return (
+      //根標籤
       <View>
-        <Text style={{ color: 'blue', fontSize: 50 }}>文字內容測試</Text>
-        <Text style={styles.style1}>文字內容測試</Text>
-        <Text style={[styles.style1, styles.style2]}>文字內容測試</Text>
+        {/* this指的是App這個類(組件) */}
+        <Text style={styles.stu}>{this.state.name}</Text>
       </View>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
-  style1: {
-    color: 'green',
+  stu: {
     fontSize: 40,
+    color: 'green'
   },
-  style2: {
-    backgroundColor: 'yellow'
-  }
 });
