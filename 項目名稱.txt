@@ -4,3 +4,5 @@ demo064_自定義組件
 demo065_組件屬性
 demo068_State狀態設置獲取和修改
 demo069_State狀態的一個小例子
+demo071_Image組件的三種引入資源方式
+demo072_Image組件屬性

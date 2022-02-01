@@ -22,32 +22,27 @@ import {
 
 
 export default class App extends Component<{}> {
-  //定義狀態state需要在構造函數中進行
   constructor() {
     super();
     this.state = {
-      name: 'TOM'
+      //time: new Date()//物件不能直接被呼叫
+      time: new Date().toUTCString()
     };
 
-    //設置定時器，3秒鐘後修改state值
-    setTimeout(() => {
-      this.setState(() => { return { name: 'MARY' }; });
-    }, 3000);
+    setInterval(() => this.setState(() => { return { time: new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'}) }; }), 1000);
   }
 
   render() {
     return (
-      //根標籤
       <View>
-        {/* this指的是App這個類(組件) */}
-        <Text style={styles.stu}>{this.state.name}</Text>
+        <Text style={styles.style1}>當前時間:{this.state.time}</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  stu: {
+  style1: {
     fontSize: 40,
     color: 'green'
   },
