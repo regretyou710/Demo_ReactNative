@@ -11,5 +11,6 @@ demo074_TextInput組件
 demo075_TextInput屬性講解
 demo076_TextInput方法講解
 demo077_TextInput使用示例
-demo079_fetch方法的使用
 demo080_fetch返回數據及jsonview插件
+demo081_then方法及作業安排
+demo083_作業講解2
