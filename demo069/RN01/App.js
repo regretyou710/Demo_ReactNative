@@ -29,7 +29,12 @@ export default class App extends Component<{}> {
       time: new Date().toUTCString()
     };
 
-    setInterval(() => this.setState(() => { return { time: new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'}) }; }), 1000);
+    setInterval(() => this.setState(() => {
+      return {
+        time: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
+      };
+    }
+    ), 1000);
   }
 
   render() {
