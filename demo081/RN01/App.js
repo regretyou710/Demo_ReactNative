@@ -19,6 +19,7 @@ import {
 
 export default class App extends Component<{}> {
   press() {  
+    //https://data.tainan.gov.tw/dataset/edu-website/resource/78609065-3af4-4996-93a4-a5f029a898c3
     const url = 'http://odata.tn.edu.tw/ebookApi/api/getNews';
     
     fetch(url).then(response =>

@@ -1,0 +1,50 @@
+//生成一個簽名密鑰，在終端中運行以下命令:
+$ keytool -genkeypair -v -storetype PKCS12 -keystore demo083-release-key.keystore -alias demo083-key-alias -keyalg RSA -keysize 2048 -validity 1000
+
+	
+//設置gradle變量
+1.把demo083-release-key.keystore文件放到你工程中的android\app文件夾下
+2.編輯/建立~/.gradle/gradle.properties文件
+
+
+//把簽名配置加入到項目的gradle配置中
+編輯你項目目錄下的android/app/build.gradle，添加如下的簽名配置:
+...
+android {
+    ...
+    defaultConfig { ... }
+    signingConfigs {
+        release {
+            if (project.hasProperty('DEMO083_RELEASE_STORE_FILE')) {
+                storeFile file(DEMO083_RELEASE_STORE_FILE)
+                storePassword DEMO083_RELEASE_STORE_PASSWORD
+                keyAlias DEMO083_RELEASE_KEY_ALIAS
+                keyPassword DEMO083_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            ...
+            signingConfig signingConfigs.release
+        }
+    }
+}
+...
+
+
+//打包後較高的安卓版本fetch會沒有反應，在~\android\app\src\main\AndroidManifest.xml文件中添加
+<application
+	...
+	android:usesCleartextTraffic="true"
+	...
+>
+	...
+</application>
+
+
+//生成發行APK包，在終端中運行以下命令:
+$ cd android
+$ .\gradlew assembleRelease
+
+

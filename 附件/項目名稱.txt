@@ -14,3 +14,8 @@ demo077_TextInput使用示例
 demo080_fetch返回數據及jsonview插件
 demo081_then方法及作業安排
 demo083_作業講解2
+demo089_一個請求數據並處理的實例2
+demo090_循環處理組件1
+demo091_循環處理組件2
+
+
