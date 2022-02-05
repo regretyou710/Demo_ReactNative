@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 flex佈局</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            /* 將div設置成彈性盒模型 */
+            border: 1px solid black;
+
+            /*
+             如果將父元素設置成彈性盒模型，子元素會默認水平排列
+             ，如果子元素總寬度大於父元素寬度，那就會均分父元素寬度，原寬度失效
+            */
+            width: 1000px;
+            /* width: 75%; */
+
+            height: 600px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        #container div {
+            background-color: goldenrod;
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            font-size: 50px;
+            line-height: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div>1</div>
+        <div>2</div>
+        <!-- order屬性可以定義元素的排列位置 -->
+        <!-- 默認是0，值越小位置就越前面 -->
+        <div style="order: 1;">3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+    </div>
+</body>
+
+</html>
