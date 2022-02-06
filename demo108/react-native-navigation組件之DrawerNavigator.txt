@@ -1,0 +1,43 @@
+//官方URL
+https://reactnavigation.org/docs/drawer-navigator#installation
+	
+//在項目中開啟終端安裝react-native-navigation
+npm install react-native-screens react-native-safe-area-context @react-navigation/native @react-navigation/drawer react-native-gesture-handler@2.1.1 react-native-reanimated @react-navigation/native-stack
+
+
+//修改項目配置
+1.項目\babel.config.js
+  module.exports = {
+      ...
+      plugins: [
+          ...
+          'react-native-reanimated/plugin',
+      ],
+  };
+
+2.'項目\android\app\build.gradle
+ project.ext.react = [
+  enableHermes: true  // <- here | clean and rebuild if changing
+ ]
+
+ 3.項目\android\app\src\main\java\com\rn01\MainApplication.java
+  import com.facebook.react.bridge.JSIModulePackage; // <- add
+  import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
+  ...
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+  ...
+
+      @Override
+      protected String getJSMainModuleName() {
+        return "index";
+      }
+
+      @Override
+      protected JSIModulePackage getJSIModulePackage() {
+        return new ReanimatedJSIModulePackage(); // <- add
+      }
+    };
+  ...
+	  	  
+	  
+//如果用得到npm start --reset-cache
