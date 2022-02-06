@@ -42,7 +42,7 @@ android {
 	...
 </application>
 
-
+//項目(專案)名稱不同才可以安裝不同apk名稱不同才可以安裝不同apk
 //生成發行APK包，在終端中運行以下命令:
 $ cd android
 $ .\gradlew assembleRelease

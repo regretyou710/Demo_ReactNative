@@ -1,0 +1,13 @@
+1.在項目中開啟終端執行npm install react-native-vector-icons
+
+2.將項目中node_modules\react-native-vector-icons\Fonts目錄下的
+所有ttf文件複製到項目路徑android\app\src\main\assets\fonts目錄下
+新建資料夾assets、fonts
+
+3.修改android/app目錄下的build.gradle文件，在文件最上面增加一行內容:
+	apply from:"../../node_modules/react-native-vector-icons/fonts.gradle"
+
+4.在項目中導入組件:
+	import ttf文件名 from 'react-native-vector-icons/ttf文件名';
+	
+官方URL: http://www.npmjs.com/package/react-native-vector-icons

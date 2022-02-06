@@ -83,7 +83,7 @@ export default class App extends Component<{}> {
     const url = 'https://gis.taiwan.net.tw/XMLReleaseALL_public/restaurant_C_f.json';
 
     // fetch請求api數據轉json如果報錯改用axios
-    // 在項目開啟終端執行npm install axios，然後引入import axios from 'axios'
+    // 在項目開啟終端執行npm install axios --save，然後引入import axios from 'axios'
     axios.get(url).then(response =>
       this.setState({
         listInfo: response.data.XML_Head.Infos.Info
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    // backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF',
   },
   outer: {
     // justifyContent: 'center',
