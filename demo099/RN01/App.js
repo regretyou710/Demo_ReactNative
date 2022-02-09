@@ -61,7 +61,7 @@ export default class App extends Component<{}> {
         <Text style={styles.itemText}>{item.Name}</Text>
       </View>
     )
-  };
+  }
 
   /*
     getDefaultProps:組件實例創建前調用，多個實例間共享引用。
