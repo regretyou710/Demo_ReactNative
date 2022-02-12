@@ -32,4 +32,10 @@ demo111_不同介面間參數的傳遞及返回
 demo112_TabNavigator的使用示例
 demo113_react-native-swiper組件
 demo115_跳轉文章詳情頁效果
-demo116_文章數據的獲取
+demo116_文章數據的獲取1
+demo118_登入註冊原理1
+demo119_登入註冊原理2
+demo120_AsyncStorage本地儲存1
+demo121_AsyncStorage本地儲存2
+demo122_react-native-storage本地儲存組件1
+demo123_react-native-storage本地儲存組件2

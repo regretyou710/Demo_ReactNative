@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="google-site-verification" content="QSl8rlXGYak0SPdlX0r_tMqD7I6XFuWD1JxR_D9PbyM">
+<meta name="msvalidate.01" content="4775F105590951C69208A1E849EF0F32">
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>React-Native-Storage使用介紹 - 台部落</title>
+<meta name="description" content="
+react-native-storage
+這是一個本地持久存儲的封裝，可以同時支持react-native(AsyncStorage)和瀏覽器(localStorage)。ES6語法，promise異步讀取，使用jest進行了完整的單元測">
+<link rel="dns-prefetch preconnect" href="https://www.google-analytics.com/">
+<link rel="dns-prefetch preconnect" href="https://pagead2.googlesyndication.com/">
+<link rel="dns-prefetch preconnect" href="https://googleads.g.doubleclick.net/">
+<link rel="dns-prefetch preconnect" href="https://www.googletagmanager.com/">
+<link rel="shortcut icon" type="image/png" href="https://www.twblogs.net/static/images/favicon.ico">
+<link rel="stylesheet" type="text/css" href="./React-Native-Storage使用介紹 - 台部落_files/fontello.css">
+<link rel="stylesheet" type="text/css" href="./React-Native-Storage使用介紹 - 台部落_files/bootstrap.min.css">
+<script src="./React-Native-Storage使用介紹 - 台部落_files/f(4).txt"></script><script async="" src="./React-Native-Storage使用介紹 - 台部落_files/async-ads.js.下載"></script><script async="" src="./React-Native-Storage使用介紹 - 台部落_files/async-ads.js.下載"></script><script src="./React-Native-Storage使用介紹 - 台部落_files/f(5).txt"></script><script type="text/javascript" async="" src="./React-Native-Storage使用介紹 - 台部落_files/analytics.js.下載"></script><script src="./React-Native-Storage使用介紹 - 台部落_files/f(6).txt" id="google_shimpl"></script><script type="text/javascript" async="" src="./React-Native-Storage使用介紹 - 台部落_files/f(7).txt"></script><script async="" src="./React-Native-Storage使用介紹 - 台部落_files/gtm.js.下載"></script><script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/jquery-3.3.1.min.js.下載"></script>
+<script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/lozad.min.js.下載"></script>
+<script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/js.cookie.min.js.下載"></script>
+<script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/common.js.下載"></script>
+<script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/bootstrap.min.js.下載"></script>
+<link rel="stylesheet" type="text/css" href="./React-Native-Storage使用介紹 - 台部落_files/header.css">
+<link rel="stylesheet" type="text/css" href="./React-Native-Storage使用介紹 - 台部落_files/main.css">
+<script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/main.js.下載"></script>
+<script async="" type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/login.js.下載"></script>
+<script src="./React-Native-Storage使用介紹 - 台部落_files/highlight.pack.js.下載"></script>
+<link rel="stylesheet" href="./React-Native-Storage使用介紹 - 台部落_files/default.css">
+<link rel="alternate" hreflang="zh-Hant" href="https://www.twblogs.net/a/5b7e73c92b71776838576eab">
+<link rel="alternate" hreflang="zh-Hans" href="https://www.twblogs.net/a/5b7e73c92b71776838576eab/?lang=zh-cn">
+
+<script async="" src="./React-Native-Storage使用介紹 - 台部落_files/js"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-135472877-1');
+    </script>
+<script async="" src="./React-Native-Storage使用介紹 - 台部落_files/f(8).txt"></script>
+
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WV8L3BL');</script>
+
+<script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/article.js.下載"></script>
+
+<meta http-equiv="origin-trial" content="AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0="><meta http-equiv="origin-trial" content="Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A8FHS1NmdCwGqD9DwOicnHHY+y27kdWfxKa0YHSGDfv0CSpDKRHTQdQmZVPDUdaFWUsxdgVxlwAd6o+dhJykPA0AAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"><meta http-equiv="origin-trial" content="A8zdXi6dr1hwXEUjQrYiyYQGlU3557y5QWDnN0Lwgj9ePt66XMEvNkVWOEOWPd7TP9sBQ25X0Q15Lr1Nn4oGFQkAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"><meta http-equiv="origin-trial" content="A4/Htern2udN9w3yJK9QgWQxQFruxOXsXL7cW60DyCl0EZFGCSme/J33Q/WzF7bBkVvhEWDlcBiUyZaim5CpFQwAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"><script src="./React-Native-Storage使用介紹 - 台部落_files/cse_element__zh_tw.js.下載" type="text/javascript"></script><link type="text/css" rel="stylesheet" href="./React-Native-Storage使用介紹 - 台部落_files/default+zh_TW.css"><link type="text/css" rel="stylesheet" href="./React-Native-Storage使用介紹 - 台部落_files/default(1).css"><link rel="preload" href="./React-Native-Storage使用介紹 - 台部落_files/f(9).txt" as="script"><script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/f(9).txt"></script><link rel="preload" href="./React-Native-Storage使用介紹 - 台部落_files/f(10).txt" as="script"><script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/f(10).txt"></script><style type="text/css">.gsc-control-cse{font-family:helvetica neue, arial, sans-serif}.gsc-control-cse .gsc-table-result{font-family:helvetica neue, arial, sans-serif}.gsc-refinementsGradient{background:linear-gradient(to left,rgba(255,255,255,1),rgba(255,255,255,0))}.gsc-control-cse{border-color:#FFFFFF;background-color:#FFFFFF}input.gsc-input,.gsc-input-box,.gsc-input-box-hover,.gsc-input-box-focus{border-color:#FD484D}.gsc-search-button-v2,.gsc-search-button-v2:hover,.gsc-search-button-v2:focus{border-color:#FD484D;background-color:#FD484D;background-image:none;filter:none}.gsc-search-button-v2 svg{fill:#FFFFFF}.gsc-tabHeader.gsc-tabhActive,.gsc-refinementHeader.gsc-refinementhActive{color:#CCCCCC;border-color:#CCCCCC;background-color:#FFFFFF}.gsc-tabHeader.gsc-tabhInactive,.gsc-refinementHeader.gsc-refinementhInactive{color:#CCCCCC;border-color:#CCCCCC;background-color:#FFFFFF}.gsc-webResult.gsc-result,.gsc-results .gsc-imageResult{border-color:#FFFFFF;background-color:#FFFFFF}.gsc-webResult.gsc-result:hover{border-color:#FFFFFF;background-color:#FAFAFA}.gs-webResult.gs-result a.gs-title:link,.gs-webResult.gs-result a.gs-title:link b,.gs-imageResult a.gs-title:link,.gs-imageResult a.gs-title:link b{color:#0000CC}.gs-webResult.gs-result a.gs-title:visited,.gs-webResult.gs-result a.gs-title:visited b,.gs-imageResult a.gs-title:visited,.gs-imageResult a.gs-title:visited b{color:#741B47}.gs-webResult.gs-result a.gs-title:hover,.gs-webResult.gs-result a.gs-title:hover b,.gs-imageResult a.gs-title:hover,.gs-imageResult a.gs-title:hover b{color:#FD484D}.gs-webResult.gs-result a.gs-title:active,.gs-webResult.gs-result a.gs-title:active b,.gs-imageResult a.gs-title:active,.gs-imageResult a.gs-title:active b{color:#0000CC}.gsc-cursor-page{color:#0000CC}a.gsc-trailing-more-results:link{color:#0000CC}.gs-webResult:not(.gs-no-results-result):not(.gs-error-result) .gs-snippet,.gs-fileFormatType{color:#000000}.gs-webResult div.gs-visibleUrl{color:#999999}.gs-webResult div.gs-visibleUrl-short{color:#999999}.gsc-cursor-box{border-color:#FFFFFF}.gsc-results .gsc-cursor-box .gsc-cursor-page{border-color:#CCCCCC;background-color:#FFFFFF;color:#CCCCCC}.gsc-results .gsc-cursor-box .gsc-cursor-current-page{border-color:#CCCCCC;background-color:#FFFFFF;color:#CCCCCC}.gsc-webResult.gsc-result.gsc-promotion{border-color:#336699;background-color:#FFFFFF}.gsc-completion-title{color:#0000CC}.gsc-completion-snippet{color:#000000}.gs-promotion a.gs-title:link,.gs-promotion a.gs-title:link *,.gs-promotion .gs-snippet a:link{color:#0000CC}.gs-promotion a.gs-title:visited,.gs-promotion a.gs-title:visited *,.gs-promotion .gs-snippet a:visited{color:#0000CC}.gs-promotion a.gs-title:hover,.gs-promotion a.gs-title:hover *,.gs-promotion .gs-snippet a:hover{color:#0000CC}.gs-promotion a.gs-title:active,.gs-promotion a.gs-title:active *,.gs-promotion .gs-snippet a:active{color:#0000CC}.gs-promotion .gs-snippet,.gs-promotion .gs-title .gs-promotion-title-right,.gs-promotion .gs-title .gs-promotion-title-right *{color:#000000}.gs-promotion .gs-visibleUrl,.gs-promotion .gs-visibleUrl-short{color:#008000}.gcsc-find-more-on-google{color:#0000CC}.gcsc-find-more-on-google-magnifier{fill:#0000CC}</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{vertical-align:middle;opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsq_a{padding:0}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gssb_a{padding:0 9px}.gsib_a{padding:5px 9px 4px 9px}.gscb_a{line-height:27px}.gssb_e{border:0}.gssb_l{margin:5px 0}input.gsc-input::-webkit-input-placeholder{font-size:14px}input.gsc-input:-moz-placeholder{font-size:14px}input.gsc-input::-moz-placeholder{font-size:14px}input.gsc-input:-ms-input-placeholder{font-size:14px}input.gsc-input:focus::-webkit-input-placeholder{color:transparent}input.gsc-input:focus:-moz-placeholder{color:transparent}input.gsc-input:focus::-moz-placeholder{color:transparent}input.gsc-input:focus:-ms-input-placeholder{color:transparent}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{vertical-align:middle;opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsq_a{padding:0}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gssb_a{padding:0 9px}.gsib_a{padding:5px 9px 4px 9px}.gscb_a{line-height:27px}.gssb_e{border:0}.gssb_l{margin:5px 0}input.gsc-input::-webkit-input-placeholder{font-size:14px}input.gsc-input:-moz-placeholder{font-size:14px}input.gsc-input::-moz-placeholder{font-size:14px}input.gsc-input:-ms-input-placeholder{font-size:14px}input.gsc-input:focus::-webkit-input-placeholder{color:transparent}input.gsc-input:focus:-moz-placeholder{color:transparent}input.gsc-input:focus::-moz-placeholder{color:transparent}input.gsc-input:focus:-ms-input-placeholder{color:transparent}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style><link rel="preload" href="./React-Native-Storage使用介紹 - 台部落_files/f(9).txt" as="script"><script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/f(9).txt"></script><link rel="preload" href="./React-Native-Storage使用介紹 - 台部落_files/f(10).txt" as="script"><script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/f(10).txt"></script><link rel="preload" href="./React-Native-Storage使用介紹 - 台部落_files/f(9).txt" as="script"><script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/f(9).txt"></script><link rel="preload" href="./React-Native-Storage使用介紹 - 台部落_files/f(10).txt" as="script"><script type="text/javascript" src="./React-Native-Storage使用介紹 - 台部落_files/f(10).txt"></script></head>
+<body style="padding: 0px;">
+<div class="header-wrapper">
+<div class="container">
+<header>
+<div class="header-top">
+<a class="search-toggle">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/search-grey-bold.svg">
+</a>
+<a class="logo" href="https://www.twblogs.net/">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/logo.png" data-loaded="true">
+<span>台部落</span>
+</a>
+<div class="meta-bar">
+<div id="google-search-bar">
+<div id="___gcse_0"><div class="gsc-control-cse gsc-control-cse-zh-TW"><div class="gsc-control-wrapper-cse" dir="ltr"><form class="gsc-search-box gsc-search-box-tools" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" class="gsc-search-box"><tbody><tr><td class="gsc-input"><div class="gsc-input-box" id="gsc-iw-id1"><table cellspacing="0" cellpadding="0" id="gs_id50" class="gstl_50 gsc-input" style="width: 100%; padding: 0px;"><tbody><tr><td id="gs_tti50" class="gsib_a"><input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="搜尋" id="gsc-i-id1" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border: none; margin: 0px; height: auto; outline: none;"></td><td class="gsib_b"><div class="gsst_b" id="gs_st50" dir="ltr"><a class="gsst_a" href="javascript:void(0)" title="清除搜尋框" role="button" style="display: none;"><span class="gscb_a" id="gs_cb50" aria-hidden="true">×</span></a></div></td></tr></tbody></table></div></td><td class="gsc-search-button"><button class="gsc-search-button gsc-search-button-v2"><svg width="13" height="13" viewBox="0 0 13 13"><title>搜尋</title><path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z"></path></svg></button></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="清除結果">&nbsp;</div></td></tr></tbody></table></form><div class="gsc-results-wrapper-overlay"><div class="gsc-results-close-btn" tabindex="0"></div><div class="gsc-positioningWrapper"><div class="gsc-tabsAreaInvisible"><div aria-label="refinement" role="tab" class="gsc-tabHeader gsc-inline-block gsc-tabhActive">自訂搜尋</div><span class="gs-spacer"> </span></div></div><div class="gsc-positioningWrapper"><div class="gsc-refinementsAreaInvisible"></div></div><div class="gsc-above-wrapper-area-invisible"><table cellspacing="0" cellpadding="0" class="gsc-above-wrapper-area-container"><tbody><tr><td class="gsc-result-info-container"><div class="gsc-result-info-invisible"></div></td><td class="gsc-orderby-container"><div class="gsc-orderby-invisible"><div class="gsc-orderby-label gsc-inline-block">排序依據：</div><div class="gsc-option-menu-container gsc-inline-block"><div class="gsc-selected-option-container gsc-inline-block"><div class="gsc-selected-option">Relevance</div><div class="gsc-option-selector"></div></div><div class="gsc-option-menu-invisible"><div class="gsc-option-menu-item gsc-option-menu-item-highlighted"><div class="gsc-option">Relevance</div></div><div class="gsc-option-menu-item"><div class="gsc-option">Date</div></div></div></div></div></td></tr></tbody></table></div><div class="gsc-adBlockInvisible"></div><div class="gsc-wrapper"><div class="gsc-adBlockInvisible"></div><div class="gsc-resultsbox-invisible"><div class="gsc-resultsRoot gsc-tabData gsc-tabdActive"><div><div class="gsc-expansionArea"></div></div></div></div></div></div><div class="gsc-modal-background-image" tabindex="0"></div></div></div></div>
+</div>
+<a href="https://www.twblogs.net/account/register?src=/" target="_blank" class="signup">註冊</a>
+<a class="login" href="https://www.twblogs.net/a/5b7e73c92b71776838576eab#">登錄</a>
+<a href="https://www.twblogs.net/mp/postedit/" class="write-btn">
+寫文章
+</a>
+<a id="menu-icon">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/menu.svg">
+</a>
+</div>
+</div>
+</header>
+<div id="google-search-layer">
+<div id="___gcse_1"><div class="gsc-control-cse gsc-control-cse-zh-TW"><div class="gsc-control-wrapper-cse" dir="ltr"><form class="gsc-search-box gsc-search-box-tools" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" class="gsc-search-box"><tbody><tr><td class="gsc-input"><div class="gsc-input-box" id="gsc-iw-id2"><table cellspacing="0" cellpadding="0" id="gs_id51" class="gstl_51 gsc-input" style="width: 100%; padding: 0px;"><tbody><tr><td id="gs_tti51" class="gsib_a"><input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="搜尋" id="gsc-i-id2" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border: none; margin: 0px; height: auto; outline: none;"></td><td class="gsib_b"><div class="gsst_b" id="gs_st51" dir="ltr"><a class="gsst_a" href="javascript:void(0)" title="清除搜尋框" role="button" style="display: none;"><span class="gscb_a" id="gs_cb51" aria-hidden="true">×</span></a></div></td></tr></tbody></table></div></td><td class="gsc-search-button"><button class="gsc-search-button gsc-search-button-v2"><svg width="13" height="13" viewBox="0 0 13 13"><title>搜尋</title><path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z"></path></svg></button></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="清除結果">&nbsp;</div></td></tr></tbody></table></form><div class="gsc-results-wrapper-overlay"><div class="gsc-results-close-btn" tabindex="0"></div><div class="gsc-positioningWrapper"><div class="gsc-tabsAreaInvisible"><div aria-label="refinement" role="tab" class="gsc-tabHeader gsc-inline-block gsc-tabhActive">自訂搜尋</div><span class="gs-spacer"> </span></div></div><div class="gsc-positioningWrapper"><div class="gsc-refinementsAreaInvisible"></div></div><div class="gsc-above-wrapper-area-invisible"><table cellspacing="0" cellpadding="0" class="gsc-above-wrapper-area-container"><tbody><tr><td class="gsc-result-info-container"><div class="gsc-result-info-invisible"></div></td><td class="gsc-orderby-container"><div class="gsc-orderby-invisible"><div class="gsc-orderby-label gsc-inline-block">排序依據：</div><div class="gsc-option-menu-container gsc-inline-block"><div class="gsc-selected-option-container gsc-inline-block"><div class="gsc-selected-option">Relevance</div><div class="gsc-option-selector"></div></div><div class="gsc-option-menu-invisible"><div class="gsc-option-menu-item gsc-option-menu-item-highlighted"><div class="gsc-option">Relevance</div></div><div class="gsc-option-menu-item"><div class="gsc-option">Date</div></div></div></div></div></td></tr></tbody></table></div><div class="gsc-adBlockInvisible"></div><div class="gsc-wrapper"><div class="gsc-adBlockInvisible"></div><div class="gsc-resultsbox-invisible"><div class="gsc-resultsRoot gsc-tabData gsc-tabdActive"><div><div class="gsc-expansionArea"></div></div></div></div></div></div><div class="gsc-modal-background-image" tabindex="0"></div></div></div></div>
+</div>
+</div>
+</div>
+
+<div class="mobile-menu-background">
+</div>
+<div class="mobile-menu">
+<img class="mobile-menu-close" src="./React-Native-Storage使用介紹 - 台部落_files/cross.svg">
+</div>
+
+<div id="login-layer-wrapper" class="overlay">
+<div class="login-layer">
+<img class="login-layer-close-button" src="./React-Native-Storage使用介紹 - 台部落_files/cross.svg">
+<div class="user-form">
+<form id="login-form" action="https://www.twblogs.net/account/login?src=https://www.twblogs.net/a/5b7e73c92b71776838576eab" method="post">
+<input type="hidden" name="_xsrf" value="2|8cf52212|9734dc54393ad688c3929d881d0bfb67|1644706133">
+<ul class="form-ul">
+<li>
+<input name="email" type="text" placeholder="電子郵件">
+</li>
+<li>
+<input name="passwd" type="password" value="" placeholder="請輸入密碼" autocomplete="off">
+</li>
+<li>
+<div class="err-info" style="display:none">請輸入正確的登錄賬號或密碼</div>
+</li>
+<li>
+<input type="submit" value="登录">
+</li>
+<li class="reg-link-container">
+<a href="https://www.twblogs.net/account/register?src=/" target="_blank" class="reg-link">註冊</a>
+</li>
+<li class="reg-link-container">
+<a href="https://www.twblogs.net/account/password_forgot/" target="_blank" class="reg-link">忘記密碼</a>
+</li>
+</ul>
+</form>
+</div>
+</div>
+</div>
+<script>
+(function() {
+var cx = 'partner-pub-2073744953016040:8541733644';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+<div id="backTop" style="right: 1rem; display: block;"><i class="icon-up-open-1"></i></div>
+<div class="container" id="content-wrapper" style="height: auto !important;">
+<div id="toolbox">
+<ul style="position:fixed;">
+<li class="vote vote-up"><i class="icon-thumbs-up-alt" title=""></i></li>
+<li class="vote vote-down"><i class="icon-thumbs-down-alt" title=""></i></li>
+</ul>
+</div>
+<div class="content" style="height: auto !important;">
+<div class="main-content">
+<div class="article-wrapper">
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="https://www.twblogs.net/">首頁</a></li>
+<li class="breadcrumb-item"><a href="https://www.twblogs.net/c/5b7abe672b7177392c96bb08/">React Native</a></li>
+<li class="breadcrumb-item active" aria-current="page">正文</li>
+</ol>
+</nav>
+<h1>React-Native-Storage使用介紹</h1>
+<div class="post-meta">
+<span class="original">原創</span>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg" data-loaded="true">
+<a href="https://www.twblogs.net/u/5b7e72f42b717768385768e1" target="_blank">YooHoeh</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg" data-loaded="true">
+<span> 2018-08-23 16:43 </span>
+</div>
+<div class="article-content">
+<h1 id="react-native-storage">react-native-storage</h1>
+<p>這是一個本地持久存儲的封裝，可以同時支持react-native(AsyncStorage)和瀏覽器(localStorage)。ES6語法，promise異步讀取，使用jest進行了完整的單元測試。</p>
+<h2 id="安裝">安裝</h2>
+<p>npm install react-native-storage –save</p>
+<h2 id="使用說明">使用說明</h2>
+<h3 id="配置">配置</h3>
+<h3 id="web開發">Web開發</h3>
+<p>對於Web開發你需要使用<a href="https://webpack.github.io/" rel="nofollow" target="_blank">webpack</a>和<a href="https://babeljs.io/" rel="nofollow" target="_blank">babel</a>來支持es6模塊導入功能。 <br>
+在webpack的配置中添加如下幾行： </p>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs ">  <span class="hljs-comment"><span class="hljs-comment">// ...</span></span>
+  module: {
+    loaders: [
+      <span class="hljs-comment"><span class="hljs-comment">// ...</span></span>
+        {
+          test: <span class="hljs-regexp"><span class="hljs-regexp">/\.js?$/</span></span>,
+          include: [
+            <span class="hljs-comment"><span class="hljs-comment">// path.join(__dirname, '你自己的js文件路徑'),</span></span>
+            <span class="hljs-comment"><span class="hljs-comment">// path.join(__dirname, 'node_modules/其他需要babel的第三方庫'),</span></span>
+            path.join(__dirname, <span class="hljs-string"><span class="hljs-string">'node_modules/react-native-storage'</span></span>)
+          ],
+          loader: <span class="hljs-string"><span class="hljs-string">'babel'</span></span>,
+          query: {
+            cacheDirectory: <span class="hljs-literal"><span class="hljs-literal">true</span></span>,
+            presets: [<span class="hljs-string"><span class="hljs-string">'es2015'</span></span>, <span class="hljs-string"><span class="hljs-string">'stage-1'</span></span>, <span class="hljs-string"><span class="hljs-string">'react'</span></span>],
+            plugins: [<span class="hljs-string"><span class="hljs-string">'transform-runtime'</span></span>]
+          }
+        }
+    ]
+  }
+</code></pre>
+<h4 id="react-native開發">React Native開發</h4>
+<p>無需配置直接使用(但要求0.13或更高版本)。 </p>
+<h3 id="導入">導入</h3>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs ">import Storage from <span class="hljs-string"><span class="hljs-string">'react-native-storage'</span></span>;</code></pre>
+<p>請勿使用<code>require('react-native-storage')</code>語法, 否則在react native 0.16之後的版本中會報錯. </p>
+<h3 id="初始化">初始化</h3>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs ">import Storage from <span class="hljs-string"><span class="hljs-string">'react-native-storage'</span></span>;
+import { AsyncStorage } from <span class="hljs-string"><span class="hljs-string">'react-native'</span></span>;
+
+<span class="hljs-keyword"><span class="hljs-keyword">var</span></span> storage = <span class="hljs-keyword"><span class="hljs-keyword">new</span></span> Storage({
+  <span class="hljs-comment"><span class="hljs-comment">// 最大容量，默認值1000條數據循環存儲</span></span>
+  size: <span class="hljs-number"><span class="hljs-number">1000</span></span>,
+
+  <span class="hljs-comment"><span class="hljs-comment">// 存儲引擎：對於RN使用AsyncStorage，對於web使用window.localStorage</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 如果不指定則數據只會保存在內存中，重啓後即丟失</span></span>
+  storageBackend: AsyncStorage,
+
+  <span class="hljs-comment"><span class="hljs-comment">// 數據過期時間，默認一整天（1000 * 3600 * 24 毫秒），設爲null則永不過期</span></span>
+  defaultExpires: <span class="hljs-number"><span class="hljs-number">1000</span></span> * <span class="hljs-number"><span class="hljs-number">3600</span></span> * <span class="hljs-number"><span class="hljs-number">24</span></span>,
+
+  <span class="hljs-comment"><span class="hljs-comment">// 讀寫時在內存中緩存數據。默認啓用。</span></span>
+  enableCache: <span class="hljs-literal"><span class="hljs-literal">true</span></span>,
+
+  <span class="hljs-comment"><span class="hljs-comment">// 如果storage中沒有相應數據，或數據已過期，</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 則會調用相應的sync方法，無縫返回最新數據。</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// sync方法的具體說明會在後文提到</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 你可以在構造函數這裏就寫好sync的方法</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 或是在任何時候，直接對storage.sync進行賦值修改</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 或是寫到另一個文件裏，這裏require引入</span></span>
+  sync: <span class="hljs-built_in"><span class="hljs-built_in">require</span></span>(<span class="hljs-string"><span class="hljs-string">'你可以另外寫一個文件專門處理sync'</span></span>)  
+
+})  
+
+<span class="hljs-comment"><span class="hljs-comment">// 最好在全局範圍內創建一個（且只有一個）storage實例，方便直接調用</span></span>
+
+<span class="hljs-comment"><span class="hljs-comment">// 對於web</span></span>
+<span class="hljs-comment"><span class="hljs-comment">// window.storage = storage;</span></span>
+
+<span class="hljs-comment"><span class="hljs-comment">// 對於react native</span></span>
+<span class="hljs-comment"><span class="hljs-comment">// global.storage = storage;</span></span>
+
+<span class="hljs-comment"><span class="hljs-comment">// 這樣，在此**之後**的任意位置即可以直接調用storage</span></span>
+<span class="hljs-comment"><span class="hljs-comment">// 注意：全局變量一定是先聲明，後使用</span></span>
+<span class="hljs-comment"><span class="hljs-comment">// 如果你在某處調用storage報錯未定義</span></span>
+<span class="hljs-comment"><span class="hljs-comment">// 請檢查global.storage = storage語句是否確實已經執行過了</span></span></code></pre>
+<p>不瞭解全局變量的使用？請點這裏 <a href="https://github.com/sunnylqm/react-native-storage/issues/29" rel="nofollow" target="_blank">https://github.com/sunnylqm/react-native-storage/issues/29</a></p>
+<h3 id="保存讀取和刪除">保存、讀取和刪除</h3>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs ">  <span class="hljs-comment"><span class="hljs-comment">// 使用key來保存數據（key-only）。這些數據一般是全局獨有的，需要謹慎單獨處理的數據</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 批量數據請使用key和id來保存(key-id)，具體請往後看</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 除非你手動移除，這些數據會被永久保存，而且默認不會過期。</span></span>
+  storage.save({
+    key: <span class="hljs-string"><span class="hljs-string">'loginState'</span></span>,  <span class="hljs-comment"><span class="hljs-comment">// 注意:請不要在key中使用_下劃線符號!</span></span>
+    data: { 
+      from: <span class="hljs-string"><span class="hljs-string">'some other site'</span></span>,
+      userid: <span class="hljs-string"><span class="hljs-string">'some userid'</span></span>,
+      token: <span class="hljs-string"><span class="hljs-string">'some token'</span></span>
+    },
+
+    <span class="hljs-comment"><span class="hljs-comment">// 如果不指定過期時間，則會使用defaultExpires參數</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 如果設爲null，則永不過期</span></span>
+    expires: <span class="hljs-number"><span class="hljs-number">1000</span></span> * <span class="hljs-number"><span class="hljs-number">3600</span></span>
+  });
+
+  <span class="hljs-comment"><span class="hljs-comment">// 讀取</span></span>
+  storage.load({
+    key: <span class="hljs-string"><span class="hljs-string">'loginState'</span></span>,
+
+    <span class="hljs-comment"><span class="hljs-comment">// autoSync(默認爲true)意味着在沒有找到數據或數據過期時自動調用相應的sync方法</span></span>
+    autoSync: <span class="hljs-literal"><span class="hljs-literal">true</span></span>,
+
+    <span class="hljs-comment"><span class="hljs-comment">// syncInBackground(默認爲true)意味着如果數據過期，</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 在調用sync方法的同時先返回已經過期的數據。</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 設置爲false的話，則等待sync方法提供的最新數據(當然會需要更多時間)。</span></span>
+    syncInBackground: <span class="hljs-literal"><span class="hljs-literal">true</span></span>,
+
+    <span class="hljs-comment"><span class="hljs-comment">// 你還可以給sync方法傳遞額外的參數</span></span>
+    syncParams: {
+    extraFetchOptions: {
+    <span class="hljs-comment"><span class="hljs-comment">// 各種參數</span></span>
+    },
+    someFlag: <span class="hljs-literal"><span class="hljs-literal">true</span></span>,
+    },
+  }).then(ret =&gt; {
+    <span class="hljs-comment"><span class="hljs-comment">// 如果找到數據，則在then方法中返回</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 注意：這是異步返回的結果（不瞭解異步請自行搜索學習）</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 你只能在then這個方法內繼續處理ret數據</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 而不能在then以外處理</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 也沒有辦法“變成”同步返回</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 你也可以使用“看似”同步的async/await語法</span></span>
+
+    console.log(ret.userid);
+    <span class="hljs-keyword"><span class="hljs-keyword">this</span></span>.setState({ user: ret });
+  }).catch(err =&gt; {
+    <span class="hljs-comment"><span class="hljs-comment">//如果沒有找到數據且沒有sync方法，</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">//或者有其他異常，則在catch中返回</span></span>
+    console.warn(err.message);
+    <span class="hljs-keyword"><span class="hljs-keyword">switch</span></span> (err.name) {
+        <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> <span class="hljs-string"><span class="hljs-string">'NotFoundError'</span></span>:
+            <span class="hljs-comment"><span class="hljs-comment">// TODO;</span></span>
+            <span class="hljs-keyword"><span class="hljs-keyword">break</span></span>;
+        <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> <span class="hljs-string"><span class="hljs-string">'ExpiredError'</span></span>:
+            <span class="hljs-comment"><span class="hljs-comment">// TODO</span></span>
+            <span class="hljs-keyword"><span class="hljs-keyword">break</span></span>;
+    }
+  })</code></pre>
+<hr>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs ">  <span class="hljs-comment"><span class="hljs-comment">// 使用key和id來保存數據，一般是保存同類別（key）的大量數據。</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 所有這些"key-id"數據共有一個保存上限（無論是否相同key）</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 即在初始化storage時傳入的size參數。</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 在默認上限參數下，第1001個數據會覆蓋第1個數據。</span></span>
+  <span class="hljs-comment"><span class="hljs-comment">// 覆蓋之後，再讀取第1個數據，會返回catch或是相應的sync方法。</span></span>
+  <span class="hljs-keyword"><span class="hljs-keyword">var</span></span> userA = {
+    name: <span class="hljs-string"><span class="hljs-string">'A'</span></span>,
+    age: <span class="hljs-number"><span class="hljs-number">20</span></span>,
+    tags: [
+      <span class="hljs-string"><span class="hljs-string">'geek'</span></span>,
+      <span class="hljs-string"><span class="hljs-string">'nerd'</span></span>,
+      <span class="hljs-string"><span class="hljs-string">'otaku'</span></span>
+    ]
+  };
+
+  storage.save({
+    key: <span class="hljs-string"><span class="hljs-string">'user'</span></span>,  <span class="hljs-comment"><span class="hljs-comment">// 注意:請不要在key中使用_下劃線符號!</span></span>
+    id: <span class="hljs-string"><span class="hljs-string">'1001'</span></span>,   <span class="hljs-comment"><span class="hljs-comment">// 注意:請不要在id中使用_下劃線符號!</span></span>
+    data: userA,
+    expires: <span class="hljs-number"><span class="hljs-number">1000</span></span> * <span class="hljs-number"><span class="hljs-number">60</span></span>   
+  });
+
+  <span class="hljs-comment"><span class="hljs-comment">//load 讀取</span></span>
+  storage.load({
+    key: <span class="hljs-string"><span class="hljs-string">'user'</span></span>,
+    id: <span class="hljs-string"><span class="hljs-string">'1001'</span></span>
+  }).then(ret =&gt; {
+    <span class="hljs-comment"><span class="hljs-comment">// 如果找到數據，則在then方法中返回</span></span>
+    console.log(ret.userid);
+  }).catch(err =&gt; {
+    <span class="hljs-comment"><span class="hljs-comment">// 如果沒有找到數據且沒有sync方法，</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 或者有其他異常，則在catch中返回</span></span>
+    console.warn(err.message);
+    <span class="hljs-keyword"><span class="hljs-keyword">switch</span></span> (err.name) {
+        <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> <span class="hljs-string"><span class="hljs-string">'NotFoundError'</span></span>:
+            <span class="hljs-comment"><span class="hljs-comment">// TODO;</span></span>
+            <span class="hljs-keyword"><span class="hljs-keyword">break</span></span>;
+        <span class="hljs-keyword"><span class="hljs-keyword">case</span></span> <span class="hljs-string"><span class="hljs-string">'ExpiredError'</span></span>:
+            <span class="hljs-comment"><span class="hljs-comment">// TODO</span></span>
+            <span class="hljs-keyword"><span class="hljs-keyword">break</span></span>;
+    }
+  })
+
+<span class="hljs-comment"><span class="hljs-comment">// --------------------------------------------------</span></span>
+
+<span class="hljs-comment"><span class="hljs-comment">// 獲取某個key下的所有id(僅key-id數據)</span></span>
+storage.getIdsForKey(<span class="hljs-string"><span class="hljs-string">'user'</span></span>).then(ids =&gt; {
+    console.log(ids);
+});
+
+<span class="hljs-comment"><span class="hljs-comment">// 獲取某個key下的所有數據(僅key-id數據)</span></span>
+storage.getAllDataForKey(<span class="hljs-string"><span class="hljs-string">'user'</span></span>).then(users =&gt; {
+    console.log(users);
+});
+
+<span class="hljs-comment"><span class="hljs-comment">// !! 清除某個key下的所有數據(僅key-id數據)</span></span>
+storage.clearMapForKey(<span class="hljs-string"><span class="hljs-string">'user'</span></span>);
+
+<span class="hljs-comment"><span class="hljs-comment">// --------------------------------------------------  </span></span>
+
+<span class="hljs-comment"><span class="hljs-comment">// 刪除單個數據</span></span>
+storage.remove({
+    key: <span class="hljs-string"><span class="hljs-string">'lastPage'</span></span>
+});
+storage.remove({
+    key: <span class="hljs-string"><span class="hljs-string">'user'</span></span>,
+    id: <span class="hljs-string"><span class="hljs-string">'1001'</span></span>
+});
+
+<span class="hljs-comment"><span class="hljs-comment">// !! 清空map，移除所有"key-id"數據（但會保留只有key的數據）</span></span>
+storage.clearMap();</code></pre>
+<h3 id="同步遠程數據刷新">同步遠程數據（刷新）</h3>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs ">  storage.sync = {
+    <span class="hljs-comment"><span class="hljs-comment">// sync方法的名字必須和所存數據的key完全相同</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 方法接受的參數爲一整個object，所有參數從object中解構取出</span></span>
+    <span class="hljs-comment"><span class="hljs-comment">// 這裏可以使用promise。或是使用普通回調函數，但需要調用resolve或reject。</span></span>
+    user(params){
+      <span class="hljs-keyword"><span class="hljs-keyword">let</span></span> { id, resolve, reject, syncParams: { extraFetchOptions, someFlag } } = params;
+      fetch(<span class="hljs-string"><span class="hljs-string">'user/'</span></span>, {
+        method: <span class="hljs-string"><span class="hljs-string">'GET'</span></span>,
+        body: <span class="hljs-string"><span class="hljs-string">'id='</span></span> + id,
+        ...extraFetchOptions,
+      }).then(response =&gt; {
+        <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> response.json();
+      }).then(json =&gt; {
+        <span class="hljs-comment"><span class="hljs-comment">//console.log(json);</span></span>
+        <span class="hljs-keyword"><span class="hljs-keyword">if</span></span>(json &amp;&amp; json.user){
+          storage.save({
+            key: <span class="hljs-string"><span class="hljs-string">'user'</span></span>,
+            id,
+            data: json.user
+          });
+
+          <span class="hljs-keyword"><span class="hljs-keyword">if</span></span> (someFlag) {
+            <span class="hljs-comment"><span class="hljs-comment">// 根據syncParams中的額外參數做對應處理</span></span>
+          }
+
+          <span class="hljs-comment"><span class="hljs-comment">// 成功則調用resolve</span></span>
+          resolve &amp;&amp; resolve(json.user);
+        }
+        <span class="hljs-keyword"><span class="hljs-keyword">else</span></span>{
+          <span class="hljs-comment"><span class="hljs-comment">// 失敗則調用reject</span></span>
+          reject &amp;&amp; reject(<span class="hljs-keyword"><span class="hljs-keyword">new</span></span> <span class="hljs-built_in"><span class="hljs-built_in">Error</span></span>(<span class="hljs-string"><span class="hljs-string">'data parse error'</span></span>));
+        }
+      }).catch(err =&gt; {
+        console.warn(err);
+        reject &amp;&amp; reject(err);
+      });
+    }
+  }</code></pre>
+<p>有了上面這個sync方法，以後再調用storage.load時，如果本地並沒有存儲相應的user，那麼會自動觸發storage.sync.user去遠程取回數據並無縫返回。</p>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs ">  storage.load({
+    key: <span class="hljs-string"><span class="hljs-string">'user'</span></span>,
+    id: <span class="hljs-string"><span class="hljs-string">'1002'</span></span>
+  }).then(...)</code></pre>
+<h3 id="讀取批量數據">讀取批量數據</h3>
+<pre class="prettyprint"><code class="language-javascript hljs  hljs "><span class="hljs-comment"><span class="hljs-comment">// 使用和load方法一樣的參數讀取批量數據，但是參數是以數組的方式提供。</span></span>
+<span class="hljs-comment"><span class="hljs-comment">// 會在需要時分別調用相應的sync方法，最後統一返回一個有序數組。</span></span>
+storage.getBatchData([
+    { key: <span class="hljs-string"><span class="hljs-string">'loginState'</span></span> },
+    { key: <span class="hljs-string"><span class="hljs-string">'checkPoint'</span></span>, syncInBackground: <span class="hljs-literal"><span class="hljs-literal">false</span></span> },
+    { key: <span class="hljs-string"><span class="hljs-string">'balance'</span></span> },
+    { key: <span class="hljs-string"><span class="hljs-string">'user'</span></span>, id: <span class="hljs-string"><span class="hljs-string">'1009'</span></span> }
+])
+.then(results =&gt; {
+  results.forEach( result =&gt; {
+    console.log(result);    
+  })
+})
+
+<span class="hljs-comment"><span class="hljs-comment">//根據key和一個id數組來讀取批量數據</span></span>
+storage.getBatchDataWithIds({
+  key: <span class="hljs-string"><span class="hljs-string">'user'</span></span>, 
+  ids: [<span class="hljs-string"><span class="hljs-string">'1001'</span></span>, <span class="hljs-string"><span class="hljs-string">'1002'</span></span>, <span class="hljs-string"><span class="hljs-string">'1003'</span></span>]
+})
+.then( ... )</code></pre>
+<p>這兩個方法除了參數形式不同，還有個值得注意的差異。<strong>getBatchData</strong>會在數據缺失時挨個調用不同的sync方法(因爲key不同)。但是<strong>getBatchDataWithIds</strong>卻會把缺失的數據統計起來，將它們的id收集到一個數組中，然後一次傳遞給對應的sync方法(避免挨個查詢導致同時發起大量請求)，所以你需要在服務端實現通過數組來查詢返回，還要注意對應的sync方法的參數處理（因爲id參數可能是一個字符串，也可能是一個數組的字符串）。</p>
+<blockquote>
+<p><a href="https://github.com/sunnylqm/react-native-storage/blob/master/README-CHN.md" rel="nofollow" target="_blank">原文連接</a></p>
+</blockquote>
+</div>
+<div class="ads-article-bottom-match">
+<ins class="adsbygoogle" style="display: block; height: 436px; overflow: hidden;" data-ad-format="autorelaxed" data-ad-client="ca-pub-2073744953016040" data-ad-slot="3534050590" data-adsbygoogle-status="done" data-ad-status="filled"><ins id="aswift_0_expand" style="border: none; height: 436px; width: 872px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-table;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="border: none; height: 436px; width: 872px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: block;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:872px;height:436px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="872" height="436" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" src="./React-Native-Storage使用介紹 - 台部落_files/ads.html" data-google-container-id="a!1" data-google-query-id="CO_x1fOh-_UCFdibvAodkyIF7Q" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<ul class="tag-list">
+</ul>
+<div id="comment-form-wrapper">
+<div class="section-head">發表評論</div>
+<form id="comment-form" class="comment-form" action="https://www.twblogs.net/account/register" method="post">
+<input type="hidden" name="_xsrf" value="2|8cf52212|9734dc54393ad688c3929d881d0bfb67|1644706133">
+<input name="post_id" value="5b7e73c92b71776838576eab" class="hidden">
+<textarea autocomplete="off" rows="2" cols="50" placeholder="登錄以後才評論..." disabled=""></textarea>
+<a class="login" href="https://www.twblogs.net/a/5b7e73c92b71776838576eab#">登录</a>
+</form>
+</div>
+<div id="article-comments">
+<div class="section-head">所有評論</div>
+<div id="comment-list">
+還沒有人評論，想成為第一個評論的人麼? 請在上方評論欄輸入並且點擊發布.
+</div>
+</div>
+<div class="related-post-list">
+<div class="section-head">相關文章</div>
+<div class="related-posts">
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b83e4172b71777cb15c863b" target="_blank" title="React-Native環境搭建（Windows for Android）">
+React-Native環境搭建（Windows for Android）
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b83e4162b71777cb15c8633">DysaniazzZ</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 19:44:23</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b83d0e02b71777cb15c36b2" target="_blank" title="React Native 植入原生應用">
+React Native 植入原生應用
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b83d0de2b71777cb15c368e">Yadea_</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 18:22:24</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381a92b71776c51e35ffc" target="_blank" title="React Native 組件之DrawerLayoutAndroid(抽屜)">
+React Native 組件之DrawerLayoutAndroid(抽屜)
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:44:25</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381852b71776c51e35f60" target="_blank" title="React Native學習筆記">
+React Native學習筆記
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:49</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381852b71776c51e35f5e" target="_blank" title="React Native -- mobx">
+React Native -- mobx
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:49</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381852b71776c51e35f5d" target="_blank" title="React Navigation -- Screen Navigation Prop 和 Navigation Actions">
+React Navigation -- Screen Navigation Prop 和 Navigation Actions
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:49</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381852b71776c51e35f5a" target="_blank" title="React Navigation--TabNavigator 詳細的例子">
+React Navigation--TabNavigator 詳細的例子
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:49</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381842b71776c51e35f54" target="_blank" title="React Navigation--Stack Navigator 詳細的例子">
+React Navigation--Stack Navigator 詳細的例子
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:48</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381842b71776c51e35f52" target="_blank" title="React Navigation--Stack Navigator and Tab Navigator聯合使用">
+React Navigation--Stack Navigator and Tab Navigator聯合使用
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:48</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381842b71776c51e35f51" target="_blank" title="React Native封裝Android原生UI和Android原生模塊，並且集成騰訊雲點播的Android SDK">
+React Native封裝Android原生UI和Android原生模塊，並且集成騰訊雲點播的Android SDK
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:48</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381842b71776c51e35f4f" target="_blank" title="React Navigation--DrwaerNavigator 詳細的例子">
+React Navigation--DrwaerNavigator 詳細的例子
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:48</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8381842b71776c51e35f4e" target="_blank" title="React Navigation--Stack Navigator Simple Example">
+React Navigation--Stack Navigator Simple Example
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8381822b71776c51e35f44">小罗罗诺亚</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 12:43:48</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b836b512b71776c51e2f41d" target="_blank" title="FB開源React Native，用JS開發原生iOS應用">
+FB開源React Native，用JS開發原生iOS應用
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b836b3c2b71776c51e2f3e4">坚如磐石不可摧</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 11:09:05</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b836b3f2b71776c51e2f415" target="_blank" title="React Native通信機制詳解">
+React Native通信機制詳解
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b836b3c2b71776c51e2f3e4">坚如磐石不可摧</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 11:08:47</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/5b8337182b71771e35c19536" target="_blank" title="淺談 React Native">
+淺談 React Native
+</a>
+</h4>
+<div class="post-meta">
+<img src="./React-Native-Storage使用介紹 - 台部落_files/user.svg">
+<a href="https://www.twblogs.net/u/5b8337182b71771e35c1952c">condlover</a>
+<img src="./React-Native-Storage使用介紹 - 台部落_files/clock.svg">
+<span>2018-08-27 07:26:16</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="secondary-content feed" style="height: auto !important; position: fixed; bottom: 0px; left: 1265.5px;">
+<div class="sidebar author-info">
+<a href="https://www.twblogs.net/u/5b7e72f42b717768385768e1" target="_blank">
+<span id="user-icon">
+Y
+</span>
+YooHoeh
+</a>
+</div>
+<div class="right_sidebar">
+<div>
+<div class="section-head">
+24小時熱門文章
+</div>
+<div>
+<section class="section-item">
+<ul>
+</ul>
+</section>
+</div>
+</div>
+</div>
+<div class="right_sidebar" style="height: auto !important;">
+<ins class="adsbygoogle" style="display: block; height: 600px; overflow: hidden;" data-ad-client="ca-pub-2073744953016040" data-ad-slot="3358264730" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done" data-ad-status="filled"><ins id="aswift_1_expand" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 600px; width: 272px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-table;"><ins id="aswift_1_anchor" style="border: none; height: 600px; width: 272px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: block; overflow: visible;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:272px;height:600px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="272" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" src="./React-Native-Storage使用介紹 - 台部落_files/ads(1).html" data-google-container-id="a!2" data-google-query-id="CMi_qOef-_UCFRYKXAodQIADNA" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="right_sidebar">
+<div>
+<div class="section-head">
+最新文章
+</div>
+<div>
+<section class="section-item">
+<ul>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5ef1248a4b16c91a284966e2" target="_blank" class="news-link">
+《軟件系統架構：使用觀點和觀點與利益相關者合作》閱讀小結——一
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5ef1248933e47b02063c7b4d" target="_blank" class="news-link">
+一種安全的url傳參方式
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5ef124890b72ce4a15810c15" target="_blank" class="news-link">
+JS實現取任意類型的數組交集並集方法的思考
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5ef124897301656afddafa0f" target="_blank" class="news-link">
+將中文姓名轉爲拼音英文名的一種實現
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5ef12489264079afec954772" target="_blank" class="news-link">
+安裝指定版本pod
+</a>
+</h5>
+</li>
+</ul>
+</section>
+</div>
+</div>
+</div>
+<div class="right_sidebar">
+<div>
+<div class="section-head">
+最新評論文章
+</div>
+<div>
+<section class="section-item">
+<ul>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/60fae1ab5f3d1b1b737f8082" target="_blank" class="news-link">
+香奈兒茶莊加賴：dior991即可享受2000折扣券Telegram：@dior991網站www.dior991.com
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5ef427c3efdbac7f8b10491c" target="_blank" class="news-link">
+cntopic庫：支持中英文LDA話題分析
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/61bd6cf1229f3ba7dbc8fdcd" target="_blank" class="news-link">
+Why Does a Student Need Assignment Help to Score Good Grades?
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5cc159cfbd9eee397113f0d3" target="_blank" class="news-link">
+奮鬥者ENFP深度解析、職業方向推薦及人際關係
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5bd3bdca2b717778ac20c652" target="_blank" class="news-link">
+過掉某遊戲數據檢測
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5c434627bd9eee35b21eb5c5" target="_blank" class="news-link">
+目前我所知道的Anti Attach總結
+</a>
+</h5>
+</li>
+</ul>
+</section>
+</div>
+</div>
+</div><div class="google-auto-placed" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2073744953016040" data-adsbygoogle-status="done" style="display: block; margin: 10px auto 8px; background-color: transparent; height: 600px; overflow: hidden;" data-ad-status="filled"><ins id="aswift_3_expand" style="border: none; height: 600px; width: 300px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-table;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_3_anchor" style="border: none; height: 600px; width: 300px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: block; overflow: visible;"><iframe id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;border:0;width:300px;height:600px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="300" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" src="./React-Native-Storage使用介紹 - 台部落_files/ads(2).html" data-google-container-id="a!4" data-google-query-id="CMGuveef-_UCFZECXAodDY0CpA" data-load-complete="true"></iframe></ins></ins></ins></div>
+</div><div class="secondary-content feed" style="height: auto !important;"></div>
+</div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-body">
+<img src="https://www.twblogs.net/a/5b7e73c92b71776838576eab" class="img-responsive">
+</div>
+</div>
+</div>
+</div>
+<footer>
+</footer>
+</div>
+<script>
+var post_id = "5b7e73c92b71776838576eab";
+
+var token = getCookie('_xsrf');
+</script>
+<script>
+$.ajax({
+url: '/views',
+headers: {'X-XSRFToken' : token },
+data: {post_id: post_id },
+type: "POST",
+});
+</script>
+<script src="./React-Native-Storage使用介紹 - 台部落_files/custom_fix.js.下載"></script>
+<script>
+$(document).ready(function() {
+$('pre code').each(function(i, block) {
+hljs.highlightBlock(block);
+});
+});
+</script>
+<script src="./React-Native-Storage使用介紹 - 台部落_files/load_comments.js.下載"></script>
+<script>
+$(".article-content img").click(
+function() {
+let width;
+let img_src = $(this).attr('src');
+let img_width = this.naturalWidth;
+// let height = this.naturalHeight;
+let window_width = $(window).width() * 0.8;
+console.log(img_width,window_width)
+if (img_width <= window_width) {
+$("#myModal").addClass('modal-small')
+width = img_width;
+} else {
+$("#myModal").addClass('modal-big')
+width = window_width;
+}
+$("#myModal img").attr('src',img_src);
+$("#myModal .modal-dialog img").css('width',width);
+$("#myModal .modal-dialog img").css('height','auto');
+$('#myModal').modal('show');
+}
+)
+$('#myModal').click(
+function() {
+$('#myModal').modal('hide')
+}
+)
+const observer = lozad('img', {
+load: function(el) {
+const src = el.getAttribute('data-original')
+if (src) {
+el.src = src;
+}
+}
+});
+observer.observe();
+</script>
+<style>
+.modal-big .modal-dialog {
+position: relative;
+display: table;
+overflow-y: auto;
+overflow-x: auto;
+width: auto;
+}
+.modal-big .modal.show .modal-dialog {
+top: 50%;
+transform: translateY(-50%);
+}
+.modal-big .modal-body {
+text-align: center;
+}
+.modal-small.modal {
+text-align: center;
+padding: 0!important;
+}
+.modal-small.modal:before {
+content: '';
+display: inline-block;
+height: 100%;
+vertical-align: middle;
+margin-right: -4px;
+}
+.modal-small .modal-dialog {
+display: inline-block;
+text-align: left;
+vertical-align: middle;
+max-width: 100%;
+}
+.modal-content {
+cursor: zoom-out;
+}
+</style>
+
+<ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important; overflow: hidden;" data-ad-status="unfilled"><ins id="aswift_2_expand" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-table;"><ins id="aswift_2_anchor" style="border: none; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: block;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" src="./React-Native-Storage使用介紹 - 台部落_files/ads(3).html" data-google-container-id="a!3" data-load-complete="true"></iframe></ins></ins></ins><table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 202px; display: none; top: 45px; position: absolute; left: 713px;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="gstl_51 gssb_c" style="width: 2px; display: none; top: 3px; position: absolute; left: -1px;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" data-anchor-status="displayed" style="display: none; width: 100% !important; height: 129px !important; bottom: 0px; clear: none !important; float: none !important; left: 0px; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1; overflow: hidden; padding: 0px !important; position: fixed; right: auto !important; top: auto !important; vertical-align: baseline !important; visibility: visible !important; z-index: 2147483647; background: rgb(250, 250, 250) !important;" data-ad-status="filled" data-anchor-shown="true"><ins class="ee" style="inset: auto !important; clear: none !important; display: block !important; float: none !important; height: 5px !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; position: relative !important; vertical-align: baseline !important; visibility: visible !important; width: auto !important; z-index: 1 !important; background-color: rgb(250, 250, 250) !important; box-shadow: rgba(0, 0, 0, 0.2) 0px -1px 5px -1px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px !important;"><span style="display: block !important; width: 80px !important; height: 45px !important; bottom: 0px !important; left: 0% !important; pointer-events: none !important;"><svg style="margin: 0px !important; position: absolute !important; bottom: 0px !important; left: 0% !important; display: block !important; width: 80px !important; height: 30px !important; transform: none !important; pointer-events: initial !important;"><defs><filter id="dropShadowTop" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><fecomponenttransfer in="SourceAlpha" result="TransferredAlpha"><fefuncr type="discrete" tableValues="0.5"></fefuncr><fefuncg type="discrete" tableValues="0.5"></fefuncg><fefuncb type="discrete" tableValues="0.5"></fefuncb></fecomponenttransfer><fegaussianblur in="TransferredAlpha" stdDeviation="2"></fegaussianblur><feoffset dx="0" dy="0" result="offsetblur"></feoffset><femerge><femergenode></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter></defs><path d="M0,26 L0,6 A6,6 0 0,1 6,1 L50,1 A6,6 0 0,1 56,6 L56,20 A6,6 0 0,0 62,26 Z" stroke="#FAFAFA" stroke-width="1" fill="#FAFAFA" style="filter: url(&quot;#dropShadowTop&quot;);"></path><rect x="0" y="25" width="80" height="5" style="fill: rgb(250, 250, 250);"></rect><g class="down" stroke="#616161" stroke-width="2px" stroke-linecap="square"><line x1="22" y1="12" x2="28" y2="18"></line><line x1="28" y1="18" x2="34" y2="12"></line></g></svg></span></ins><ins id="aswift_4_expand" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none !important; height: 124px !important; width: 100% !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; background-color: transparent !important; display: inline-table !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;"><ins id="aswift_4_anchor" style="border: none !important; height: 124px !important; width: 100% !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; background-color: transparent !important; display: block !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;"><iframe id="aswift_4" name="aswift_4" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="1005" height="124" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" src="./React-Native-Storage使用介紹 - 台部落_files/zrt_lookup.html" data-google-container-id="a!5" data-google-query-id="CJnKqOef-_UCFdibvAodkyIF7Q" data-load-complete="true" style="display: block; margin: 0px auto;"></iframe></ins></ins></ins><iframe src="./React-Native-Storage使用介紹 - 台部落_files/aframe.html" width="0" height="0" style="display: none;"></iframe></body><iframe id="google_esf" name="google_esf" src="./React-Native-Storage使用介紹 - 台部落_files/zrt_lookup(1).html" style="display: none;"></iframe></html>
