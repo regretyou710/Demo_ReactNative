@@ -2,6 +2,4 @@
 https://reactnavigation.org/docs/getting-started
 	
 //在項目中開啟終端安裝react-native-navigation
-npm install react-native-screens react-native-safe-area-context
-npm install @react-navigation/native
-npm install @react-navigation/native-stack
+npm install react-native-screens react-native-safe-area-context @react-navigation/native @react-navigation/native-stack --save

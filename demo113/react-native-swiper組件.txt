@@ -1,0 +1,5 @@
+//官方URL
+https://www.npmjs.com/package/react-native-swiper
+	
+//在項目中開啟終端安裝react-native-swiper
+npm i --save react-native-swiper@next

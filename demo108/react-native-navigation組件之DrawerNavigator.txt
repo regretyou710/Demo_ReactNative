@@ -2,7 +2,7 @@
 https://reactnavigation.org/docs/drawer-navigator#installation
 	
 //在項目中開啟終端安裝react-native-navigation
-npm install react-native-screens react-native-safe-area-context @react-navigation/native @react-navigation/drawer react-native-gesture-handler@2.1.1 react-native-reanimated @react-navigation/native-stack
+npm install react-native-screens react-native-safe-area-context @react-navigation/native @react-navigation/drawer react-native-gesture-handler@2.1.1 react-native-reanimated @react-navigation/native-stack  --save
 
 
 //修改項目配置

@@ -70,7 +70,7 @@ class ItemList extends Component {
         // 請求數據
         // alert("componentDidMount");
 
-        // https://data.tainan.gov.tw/dataset/apps/resource/fcc1dc99-7447-44dc-ba9c-8866ddf0b043
+        //https://data.gov.tw/dataset/7779
         const url = 'https://gis.taiwan.net.tw/XMLReleaseALL_public/restaurant_C_f.json';
 
         // fetch請求api數據轉json如果報錯改用axios

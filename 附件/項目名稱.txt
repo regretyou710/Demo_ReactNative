@@ -30,3 +30,6 @@ demo108_react-native-navigation組件之DrawerNavigator
 demo110_不同介面間參數的傳遞
 demo111_不同介面間參數的傳遞及返回
 demo112_TabNavigator的使用示例
+demo113_react-native-swiper組件
+demo115_跳轉文章詳情頁效果
+demo116_文章數據的獲取
