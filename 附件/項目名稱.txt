@@ -39,3 +39,7 @@ demo120_AsyncStorage本地儲存1
 demo121_AsyncStorage本地儲存2
 demo122_react-native-storage本地儲存組件1
 demo123_react-native-storage本地儲存組件2
+demo124_第三方組件簡書及項目reactnative版本選擇
+demo126_react-native-splash-screen組件的使用1
+demo127_react-native-splash-screen組件的使用2
+demo128_react-native-splash-screen組件的使用3

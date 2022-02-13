@@ -3,7 +3,7 @@ $ keytool -genkeypair -v -storetype PKCS12 -keystore demo083-release-key.keystor
 
 	
 //設置gradle變量
-1.把demo083-release-key.keystore文件放到你工程中的android\app文件夾下
+1.把demo083-release-key.keystore文件放到你項目中的android\app文件夾下
 2.編輯/建立~/.gradle/gradle.properties文件
 
 
