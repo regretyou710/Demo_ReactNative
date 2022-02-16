@@ -1,4 +1,5 @@
-1.在項目中開啟終端執行npm install react-native-vector-icons --save
+1.在項目中開啟終端執行
+npm install react-native-vector-icons --save
 
 2.將項目中node_modules\react-native-vector-icons\Fonts目錄下的
 所有ttf文件複製到項目路徑android\app\src\main\assets\fonts目錄下
