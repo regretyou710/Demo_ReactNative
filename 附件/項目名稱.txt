@@ -43,7 +43,12 @@ demo124_第三方組件簡書及項目reactnative版本選擇
 demo126_react-native-splash-screen組件的使用1
 demo127_react-native-splash-screen組件的使用2
 demo128_react-native-splash-screen組件的使用3
-
+demo129_react-native_image-crop_picker組件
+demo130_react-native_image-crop_picker組件
+demo131_react-native_image-crop_picker組件
 demo134_頁面tab切換的實現
 demo135_tabbar圖標的設置
 demo136_tabnavigator底部tabbar樣式設置
+demo137_圖片自適應技巧
+demo138_城市選擇區域開發
+demo139_專業清洗區域開發
