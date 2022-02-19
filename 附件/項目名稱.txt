@@ -52,3 +52,6 @@ demo136_tabnavigator底部tabbar樣式設置
 demo137_圖片自適應技巧
 demo138_城市選擇區域開發
 demo139_專業清洗區域開發
+demo140_專業清洗區域圖片處理
+demo141_服務介紹圖標列表區域開發
+demo142_底部輪播的開發思路
