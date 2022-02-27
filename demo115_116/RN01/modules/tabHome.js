@@ -31,6 +31,16 @@ class TabHome extends Component {
     _renderItem({ item }// item表示數組中每一項對象
     ) {
         return (
+            //#region 方式一
+            /*
+                onPress={() => this._onPress(this, item)}
+            
+                onPress={function(){
+                  return  this._onPress(this, item);//回傳函數不是調用
+                }
+              }            
+            */
+
             <TouchableOpacity style={styles.itemContainer} onPress={() => this._onPress(this, item)}>
                 <Image source={
                     item.itemImage ? item.itemImage :
@@ -38,6 +48,18 @@ class TabHome extends Component {
                 } style={styles.itemImage}></Image>
                 <Text style={styles.itemText}>{item.Name}</Text>
             </TouchableOpacity>
+            //#endregion
+
+            //#region 方式二
+            // <TouchableOpacity style={styles.itemContainer} onPress={this._onPress.bind(this, item)}>
+            //     <Image source={
+            //         item.itemImage ? item.itemImage :
+            //             { uri: item.Picture1 ? item.Picture1 : null }
+            //     } style={styles.itemImage}></Image>
+            //     <Text style={styles.itemText}>{item.Name}</Text>
+            // </TouchableOpacity>
+            //#endregion
+
         )
     }
 
@@ -58,9 +80,17 @@ class TabHome extends Component {
         );
     }
 
+    //#region 方式一
     _onPress(obj, item) {
         obj.props.navigation.navigate('Info', { Id: item.Id });
     }
+    //#endregion
+
+    //#region 方式二
+    // _onPress(item) {
+    //     this.props.navigation.navigate('Info', { Id: item.Id });
+    // }
+    //#endregion
 
     render() {
         return (
