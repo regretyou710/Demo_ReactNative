@@ -14,11 +14,16 @@ class LoginScreen extends Component {
         };
     }
 
-    phoneInput(phoneNum) {        
+    phoneInput(phoneNum) {
         this.setState({ tel: phoneNum });
     };
 
     sendVerifyCodeBtn() {
+        if (this.state.verifyCodeDisabled)
+            return;
+
+        this.setState({ verifyCodeDisabled: true });
+
         const url = '';
         let time = 3;
 
@@ -29,8 +34,6 @@ class LoginScreen extends Component {
         // ).catch(
         //     error => console.log(error)
         // )
-
-        this.setState({ verifyCodeDisabled: true });
 
         let timer = setInterval(() => {
             this.setState({ verifyCod: time + '秒' });
