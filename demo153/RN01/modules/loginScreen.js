@@ -24,8 +24,20 @@ class LoginScreen extends Component {
 
         this.setState({ verifyCodeDisabled: true });
 
-        const url = '';
         let time = 3;
+
+        // 使用NetBeans glassfish DB調用webservice
+        // 域名要使用本機IP，localhost、127.0.0.1會報錯
+        let url1 = 'http://10.0.2.3:8080/RN_demo153_DBREST/api/service/queryCustomer/key/' + this.state.tel + '/rawdata';
+        let url2 = 'http://10.0.2.3:8080/RN_demo153_DBREST/api/service/queryCustomer/key/' + this.state.tel + '/rawdata';
+
+        // GET測試
+        console.log(url1);
+        axios.get(url1).then(
+            response => console.log(response)
+        ).catch(
+            error => console.log(error)
+        )
 
         // axios.post(url, {
         //     tel: this.state.tel
