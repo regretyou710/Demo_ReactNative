@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TextInput
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 class LoginScreen extends Component {
     constructor() {
@@ -48,6 +49,20 @@ class LoginScreen extends Component {
         //     error => console.log(error)
         // )
         */
+        //#endregion
+
+        //#region 方式二
+        firestore().collection('users').get()
+            .then(
+                (snapshot) => {
+                    snapshot.forEach((doc) => {
+                        console.log(doc.id, '=>', doc.data());
+                    })
+                }
+            )
+            .catch((err) => {
+                console.log('Error getting document', err);
+            });
         //#endregion
 
         let timer = setInterval(() => {
