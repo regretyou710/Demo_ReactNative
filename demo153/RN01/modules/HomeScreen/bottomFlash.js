@@ -57,8 +57,8 @@ class BottomFlash extends Component {
     }
 }
 
-// sliderWidth、onSnapToItem詳細使用詳見
-// C:\Demo_ReactNative\demo153\react-native-snap-carousel 轮播_renchaoqiong-程序员宝宝 - 程序员宝宝.html
+// sliderWidth、onSnapToItem 使用說明
+// C:\Demo_ReactNative\demo153\備忘錄\react-native-snap-carousel 轮播_renchaoqiong-程序员宝宝 - 程序员宝宝_files
 
 // 取得螢幕寬度
 let screenWidth = Dimensions.get('window').width;

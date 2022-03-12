@@ -26,10 +26,11 @@ class LoginScreen extends Component {
 
         let time = 3;
 
+        //#region 方式一
+        /*        
         // 使用NetBeans glassfish DB調用webservice
         // 域名要使用本機IP，localhost、127.0.0.1會報錯
         let url1 = 'http://10.0.2.3:8080/RN_demo153_DBREST/api/service/queryCustomer/key/' + this.state.tel + '/rawdata';
-        let url2 = 'http://10.0.2.3:8080/RN_demo153_DBREST/api/service/queryCustomer/key/' + this.state.tel + '/rawdata';
 
         // GET測試
         console.log(url1);
@@ -46,6 +47,8 @@ class LoginScreen extends Component {
         // ).catch(
         //     error => console.log(error)
         // )
+        */
+        //#endregion
 
         let timer = setInterval(() => {
             this.setState({ verifyCod: time + '秒' });
@@ -64,7 +67,7 @@ class LoginScreen extends Component {
         // this.props.navigation.navigate('Tab');
 
         // 登入後返回上一頁就離開APP
-        // 使用說明C:\Demo_ReactNative\demo153\React Navigation 5.x（一）常用知识点梳理 - 简书.html
+        // 使用說明C:\Demo_ReactNative\demo153\備忘錄\React Navigation 5.x（一）常用知识点梳理 - 简书_files
         this.props.navigation.dispatch(
             CommonActions.reset({
                 index: 0,
