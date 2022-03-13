@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<!-- saved from url=(0098)https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html -->
+<html lang="zh" data-darkreader-mode="dynamic" data-darkreader-scheme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="anchorjs"></style><style class="darkreader darkreader--sync" media="screen"></style><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, #bit-notification-bar-iframe, ::-webkit-calendar-picker-indicator {
+    filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
+}</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
+  background-color: var(--darkreader-inline-bgcolor) !important;
+}
+[data-darkreader-inline-bgimage] {
+  background-image: var(--darkreader-inline-bgimage) !important;
+}
+[data-darkreader-inline-border] {
+  border-color: var(--darkreader-inline-border) !important;
+}
+[data-darkreader-inline-border-bottom] {
+  border-bottom-color: var(--darkreader-inline-border-bottom) !important;
+}
+[data-darkreader-inline-border-left] {
+  border-left-color: var(--darkreader-inline-border-left) !important;
+}
+[data-darkreader-inline-border-right] {
+  border-right-color: var(--darkreader-inline-border-right) !important;
+}
+[data-darkreader-inline-border-top] {
+  border-top-color: var(--darkreader-inline-border-top) !important;
+}
+[data-darkreader-inline-boxshadow] {
+  box-shadow: var(--darkreader-inline-boxshadow) !important;
+}
+[data-darkreader-inline-color] {
+  color: var(--darkreader-inline-color) !important;
+}
+[data-darkreader-inline-fill] {
+  fill: var(--darkreader-inline-fill) !important;
+}
+[data-darkreader-inline-stroke] {
+  stroke: var(--darkreader-inline-stroke) !important;
+}
+[data-darkreader-inline-outline] {
+  outline-color: var(--darkreader-inline-outline) !important;
+}
+[data-darkreader-inline-stopcolor] {
+  stop-color: var(--darkreader-inline-stopcolor) !important;
+}</style><style class="darkreader darkreader--variables" media="screen">:root {
+   --darkreader-neutral-background: #131516;
+   --darkreader-neutral-text: #d8d4cf;
+   --darkreader-selection-background: #004daa;
+   --darkreader-selection-text: #e8e6e3;
+}</style><style class="darkreader darkreader--root-vars" media="screen"></style><style class="darkreader darkreader--user-agent" media="screen">html {
+    background-color: #181a1b !important;
+}
+html {
+    color-scheme: dark !important;
+}
+html, body, input, textarea, select, button {
+    background-color: #181a1b;
+}
+html, body, input, textarea, select, button {
+    border-color: #736b5e;
+    color: #e8e6e3;
+}
+a {
+    color: #3391ff;
+}
+table {
+    border-color: #545b5e;
+}
+::placeholder {
+    color: #b2aba1;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: #555b00 !important;
+    color: #e8e6e3 !important;
+}
+::-webkit-scrollbar {
+    background-color: #202324;
+    color: #aba499;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #454a4d;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #575e62;
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: #484e51;
+}
+::-webkit-scrollbar-corner {
+    background-color: #181a1b;
+}
+::selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}
+::-moz-selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}</style>
+        
+        
+        <title>執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Eddy Chang">
+        
+        
+    
+    <link rel="stylesheet" href="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/style.css"><style class="darkreader darkreader--sync" media="screen"></style>
+
+    
+            
+                
+                <link rel="stylesheet" href="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/plugin.css"><style class="darkreader darkreader--sync" media="screen"></style>
+                
+            
+                
+                <link rel="stylesheet" href="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/plugin(1).css"><style class="darkreader darkreader--sync" media="screen"></style>
+                
+            
+                
+                <link rel="stylesheet" href="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/website.css"><style class="darkreader darkreader--sync" media="screen"></style>
+                
+            
+                
+                <link rel="stylesheet" href="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/search.css"><style class="darkreader darkreader--sync" media="screen"></style>
+                
+            
+                
+                <link rel="stylesheet" href="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/website(1).css"><style class="darkreader darkreader--sync" media="screen"></style>
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="https://gstatic.gitbook.com/images/b1c4c86ca817a71628d2debe73be9a64.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch6_then_adv.html">
+    
+    
+    <link rel="prev" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch4_basic_usage.html">
+    
+
+    
+<style>
+    .book .book-summary .book-search,
+    .book .book-summary ul.summary {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+    .book-summary {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        overflow-y: auto;
+    }
+    .book-summary > nav {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overflow-y: overlay;
+    }
+    .gl-wrapper {
+        margin: 0;
+        display: block;
+        padding: 0;
+        position: relative;
+        line-height: 15px;
+        background: #fafafa;
+    }
+    .gl-wrapper:before {
+        background: -webkit-linear-gradient(to bottom, rgba(250,250,250,0) 0%, #fafafa 100%);
+        background: -moz-linear-gradient(to bottom, rgba(250,250,250,0) 0%, #fafafa 100%);
+        top: -24px;
+        width: 100%;
+        height: 24px;
+        content: "";
+        display: block;
+        position: absolute;
+        background: linear-gradient(to bottom, rgba(250,250,250,0) 0%, #fafafa 100%);
+    }
+    .book.color-theme-1 .gl-wrapper {
+        background: #121212;
+    }
+    .book.color-theme-1 .gl-wrapper:before {
+        background: -webkit-linear-gradient(to bottom, rgba(18,18,18,0) 0%, #121212 100%);
+        background: -moz-linear-gradient(to bottom, rgba(18,18,18,0) 0%, #121212 100%);
+        background: linear-gradient(to bottom, rgba(18,18,18,0) 0%, #121212 100%);
+    }
+    .book.color-theme-2 .gl-wrapper {
+        background: #2e3243;
+    }
+    .book.color-theme-2 .gl-wrapper:before {
+        background: -webkit-linear-gradient(to bottom, rgba(46,50,67,0) 0%, #2e3243 100%);
+        background: -moz-linear-gradient(to bottom, rgba(46,50,67,0) 0%, #2e3243 100%);
+        background: linear-gradient(to bottom, rgba(46,50,67,0) 0%, #2e3243 100%);
+    }
+    .gl-wrapper .gitbook-link {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        color: #9DAAB6;
+        margin: 16px;
+        display: flex;
+        padding: 0;
+        align-items: center;
+        margin-left: 32px;
+        padding-top: 8px;
+        padding-left: 16px;
+        border-radius: 3px;
+        padding-right: 16px;
+        padding-bottom: 8px;
+        text-decoration: none;
+        background-color: #E6ECF1;
+        -webkit-box-align: center;
+    }
+    .gl-wrapper .tm-logo {
+        margin: 0;
+        display: block;
+        padding: 0;
+        font-size: 40px;
+    }
+    .gl-wrapper .tm-content {
+        flex: 1;
+        margin: 0;
+        display: block;
+        padding: 0;
+        padding-left: 16px;
+    }
+    .gl-wrapper .tm-content .container {
+        margin: 0;
+        display: block;
+        padding: 0;
+    }
+    .gl-wrapper .tm-content .tm-container .tm-text {
+        font-size: 12px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        line-height: 1.625;
+    }
+</style><style class="darkreader darkreader--sync" media="screen"></style><meta name="darkreader" content="0161681db177467294deae2f38716cd3"><style class="darkreader darkreader--override" media="screen">.vimvixen-hint {
+    background-color: #7b5300 !important;
+    border-color: #d8b013 !important;
+    color: #f3e8c8 !important;
+}
+::placeholder {
+    opacity: 0.5 !important;
+}
+a[href="https://coinmarketcap.com/"] > svg[width="94"][height="16"] > path {
+    fill: var(--darkreader-neutral-text) !important;
+}
+#edge-translate-panel-body,
+.MuiTypography-body1 {
+    color: var(--darkreader-neutral-text) !important;
+}
+gr-main-header {
+    background-color: #0f3a48 !important;
+}
+embed[type="application/pdf"][src="about:blank"] { filter: invert(100%) contrast(90%); }</style><script async="" src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/analytics.js.下載"></script><script type="text/javascript" async="" src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/embed.js.下載"></script><link rel="prefetch" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.7ab903feba7624935283ca4c7d8c7203.css"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.9450cde9dd2c9d366781a8fc5ff6e933.js"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.8a051c75736795faf464e93aee7362f6.js"><link rel="prefetch" as="script" href="https://disqus.com/next/config.js"><script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/alfie_v4.63f1ab6d6b9d5807dc0c94ef3fe0b851.js.下載" async="" charset="UTF-8"></script></head>
+    <body>
+        
+<div class="book without-animation with-summary font-size-2 font-family-1">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="輸入並搜尋">
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://legacy.gitbook.com/book/eyesofkids/javascript-start-es6-promise" target="_blank" class="custom-link">從Promise開始的JavaScript異步生活</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    關於本書
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" data-path="../style.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/style.html">
+            
+                    
+                        <b>1.1.1.</b>
+                    
+                    寫作格式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.2" data-path="../changelog.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/changelog.html">
+            
+                    
+                        <b>1.1.2.</b>
+                    
+                    更新日誌
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.3" data-path="../issue.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/issue.html">
+            
+                    
+                        <b>1.1.3.</b>
+                    
+                    問答與回饋
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2">
+            
+                <span>
+            
+                    
+                        <b>1.2.</b>
+                    
+                    主要內容
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="ch1_intro.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch1_intro.html">
+            
+                    
+                        <b>1.2.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="ch2_before_start.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch2_before_start.html">
+            
+                    
+                        <b>1.2.2.</b>
+                    
+                    基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="ch3_promise_a_plus.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch3_promise_a_plus.html">
+            
+                    
+                        <b>1.2.3.</b>
+                    
+                    Promises/A+標準定義
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="ch4_basic_usage.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch4_basic_usage.html">
+            
+                    
+                        <b>1.2.4.</b>
+                    
+                    Promise 物件建立與基本使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.5" data-path="ch5_flow_n_error.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html">
+            
+                    
+                        <b>1.2.5.</b>
+                    
+                    執行流程與錯誤處理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="ch6_then_adv.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch6_then_adv.html">
+            
+                    
+                        <b>1.2.6.</b>
+                    
+                    深入 then 方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="ch7_promise_resolve_n_reject.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch7_promise_resolve_n_reject.html">
+            
+                    
+                        <b>1.2.7.</b>
+                    
+                    Promise.resolve 與 Promise.reject
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="ch8_promise_all_n_race.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch8_promise_all_n_race.html">
+            
+                    
+                        <b>1.2.8.</b>
+                    
+                    Promise.all 與 Promise.race
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" data-path="ch9_chain_n_branch.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch9_chain_n_branch.html">
+            
+                    
+                        <b>1.2.9.</b>
+                    
+                    執行順序 連鎖(Chaining) 或 分支(Branching)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" data-path="ch10_anti_pattern.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch10_anti_pattern.html">
+            
+                    
+                        <b>1.2.10.</b>
+                    
+                    反樣式(anti-pattern)與最佳實踐
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11" data-path="ch11_snippets.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch11_snippets.html">
+            
+                    
+                        <b>1.2.11.</b>
+                    
+                    實例與程式碼片段
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12" data-path="ch12_other_libs.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch12_other_libs.html">
+            
+                    
+                        <b>1.2.12.</b>
+                    
+                    Promise 外部函式庫議題
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13" data-path="ch13_resources.html">
+            
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch13_resources.html">
+            
+                    
+                        <b>1.2.13.</b>
+                    
+                    參考資源
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    
+</ul>
+
+
+                </nav>
+            
+        
+    
+<div class="gl-wrapper">
+    <a class="gitbook-link" href="https://www.gitbook.com/?utm_source=public_site_legacy&amp;utm_medium=referral&amp;utm_campaign=trademark&amp;utm_term=eyesofkids&amp;utm_content=powered_by" target="blank">
+        <div class="tm-logo">
+            <svg preserveAspectRatio="xMidYMid meet" height="1em" width="1em" fill="currentColor" viewBox="0 0 1067 769" xmlns="http://www.w3.org/2000/svg" stroke="none" class="icon-7f6730be--text-3f89f380" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke:none; --darkreader-inline-fill:currentColor;" data-darkreader-inline-fill=""><g><path d="M480.026 640.677c17.205 0 31.2 13.997 31.2 31.194s-13.995 31.193-31.2 31.193c-17.197 0-31.193-13.996-31.193-31.193 0-17.197 13.996-31.194 31.193-31.194m489.93-193.226c-17.203 0-31.2-13.998-31.2-31.195 0-17.204 13.997-31.2 31.2-31.2 17.198 0 31.194 13.996 31.194 31.2 0 17.197-13.996 31.195-31.193 31.195m0-127.804c-53.269 0-96.609 43.34-96.609 96.609 0 10.373 1.723 20.702 5.123 30.741L559.328 616.879c-18.132-26.128-47.521-41.617-79.302-41.617-36.821 0-70.391 21.065-86.63 54.003L106.68 478.109c-30.288-15.927-52.965-65.817-50.56-111.223 1.248-23.687 9.438-42.071 21.897-49.17 7.916-4.493 17.436-4.099 27.526 1.188l1.916 1.01c75.96 40.022 324.6 170.981 335.063 175.844 16.157 7.47 25.14 10.5 52.659-2.547l513.958-267.3c7.53-2.844 16.315-10.062 16.315-21.023 0-15.205-15.72-21.199-15.765-21.199-29.218-14.018-74.163-35.054-117.987-55.57C798.033 84.26 691.861 34.547 645.23 10.132c-40.253-21.072-72.655-3.311-78.432.282l-11.227 5.555C345.727 119.743 64.898 258.826 48.911 268.553 20.278 285.973 2.547 320.679.252 363.768c-3.586 68.304 31.261 139.506 81.069 165.634l303.172 156.354c6.83 47.306 47.55 82.725 95.532 82.725 52.78 0 95.808-42.546 96.603-95.14L910.541 492.38c16.93 13.233 37.92 20.486 59.416 20.486 53.268 0 96.61-43.341 96.61-96.61s-43.342-96.61-96.61-96.61" fill-rule="evenodd"></path></g></svg>
+        </div>
+        <div class="tm-content">
+            <div class="tm-container">
+                <span class="tm-text">
+                    Powered by <b>GitBook</b>
+                </span>
+            </div>
+        </div>
+    </a>
+</div></div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <a class="btn pull-left js-toolbar-action" aria-label="" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html#"><i class="fa fa-align-justify"></i></a><div class="dropdown pull-right js-toolbar-action"><a class="btn toggle-dropdown" aria-label="Share" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html#"><i class="fa fa-share-alt"></i></a><div class="dropdown-menu dropdown-left"><div class="dropdown-caret"><span class="caret-outer"></span><span class="caret-inner"></span></div><div class="buttons"><button class="button size-5 ">Facebook</button><button class="button size-5 ">Google+</button><button class="button size-5 ">Twitter</button><button class="button size-5 ">Weibo</button><button class="button size-5 ">Instapaper</button></div></div></div><a class="btn pull-right js-toolbar-action" aria-label="" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html#"><i class="fa fa-facebook"></i></a><a class="btn pull-right js-toolbar-action" aria-label="" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html#"><i class="fa fa-twitter"></i></a><div class="dropdown pull-left font-settings js-toolbar-action"><a class="btn toggle-dropdown" aria-label="Font Settings" href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html#"><i class="fa fa-font"></i></a><div class="dropdown-menu dropdown-right"><div class="dropdown-caret"><span class="caret-outer"></span><span class="caret-inner"></span></div><div class="buttons"><button class="button size-2 font-reduce">A</button><button class="button size-2 font-enlarge">A</button></div><div class="buttons"><button class="button size-2 ">Serif</button><button class="button size-2 ">Sans</button></div><div class="buttons"><button class="button size-3 ">White</button><button class="button size-3 ">Sepia</button><button class="button size-3 ">Night</button></div></div></div><h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/">執行流程與錯誤處理</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <blockquote>
+<p>Promise 中會吞掉(隱藏)throw 例外的錯誤輸出，改用轉變狀態為 rejected(已拒絕)來作錯誤處理</p>
+</blockquote>
+<h2 id="throw-與-reject">throw 與 reject<a class="anchorjs-link " href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html#throw-%E8%88%87-reject" aria-label="Anchor" data-anchorjs-icon="" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+<p>在 promise 建構函式中，直接使用<code>throw</code>語句相當於用<code>reject</code>方法的作用，一個簡單的範例如下:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// 用throw語句取代reject</span>
+<span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
+  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'rejected!'</span>) <span class="hljs-comment">// 用throw語句</span>
+
+  <span class="hljs-comment">//相當於用以下的語句</span>
+  <span class="hljs-comment">//reject(new Error('rejected!'))</span>
+})
+
+p1.then(val =&gt; {
+  <span class="hljs-built_in">console</span>.log(val)
+  <span class="hljs-keyword">return</span> val + <span class="hljs-number">2</span>
+})
+  .then(val =&gt; <span class="hljs-built_in">console</span>.log(val))
+  .catch(err =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error:'</span>, err.message))
+  .then(val =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'done'</span>))
+
+<span class="hljs-comment">//最後結果:</span>
+<span class="hljs-comment">//error: rejected!</span>
+<span class="hljs-comment">//done</span>
+</code></pre>
+<p>原先在錯誤處理時，對於<code>throw</code>語句的說明是，<code>throw</code>語句執行後會直接進到最近的<code>catch</code>方法的區塊中，執行中的程式會中斷之後程式碼執行，不過這個理解是針對一般的同步程式執行，對異步的 Promise 執行結構並不適用。也就是在 Promise 的連鎖執行中，"<strong>並不會</strong>"中斷 Promise 連鎖結構，還會繼續執行，上面的範例中，最後有個<code>then</code>中會輸出'done'字串，它依然會輸出。另外要特別注意的是，這裡的<code>throw</code>語句並不會在瀏覽器的錯誤主控台出現任何的錯誤訊息。</p>
+<p><code>throw</code>語句只有在搭配<code>try...catch</code>語句時，位於<code>try</code>區塊之中，才會移交錯誤處理的控制權到<code>catch</code>區塊中，也因此不會在瀏覽器主控台直接產生錯誤訊息，這是<code>throw</code>語句的特性。這當然是因為 Promise 物件在進行初始化時，執行的每一個回調，都是在<code>try...catch</code>語句的區塊中執行，才會在就算有錯誤發生時，並不會造成連鎖的中斷，而是改變 Promise 的狀態為 rejected(已拒絕)，然後再向下一個連鎖傳遞。例如以下的程式碼範例，參考自<a href="https://github.com/stefanpenner/es6-promise" target="_blank">es6-promise</a>:</p>
+<pre><code class="lang-js"><span class="hljs-comment">//Promise物件建構函式相關</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initializePromise</span>(<span class="hljs-params">promise, resolver</span>) </span>{
+  <span class="hljs-keyword">try</span> {
+    resolver(
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resolvePromise</span>(<span class="hljs-params">value</span>) </span>{
+        resolve(promise, value)
+      },
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rejectPromise</span>(<span class="hljs-params">reason</span>) </span>{
+        reject(promise, reason)
+      }
+    )
+  } <span class="hljs-keyword">catch</span> (e) {
+    reject(promise, e)
+  }
+}
+
+<span class="hljs-comment">//then方法，使用於外部thenable在用的</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tryThen</span>(<span class="hljs-params">then, value, fulfillmentHandler, rejectionHandler</span>) </span>{
+  <span class="hljs-keyword">try</span> {
+    then.call(value, fulfillmentHandler, rejectionHandler)
+  } <span class="hljs-keyword">catch</span> (e) {
+    <span class="hljs-keyword">return</span> e
+  }
+}
+</code></pre>
+<p>從上面的範例看起來，使用<code>throw</code>語句與用<code>reject</code>方法似乎是達到同樣的結果，都會導致 promise 物件的狀態變為 rejected(已拒絕)，那麼這兩種方式有差異嗎？</p>
+<p>有的，這兩種方式是有差異的。</p>
+<p>首先，<code>throw</code>語句用於一般的程式碼中，它代表的意義是程式執行到某個時候發生錯誤，也就是<code>throw</code>語句會立即完成 resolve(解決)，在<code>then</code>方法中按照規則，不論是 onFulfilled 函式或 onRejected 函式，只要丟出例外，就會導致新的 promise 物件的狀態直接變為 Rejected(已拒絕)。</p>
+<p>而<code>reject</code>則是一個一旦呼叫了就會讓 Promise 物件狀態變為 Rejected(已拒絕)的方法，用起來像是一般的可呼叫的方法。</p>
+<p>根據上面的解說，這兩種方式明顯是用在不同的場合的，實際上也無關優劣性，視情況使用就是。</p>
+<p>不過有一個例外狀況，如果在 Promise 中(建構函式或 then 中)使用其他異步回調的 API 時，這時候完全不能使用<code>throw</code>語句，Promise 物件無法隱藏錯誤，導致連鎖失效，這不是 Promise 的問題，是 JavaScript 中本來就會這樣，不過這時你還是可以用 reject。以下的範例你可以試試:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve, reject</span>) </span>{
+  setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// 這裡如果用throw，是完全不會拒絕promise</span>
+    reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'error occur!'</span>))
+    <span class="hljs-comment">//throw new Error('error occur!')</span>
+  }, <span class="hljs-number">1000</span>)
+})
+
+p1.then(val =&gt; {
+  <span class="hljs-built_in">console</span>.log(val)
+  <span class="hljs-keyword">return</span> val + <span class="hljs-number">2</span>
+})
+  .then(val =&gt; <span class="hljs-built_in">console</span>.log(val))
+  .catch(err =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error:'</span>, err.message))
+  .then(val =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'done'</span>))
+</code></pre>
+<h2 id="執行流程連鎖反應">執行流程&amp;連鎖反應<a class="anchorjs-link " href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch5_flow_n_error.html#%E5%9F%B7%E8%A1%8C%E6%B5%81%E7%A8%8B%E9%80%A3%E9%8E%96%E5%8F%8D%E6%87%89" aria-label="Anchor" data-anchorjs-icon="" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+<p>如果你有看過其他的 Promise 教學，使用<code>then</code>方法與<code>catch</code>來組成一個有錯誤處理的流程，例如像以下的範例程式，來自<a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">JavaScript Promises</a>:</p>
+<pre><code class="lang-js">asyncThing1()
+  .then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> asyncThing2()
+  })
+  .then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> asyncThing3()
+  })
+  .catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-keyword">return</span> asyncRecovery1()
+  })
+  .then(
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> asyncThing4()
+    },
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+      <span class="hljs-keyword">return</span> asyncRecovery2()
+    }
+  )
+  .catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Don't worry about it"</span>)
+  })
+  .then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'All done!'</span>)
+  })
+</code></pre>
+<p>在這篇文章中的作者也畫了一個這個範例的流程圖，你可以先看一下還滿複雜的。我並不是說這張流程圖畫得不好，只是我建議初學者不要單純用只有 onFulfilled 函式的<code>then</code>方法，以及<code>catch</code>方法來看整體流程，其實很容易造成混亂。當然如果你今天已經學好基礎知識了，當然一下子就可以理解。對初學者來說，可以從完整的<code>then</code>方法，可以把整個流程看得更清楚，每個<code>then</code>方法(或<code>catch</code>方法)都會回傳一個完整的 Promise 物件，當新的 Promise 往下個<code>then</code>方法傳遞時，因為其中程式碼執行的不同，狀態也不同。</p>
+<p>流程的主要規則在 Promises/A+標準 2.2.7 章節，內容簡譯成中文如下:</p>
+<blockquote>
+<p><code>then</code>必須回傳一個 promise。
+<code>promise2 = promise1.then(onFulfilled, onRejected);</code></p>
+<p>2.2.7.1 當不論是 onFulfilled 或 onRejected 其中有一個是有回傳值<code>x</code>，執行 Promise 解析程序<code>[[Resolve]](promise2, x)</code></p>
+<p>2.2.7.2 當不論是 onFulfilled 或 onRejected 其一丟出例外<code>e</code>，promise2 必須用<code>e</code>作為理由而拒絕(rejected)</p>
+<p>2.2.7.3 當 onFulfilled 不是一個函式，而且 promise1 是 fulfilled(已實現)時，promise2 必須使用與 promise1 同樣的值被 fulfilled(實現)</p>
+<p>2.2.7.4 當 onRejected 不是一個函式，而且 promise1 是 rejected(已拒絕)時，promise2 必須使用與 promise1 同樣的理由被 rejected(拒絕)</p>
+</blockquote>
+<p>標準的 2.2.7.4 正好說明了，當你單純用只有 onFulfilled 函式的<code>then</code>方法時，如果發生在上面的 Promise 物件 rejected(已拒絕)情況，為何會一直往下發生 rejected(已拒絕)的連鎖反應，因為這個時候<code>then</code>方法並沒有 onRejected 函式，也就是說 onRejected 函式相當於 undefined，相當於"<strong>不是一個函式</strong>"，滿足了 2.2.7.4 這條規則。所以會一直連鎖反應往下到有出現<code>catch</code>方法(或是有 onRejected 函式的 then 方法)，執行過後才會又恢復使用 2.2.7.1 的正常規則。</p>
+<p>標準的 2.2.7.3 恰好相反，它是在一連串只有<code>catch</code>方法的連鎖結構出現，<code>catch</code>方法代表沒有 onFulfilled 函式的<code>then</code>方法，只要最上面的 Promise 物件 fulfilled(已實現)時，會一直連鎖反應到某個<code>then</code>方法，才會又恢復使用 2.2.7.1 的正常規則。當然，這種情況很少見，因為在整個結構中，我們使用一連串的<code>catch</code>方法是很少見的，錯誤處理頂多只會使用一、二個而已。從規則可以看到，為何<code>catch</code>方法通常會擺在整體連鎖流程的後面，這是因為擺在前面會捕捉不到在它後面的<code>then</code>方法中的錯誤，這是一個很重要的概念。</p>
+<p>我把上面的範例用箭頭函式簡化過，函式名稱也簡化一下，看起來會比較好閱讀，像下面這樣的範例:</p>
+<pre><code class="lang-js">async1()
+  .then(() =&gt; async2())
+  .then(() =&gt; async3())
+  .catch(err =&gt; errorHandler1())
+  .then(() =&gt; async4(), err =&gt; errorHandler2())
+  .catch(err =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Don't worry about it"</span>))
+  .then(() =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'All done!'</span>))
+</code></pre>
+<p>然後再把<code>then</code>方法中的兩個函式傳入參數都補齊，<code>catch</code>方法也改用<code>then</code>方法來改寫。這樣作只是要方便解說這個規則影響流程是怎麼跑的。實際使用上，你應該還是用<code>then</code>與<code>catch</code>的組合。程式碼範例如下所示:</p>
+<pre><code class="lang-js">async1()
+  .then(() =&gt; async2(), <span class="hljs-literal">undefined</span>)
+  .then(() =&gt; async3(), <span class="hljs-literal">undefined</span>)
+  .then(<span class="hljs-literal">undefined</span>, err =&gt; errorHandler1())
+  .then(() =&gt; async4(), err =&gt; errorHandler2())
+  .then(<span class="hljs-literal">undefined</span>, err =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Don't worry about it"</span>))
+  .then(() =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'All done!'</span>), <span class="hljs-literal">undefined</span>)
+</code></pre>
+<p>情況: 當 async1 回傳的 promise 物件的狀態是 rejected 時。以下為每個步驟流程的說明:</p>
+<ol>
+<li>2.2.7.4 規則，async2 不會被執行，新的 Promise 物件直接是 rejected(已拒絕)狀態</li>
+<li>2.2.7.4 規則，async3 不會被執行，新的 Promise 物件直接是 rejected(已拒絕)狀態</li>
+<li>2.2.7.1 規則，errorHandler1()被執行，新的 Promise 物件為 fulfilled(已實現)狀態</li>
+<li>2.2.7.1 規則，async4()被執行，新的 Promise 物件為 fulfilled(已實現)狀態</li>
+<li>2.2.7.3 規則，跳過輸出字串，新的 Promise 物件為 fulfilled(已實現)狀態，回傳值繼續傳遞</li>
+<li>2.2.7.1 規則，輸出字串</li>
+</ol>
+<p>第 3 步是最不易理解的，實際上它需要根據 errorHandler1()函式的回傳值來決定新的 Promise 是哪一種狀態。上面步驟的結果，是假設當 errorHandler1()只是簡單的回傳值或沒回傳值時。</p>
+<p>根據連鎖反應，rejected 狀態的 Promise 物件，會一直往下找到有<code>onRejected</code>函式的<code>then</code>方法或是<code>catch</code>方法，才會再進入 2.2.7.1 規則，也就是正常的 Promise 解析程序，那麼在正常的解析程序中，又是怎麼決定回傳的新 Promise 物件的狀態的？根據標準的另一個章節，在 2.2.7.1 規則裡面的解析程序原則，主要是由回傳值<code>x</code>來決定的，這裡所謂的<code>x</code>是經過 onFulfilled 或 onRejected 其中一個被執行後的回傳值<code>x</code>，有幾種情況:</p>
+<ul>
+<li><code>x</code>不是函式或物件，直接用<code>x</code>實現(fulfill)promise 物件(<strong>注意: undefined 也算，所以沒回傳值算這個規則</strong>)</li>
+<li><code>x</code>是 promise，看<code>x</code>最後是實現(fulfill)或拒絕狀態，就直接對應到 promise 物件，回傳值或理由也會一併跟著</li>
+<li><code>x</code>是函式或物件，指定<code>then = x.then</code>然後執行<code>then</code>。其實它是在測試<code>x</code>是不是 thenable 物件，如果是 thenable 物件，會執行 thenable 物件中的 then 方法，一樣用類似 then 方法的兩選一來解析狀態，最後的狀態與值會影響到 promise 物件。一般情況就是如果不是 thenable 物件，也是直接用<code>x</code>作實現(fulfill)promise 物件。</li>
+</ul>
+<p>所以上面的第 3 步，因為 errorHandler1()沒有回傳值或簡單回傳一個值，所以會讓新的 Promise 物件的狀態變為 fulfilled(已實現)，然後繼續下一步。</p>
+<p>實際上大部份時候只要有回傳值的情況，都會讓新的 Promise 物件的狀態變為 fulfilled(已實現)，當然我們都希望大部份時候，程式都是能順利執行，只有少部份時候有可能需要針對錯誤或例外情況，需要額外處理。回傳值的詳細情況我們在"深入 then 方法"這一章會再看到。</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        <div id="disqus_thread"><iframe id="dsq-app9798" name="dsq-app9798" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 395px !important; --darkreader-inline-border-top: initial; --darkreader-inline-border-right: initial; --darkreader-inline-border-bottom: initial; --darkreader-inline-border-left: initial;" data-darkreader-inline-border-top="" data-darkreader-inline-border-right="" data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left="" horizontalscrolling="no" verticalscrolling="no"></iframe></div><div id="disqus_thread"></div></div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch4_basic_usage.html" class="navigation navigation-prev " aria-label="Previous page: Promise 物件建立與基本使用">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="https://eyesofkids.gitbooks.io/javascript-start-es6-promise/content/contents/ch6_then_adv.html" class="navigation navigation-next " aria-label="Next page: 深入 then 方法" style="margin-right: 17px;">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"id":"ch5_flow_n_error","title":"執行流程與錯誤處理","sidebar_label":"執行流程與錯誤處理","level":"1.2.5","depth":2,"next":{"title":"深入 then 方法","level":"1.2.6","depth":2,"path":"contents/ch6_then_adv.md","ref":"contents/ch6_then_adv.md","articles":[]},"previous":{"title":"Promise 物件建立與基本使用","level":"1.2.4","depth":2,"path":"contents/ch4_basic_usage.md","ref":"contents/ch4_basic_usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["anchorjs","disqus","ga","comment"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"jsbook-1"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"ga":{"configuration":"auto","token":"UA-273248-20"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"anchorjs":{},"comment":{"highlightCommented":true}},"github":"eyesofkids/javascript-es6-promise","theme":"default","author":"Eddy Chang","pdf":{"pageNumbers":true,"fontSize":16,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"從Promise開始的JavaScript異步生活","language":"zh","links":{"sidebar":{"從Promise開始的JavaScript異步生活":"https://legacy.gitbook.com/book/eyesofkids/javascript-start-es6-promise"},"gitbook":true},"gitbook":"*","description":"學習如何使用ES6 Promise，應用異步執行流程在你的JavaScript程式中。"},"file":{"path":"contents/ch5_flow_n_error.md","mtime":"2019-05-24T08:51:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-24T08:51:45.133Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/gitbook.js.下載"></script>
+    <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/theme.js.下載"></script>
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/anchor.min.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/anchor-style.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/URI.min.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/plugin.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/plugin.js(1).下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/plugin.js(2).下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/search-engine.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/search.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/lunr.min.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/search-lunr.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/buttons.js.下載"></script>
+        
+    
+        
+        <script src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/fontsettings.js.下載"></script>
+        
+    
+
+    
+
+
+<iframe style="display: none;" src="./執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活_files/saved_resource(1).html"></iframe></body></html>
