@@ -1,1 +1,68 @@
-<mxfile host="app.diagrams.net" modified="2022-03-16T02:41:12.449Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" etag="GvyeXUKNx4p-skFt6vHi" version="17.1.3" type="github"><diagram id="D8SCrPh8sAcgkW9D4Ilb" name="Page-1">7Vhdb5swFP01kbaHVXwnfWzTtHtYp01U69I3BzxwZzBynAT262diO2BQvrakkGlSHuzDvcY+59jXYWCPk/yBgix+JCHEA8sI84F9N7As07GsQfkzwkIgQ08CEUWhDKoAH/2CEjQkukAhnGuBjBDMUKaDAUlTGDANA5SSlR72g2D9rRmIYAvwA4Db6DMKWSzQkTWs8I8QRbF6s+ldiycJUMFyJfMYhGRVg+zJwB5TQphoJfkY4pI8xYvIu9/ydDMxClN2SMLT/eNXGyX5y9RHL8vnb08Pnv9hMzlWqBXDkBMgu4SymEQkBXhSobeULNIQlsMavFfFfCIk46DJwVfIWCHVBAtGOBSzBMunfMa0+F7mX7mqO5XDrTt3udYrVC9HrJbGe1M1Im9XSWVH5Yj1lYvaypuE5mRBA7iDLOU/QCPIdsS5G3X5toAkgXwNPI9CDBha6vMA0p/RJk6m3lAKilpARlDK5rWRv5QAD5BbzTGklIXaeg07HBfPG2IGqldbSgWtLXaE3ezLshuerTfsElKG+JFwlJv2usQ6hUv2y6p2uBpCuFxmaXqfRmGzE4XPqtTwn1RKTngJ8EIu4SbLrl75EeNhzsbtjPJWVLbe+QwEPz+DJYoAI/R9S2Fdv1WMGPQzsD5LV/xaoGslX8uVgvluadqUywTb0alTzK2qCr1hM65VZ8/YLpJG77FcWtcX5/q91c56o2r3d8S3TIxJhFI/oBCmazN3bFWzYVXT7dqrtteJV//g6tZJ3d67L9wD94Vtv0nZsJyGUcTEzlfgL+2oO7kCVlOB0WEKHC/lmW8Azv/beGXrk/xp653Ebqs+MjCrVcfWVe8JzHp80eu+eg5bhIoPRn25b7i9Y0zUQY0yQkNI+8NZ6+/EyOyaM6fFWcyH7g9lzWttDyhrH3VJMebL6ZPTmrvznLTxbvVxWdST6hO9PfkN</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-03-16T02:43:18.261Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" etag="Zm7hi64qcnSvGf-5pAsV" version="17.1.3" type="github">
+  <diagram id="D8SCrPh8sAcgkW9D4Ilb" name="Page-1">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="TFMQ3imxZYSiZvWVTG6S-1" target="TFMQ3imxZYSiZvWVTG6S-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="140" />
+              <mxPoint x="400" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;elbow=vertical;" parent="1" target="TFMQ3imxZYSiZvWVTG6S-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="120" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;" parent="1" target="TFMQ3imxZYSiZvWVTG6S-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="120" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-1" value="App.js&lt;br&gt;(StackNavigator)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="340" y="20" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;" parent="1" source="TFMQ3imxZYSiZvWVTG6S-2" target="TFMQ3imxZYSiZvWVTG6S-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-2" value="loginScreen.js" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="140" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;elbow=vertical;" parent="1" source="TFMQ3imxZYSiZvWVTG6S-5" target="TFMQ3imxZYSiZvWVTG6S-33" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="280" as="targetPoint" />
+            <mxPoint x="400" y="240" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;elbow=vertical;" parent="1" target="TFMQ3imxZYSiZvWVTG6S-35" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="240" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-5" value="tabScreen.js&lt;br&gt;(TabNavigator)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="340" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-7" value="pageScreen.js" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="540" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-33" value="orderScreen.js" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="340" y="281" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-34" value="homeScreen.js" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="140" y="281" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TFMQ3imxZYSiZvWVTG6S-35" value="myCenterScreen.js" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="540" y="281" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
