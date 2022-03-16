@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/ -->
+<html lang="zh-TW" data-vue-tag="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D" data-darkreader-mode="dynamic" data-darkreader-scheme="dark" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, #bit-notification-bar-iframe, ::-webkit-calendar-picker-indicator {
+    filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
+}</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
+  background-color: var(--darkreader-inline-bgcolor) !important;
+}
+[data-darkreader-inline-bgimage] {
+  background-image: var(--darkreader-inline-bgimage) !important;
+}
+[data-darkreader-inline-border] {
+  border-color: var(--darkreader-inline-border) !important;
+}
+[data-darkreader-inline-border-bottom] {
+  border-bottom-color: var(--darkreader-inline-border-bottom) !important;
+}
+[data-darkreader-inline-border-left] {
+  border-left-color: var(--darkreader-inline-border-left) !important;
+}
+[data-darkreader-inline-border-right] {
+  border-right-color: var(--darkreader-inline-border-right) !important;
+}
+[data-darkreader-inline-border-top] {
+  border-top-color: var(--darkreader-inline-border-top) !important;
+}
+[data-darkreader-inline-boxshadow] {
+  box-shadow: var(--darkreader-inline-boxshadow) !important;
+}
+[data-darkreader-inline-color] {
+  color: var(--darkreader-inline-color) !important;
+}
+[data-darkreader-inline-fill] {
+  fill: var(--darkreader-inline-fill) !important;
+}
+[data-darkreader-inline-stroke] {
+  stroke: var(--darkreader-inline-stroke) !important;
+}
+[data-darkreader-inline-outline] {
+  outline-color: var(--darkreader-inline-outline) !important;
+}
+[data-darkreader-inline-stopcolor] {
+  stop-color: var(--darkreader-inline-stopcolor) !important;
+}</style><style class="darkreader darkreader--variables" media="screen">:root {
+   --darkreader-neutral-background: #131516;
+   --darkreader-neutral-text: #d8d4cf;
+   --darkreader-selection-background: #004daa;
+   --darkreader-selection-text: #e8e6e3;
+}</style><style class="darkreader darkreader--root-vars" media="screen"></style><style class="darkreader darkreader--user-agent" media="screen">html {
+    background-color: #181a1b !important;
+}
+html {
+    color-scheme: dark !important;
+}
+html, body, input, textarea, select, button {
+    background-color: #181a1b;
+}
+html, body, input, textarea, select, button {
+    border-color: #736b5e;
+    color: #e8e6e3;
+}
+a {
+    color: #3391ff;
+}
+table {
+    border-color: #545b5e;
+}
+::placeholder {
+    color: #b2aba1;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: #555b00 !important;
+    color: #e8e6e3 !important;
+}
+::-webkit-scrollbar {
+    background-color: #202324;
+    color: #aba499;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #454a4d;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #575e62;
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: #484e51;
+}
+::-webkit-scrollbar-corner {
+    background-color: #181a1b;
+}
+::selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}
+::-moz-selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}</style>
+    <title>Google Firestore REST API 示例 - Jean Snyman</title><meta name="gridsome:hash" content="829298ae2f0a8ba169955d0a8ea6459e25294ed9"><meta data-vue-tag="ssr" name="generator" content="Gridsome v0.7.23"><meta data-vue-tag="ssr" data-key="viewport" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta data-vue-tag="ssr" data-key="format-detection" name="format-detection" content="telephone=no"><meta data-vue-tag="ssr" name="theme-color" content="#181a1b"><meta data-vue-tag="ssr" data-key="description" name="description" content="Jean Snyman - Software Engineer"><meta data-vue-tag="ssr" name="description" content="In this post I&#39;m documenting a few examples using the Firestore REST API."><meta data-vue-tag="ssr" data-key="keywords" name="keywords" content="google firestore, rest api"><link data-vue-tag="ssr" rel="manifest" type="application/manifest+json" href="https://www.jeansnyman.com/manifest.json"><link data-vue-tag="ssr" rel="manifest" href="https://www.jeansnyman.com/manifest.json"><link rel="preload" href="./Google Firestore REST API 示例 - Jean Snyman_files/0.styles.c67b27a7.css" as="style"><link rel="preload" href="./Google Firestore REST API 示例 - Jean Snyman_files/app.85420962.js.下載" as="script"><link rel="preload" href="./Google Firestore REST API 示例 - Jean Snyman_files/page--src--templates--post-vue.ee8d0958.js.下載" as="script"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/1.ee972ed5.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/10.821419db.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/11.6bffce64.js"><link rel="prefetch" href="./Google Firestore REST API 示例 - Jean Snyman_files/12.1defd3bb.js.下載"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/13.4e91ca59.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/14.663771da.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/15.0108635a.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/16.d9c15036.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/17.8206f777.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/18.0f9ba6ca.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/19.3ac90ad7.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/8.7027f8a1.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/9.25e7b171.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/page--src--pages--404-vue.6fe0b92c.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/page--src--pages--blog-vue.94c85d65.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/page--src--pages--index-vue.be7b9066.js"><link rel="prefetch" href="https://www.jeansnyman.com/assets/js/page--src--templates--tag-vue.cb47f0e1.js"><link rel="stylesheet" href="./Google Firestore REST API 示例 - Jean Snyman_files/0.styles.c67b27a7.css"><style class="darkreader darkreader--sync" media="screen"></style><style data-vue-tag="ssr" id="vuetify-theme-stylesheet" type="text/css">a { color: #e67e22; }
+.primary {
+  background-color: #e67e22 !important;
+  border-color: #e67e22 !important;
+}
+.primary--text {
+  color: #e67e22 !important;
+  caret-color: #e67e22 !important;
+}
+.primary.lighten-5 {
+  background-color: #ffffa9 !important;
+  border-color: #ffffa9 !important;
+}
+.primary--text.text--lighten-5 {
+  color: #ffffa9 !important;
+  caret-color: #ffffa9 !important;
+}
+.primary.lighten-4 {
+  background-color: #ffec8e !important;
+  border-color: #ffec8e !important;
+}
+.primary--text.text--lighten-4 {
+  color: #ffec8e !important;
+  caret-color: #ffec8e !important;
+}
+.primary.lighten-3 {
+  background-color: #ffd073 !important;
+  border-color: #ffd073 !important;
+}
+.primary--text.text--lighten-3 {
+  color: #ffd073 !important;
+  caret-color: #ffd073 !important;
+}
+.primary.lighten-2 {
+  background-color: #ffb458 !important;
+  border-color: #ffb458 !important;
+}
+.primary--text.text--lighten-2 {
+  color: #ffb458 !important;
+  caret-color: #ffb458 !important;
+}
+.primary.lighten-1 {
+  background-color: #ff983e !important;
+  border-color: #ff983e !important;
+}
+.primary--text.text--lighten-1 {
+  color: #ff983e !important;
+  caret-color: #ff983e !important;
+}
+.primary.darken-1 {
+  background-color: #c76400 !important;
+  border-color: #c76400 !important;
+}
+.primary--text.text--darken-1 {
+  color: #c76400 !important;
+  caret-color: #c76400 !important;
+}
+.primary.darken-2 {
+  background-color: #a84b00 !important;
+  border-color: #a84b00 !important;
+}
+.primary--text.text--darken-2 {
+  color: #a84b00 !important;
+  caret-color: #a84b00 !important;
+}
+.primary.darken-3 {
+  background-color: #8a3300 !important;
+  border-color: #8a3300 !important;
+}
+.primary--text.text--darken-3 {
+  color: #8a3300 !important;
+  caret-color: #8a3300 !important;
+}
+.primary.darken-4 {
+  background-color: #6e1900 !important;
+  border-color: #6e1900 !important;
+}
+.primary--text.text--darken-4 {
+  color: #6e1900 !important;
+  caret-color: #6e1900 !important;
+}
+.secondary {
+  background-color: #424242 !important;
+  border-color: #424242 !important;
+}
+.secondary--text {
+  color: #424242 !important;
+  caret-color: #424242 !important;
+}
+.secondary.lighten-5 {
+  background-color: #c1c1c1 !important;
+  border-color: #c1c1c1 !important;
+}
+.secondary--text.text--lighten-5 {
+  color: #c1c1c1 !important;
+  caret-color: #c1c1c1 !important;
+}
+.secondary.lighten-4 {
+  background-color: #a6a6a6 !important;
+  border-color: #a6a6a6 !important;
+}
+.secondary--text.text--lighten-4 {
+  color: #a6a6a6 !important;
+  caret-color: #a6a6a6 !important;
+}
+.secondary.lighten-3 {
+  background-color: #8b8b8b !important;
+  border-color: #8b8b8b !important;
+}
+.secondary--text.text--lighten-3 {
+  color: #8b8b8b !important;
+  caret-color: #8b8b8b !important;
+}
+.secondary.lighten-2 {
+  background-color: #727272 !important;
+  border-color: #727272 !important;
+}
+.secondary--text.text--lighten-2 {
+  color: #727272 !important;
+  caret-color: #727272 !important;
+}
+.secondary.lighten-1 {
+  background-color: #595959 !important;
+  border-color: #595959 !important;
+}
+.secondary--text.text--lighten-1 {
+  color: #595959 !important;
+  caret-color: #595959 !important;
+}
+.secondary.darken-1 {
+  background-color: #2c2c2c !important;
+  border-color: #2c2c2c !important;
+}
+.secondary--text.text--darken-1 {
+  color: #2c2c2c !important;
+  caret-color: #2c2c2c !important;
+}
+.secondary.darken-2 {
+  background-color: #171717 !important;
+  border-color: #171717 !important;
+}
+.secondary--text.text--darken-2 {
+  color: #171717 !important;
+  caret-color: #171717 !important;
+}
+.secondary.darken-3 {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+.secondary--text.text--darken-3 {
+  color: #000000 !important;
+  caret-color: #000000 !important;
+}
+.secondary.darken-4 {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+.secondary--text.text--darken-4 {
+  color: #000000 !important;
+  caret-color: #000000 !important;
+}
+.accent {
+  background-color: #ffd277 !important;
+  border-color: #ffd277 !important;
+}
+.accent--text {
+  color: #ffd277 !important;
+  caret-color: #ffd277 !important;
+}
+.accent.lighten-5 {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+.accent--text.text--lighten-5 {
+  color: #ffffff !important;
+  caret-color: #ffffff !important;
+}
+.accent.lighten-4 {
+  background-color: #ffffe6 !important;
+  border-color: #ffffe6 !important;
+}
+.accent--text.text--lighten-4 {
+  color: #ffffe6 !important;
+  caret-color: #ffffe6 !important;
+}
+.accent.lighten-3 {
+  background-color: #ffffc9 !important;
+  border-color: #ffffc9 !important;
+}
+.accent--text.text--lighten-3 {
+  color: #ffffc9 !important;
+  caret-color: #ffffc9 !important;
+}
+.accent.lighten-2 {
+  background-color: #ffffad !important;
+  border-color: #ffffad !important;
+}
+.accent--text.text--lighten-2 {
+  color: #ffffad !important;
+  caret-color: #ffffad !important;
+}
+.accent.lighten-1 {
+  background-color: #ffee92 !important;
+  border-color: #ffee92 !important;
+}
+.accent--text.text--lighten-1 {
+  color: #ffee92 !important;
+  caret-color: #ffee92 !important;
+}
+.accent.darken-1 {
+  background-color: #e1b65d !important;
+  border-color: #e1b65d !important;
+}
+.accent--text.text--darken-1 {
+  color: #e1b65d !important;
+  caret-color: #e1b65d !important;
+}
+.accent.darken-2 {
+  background-color: #c49c43 !important;
+  border-color: #c49c43 !important;
+}
+.accent--text.text--darken-2 {
+  color: #c49c43 !important;
+  caret-color: #c49c43 !important;
+}
+.accent.darken-3 {
+  background-color: #a7822a !important;
+  border-color: #a7822a !important;
+}
+.accent--text.text--darken-3 {
+  color: #a7822a !important;
+  caret-color: #a7822a !important;
+}
+.accent.darken-4 {
+  background-color: #8a690c !important;
+  border-color: #8a690c !important;
+}
+.accent--text.text--darken-4 {
+  color: #8a690c !important;
+  caret-color: #8a690c !important;
+}
+.error {
+  background-color: #ff5252 !important;
+  border-color: #ff5252 !important;
+}
+.error--text {
+  color: #ff5252 !important;
+  caret-color: #ff5252 !important;
+}
+.error.lighten-5 {
+  background-color: #ffe4d5 !important;
+  border-color: #ffe4d5 !important;
+}
+.error--text.text--lighten-5 {
+  color: #ffe4d5 !important;
+  caret-color: #ffe4d5 !important;
+}
+.error.lighten-4 {
+  background-color: #ffc6b9 !important;
+  border-color: #ffc6b9 !important;
+}
+.error--text.text--lighten-4 {
+  color: #ffc6b9 !important;
+  caret-color: #ffc6b9 !important;
+}
+.error.lighten-3 {
+  background-color: #ffa99e !important;
+  border-color: #ffa99e !important;
+}
+.error--text.text--lighten-3 {
+  color: #ffa99e !important;
+  caret-color: #ffa99e !important;
+}
+.error.lighten-2 {
+  background-color: #ff8c84 !important;
+  border-color: #ff8c84 !important;
+}
+.error--text.text--lighten-2 {
+  color: #ff8c84 !important;
+  caret-color: #ff8c84 !important;
+}
+.error.lighten-1 {
+  background-color: #ff6f6a !important;
+  border-color: #ff6f6a !important;
+}
+.error--text.text--lighten-1 {
+  color: #ff6f6a !important;
+  caret-color: #ff6f6a !important;
+}
+.error.darken-1 {
+  background-color: #df323b !important;
+  border-color: #df323b !important;
+}
+.error--text.text--darken-1 {
+  color: #df323b !important;
+  caret-color: #df323b !important;
+}
+.error.darken-2 {
+  background-color: #bf0025 !important;
+  border-color: #bf0025 !important;
+}
+.error--text.text--darken-2 {
+  color: #bf0025 !important;
+  caret-color: #bf0025 !important;
+}
+.error.darken-3 {
+  background-color: #9f0010 !important;
+  border-color: #9f0010 !important;
+}
+.error--text.text--darken-3 {
+  color: #9f0010 !important;
+  caret-color: #9f0010 !important;
+}
+.error.darken-4 {
+  background-color: #800000 !important;
+  border-color: #800000 !important;
+}
+.error--text.text--darken-4 {
+  color: #800000 !important;
+  caret-color: #800000 !important;
+}
+.info {
+  background-color: #2196f3 !important;
+  border-color: #2196f3 !important;
+}
+.info--text {
+  color: #2196f3 !important;
+  caret-color: #2196f3 !important;
+}
+.info.lighten-5 {
+  background-color: #d4ffff !important;
+  border-color: #d4ffff !important;
+}
+.info--text.text--lighten-5 {
+  color: #d4ffff !important;
+  caret-color: #d4ffff !important;
+}
+.info.lighten-4 {
+  background-color: #b5ffff !important;
+  border-color: #b5ffff !important;
+}
+.info--text.text--lighten-4 {
+  color: #b5ffff !important;
+  caret-color: #b5ffff !important;
+}
+.info.lighten-3 {
+  background-color: #95e8ff !important;
+  border-color: #95e8ff !important;
+}
+.info--text.text--lighten-3 {
+  color: #95e8ff !important;
+  caret-color: #95e8ff !important;
+}
+.info.lighten-2 {
+  background-color: #75ccff !important;
+  border-color: #75ccff !important;
+}
+.info--text.text--lighten-2 {
+  color: #75ccff !important;
+  caret-color: #75ccff !important;
+}
+.info.lighten-1 {
+  background-color: #51b0ff !important;
+  border-color: #51b0ff !important;
+}
+.info--text.text--lighten-1 {
+  color: #51b0ff !important;
+  caret-color: #51b0ff !important;
+}
+.info.darken-1 {
+  background-color: #007cd6 !important;
+  border-color: #007cd6 !important;
+}
+.info--text.text--darken-1 {
+  color: #007cd6 !important;
+  caret-color: #007cd6 !important;
+}
+.info.darken-2 {
+  background-color: #0064ba !important;
+  border-color: #0064ba !important;
+}
+.info--text.text--darken-2 {
+  color: #0064ba !important;
+  caret-color: #0064ba !important;
+}
+.info.darken-3 {
+  background-color: #004d9f !important;
+  border-color: #004d9f !important;
+}
+.info--text.text--darken-3 {
+  color: #004d9f !important;
+  caret-color: #004d9f !important;
+}
+.info.darken-4 {
+  background-color: #003784 !important;
+  border-color: #003784 !important;
+}
+.info--text.text--darken-4 {
+  color: #003784 !important;
+  caret-color: #003784 !important;
+}
+.success {
+  background-color: #4caf50 !important;
+  border-color: #4caf50 !important;
+}
+.success--text {
+  color: #4caf50 !important;
+  caret-color: #4caf50 !important;
+}
+.success.lighten-5 {
+  background-color: #dcffd6 !important;
+  border-color: #dcffd6 !important;
+}
+.success--text.text--lighten-5 {
+  color: #dcffd6 !important;
+  caret-color: #dcffd6 !important;
+}
+.success.lighten-4 {
+  background-color: #beffba !important;
+  border-color: #beffba !important;
+}
+.success--text.text--lighten-4 {
+  color: #beffba !important;
+  caret-color: #beffba !important;
+}
+.success.lighten-3 {
+  background-color: #a2ff9e !important;
+  border-color: #a2ff9e !important;
+}
+.success--text.text--lighten-3 {
+  color: #a2ff9e !important;
+  caret-color: #a2ff9e !important;
+}
+.success.lighten-2 {
+  background-color: #85e783 !important;
+  border-color: #85e783 !important;
+}
+.success--text.text--lighten-2 {
+  color: #85e783 !important;
+  caret-color: #85e783 !important;
+}
+.success.lighten-1 {
+  background-color: #69cb69 !important;
+  border-color: #69cb69 !important;
+}
+.success--text.text--lighten-1 {
+  color: #69cb69 !important;
+  caret-color: #69cb69 !important;
+}
+.success.darken-1 {
+  background-color: #2d9437 !important;
+  border-color: #2d9437 !important;
+}
+.success--text.text--darken-1 {
+  color: #2d9437 !important;
+  caret-color: #2d9437 !important;
+}
+.success.darken-2 {
+  background-color: #00791e !important;
+  border-color: #00791e !important;
+}
+.success--text.text--darken-2 {
+  color: #00791e !important;
+  caret-color: #00791e !important;
+}
+.success.darken-3 {
+  background-color: #006000 !important;
+  border-color: #006000 !important;
+}
+.success--text.text--darken-3 {
+  color: #006000 !important;
+  caret-color: #006000 !important;
+}
+.success.darken-4 {
+  background-color: #004700 !important;
+  border-color: #004700 !important;
+}
+.success--text.text--darken-4 {
+  color: #004700 !important;
+  caret-color: #004700 !important;
+}
+.warning {
+  background-color: #fb8c00 !important;
+  border-color: #fb8c00 !important;
+}
+.warning--text {
+  color: #fb8c00 !important;
+  caret-color: #fb8c00 !important;
+}
+.warning.lighten-5 {
+  background-color: #ffff9e !important;
+  border-color: #ffff9e !important;
+}
+.warning--text.text--lighten-5 {
+  color: #ffff9e !important;
+  caret-color: #ffff9e !important;
+}
+.warning.lighten-4 {
+  background-color: #fffb82 !important;
+  border-color: #fffb82 !important;
+}
+.warning--text.text--lighten-4 {
+  color: #fffb82 !important;
+  caret-color: #fffb82 !important;
+}
+.warning.lighten-3 {
+  background-color: #ffdf67 !important;
+  border-color: #ffdf67 !important;
+}
+.warning--text.text--lighten-3 {
+  color: #ffdf67 !important;
+  caret-color: #ffdf67 !important;
+}
+.warning.lighten-2 {
+  background-color: #ffc24b !important;
+  border-color: #ffc24b !important;
+}
+.warning--text.text--lighten-2 {
+  color: #ffc24b !important;
+  caret-color: #ffc24b !important;
+}
+.warning.lighten-1 {
+  background-color: #ffa72d !important;
+  border-color: #ffa72d !important;
+}
+.warning--text.text--lighten-1 {
+  color: #ffa72d !important;
+  caret-color: #ffa72d !important;
+}
+.warning.darken-1 {
+  background-color: #db7200 !important;
+  border-color: #db7200 !important;
+}
+.warning--text.text--darken-1 {
+  color: #db7200 !important;
+  caret-color: #db7200 !important;
+}
+.warning.darken-2 {
+  background-color: #bb5900 !important;
+  border-color: #bb5900 !important;
+}
+.warning--text.text--darken-2 {
+  color: #bb5900 !important;
+  caret-color: #bb5900 !important;
+}
+.warning.darken-3 {
+  background-color: #9d4000 !important;
+  border-color: #9d4000 !important;
+}
+.warning--text.text--darken-3 {
+  color: #9d4000 !important;
+  caret-color: #9d4000 !important;
+}
+.warning.darken-4 {
+  background-color: #802700 !important;
+  border-color: #802700 !important;
+}
+.warning--text.text--darken-4 {
+  color: #802700 !important;
+  caret-color: #802700 !important;
+}</style><style class="darkreader darkreader--sync" media="screen"></style><noscript data-vue-tag="ssr"><style>.g-image--loading{display:none;}</style></noscript>
+  <meta name="darkreader" content="a680b2605fce48208a26b76d410375a3"><style class="darkreader darkreader--override" media="screen">.vimvixen-hint {
+    background-color: #7b5300 !important;
+    border-color: #d8b013 !important;
+    color: #f3e8c8 !important;
+}
+::placeholder {
+    opacity: 0.5 !important;
+}
+a[href="https://coinmarketcap.com/"] > svg[width="94"][height="16"] > path {
+    fill: var(--darkreader-neutral-text) !important;
+}
+#edge-translate-panel-body,
+.MuiTypography-body1 {
+    color: var(--darkreader-neutral-text) !important;
+}
+gr-main-header {
+    background-color: #0f3a48 !important;
+}
+embed[type="application/pdf"][src="about:blank"] { filter: invert(100%) contrast(90%); }</style><link href="https://www.google-analytics.com/" rel="preconnect"><script async="" src="./Google Firestore REST API 示例 - Jean Snyman_files/analytics.js.下載" charset="utf-8"></script><script charset="utf-8" src="./Google Firestore REST API 示例 - Jean Snyman_files/page--src--templates--post-vue.ee8d0958.js.下載"></script><script charset="utf-8" src="./Google Firestore REST API 示例 - Jean Snyman_files/12.1defd3bb.js.下載"></script><script id="embed-disqus" data-timestamp="1647257034910" type="text/javascript" async="" src="./Google Firestore REST API 示例 - Jean Snyman_files/embed.js.下載"></script><link rel="prefetch" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.7ab903feba7624935283ca4c7d8c7203.css"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.9450cde9dd2c9d366781a8fc5ff6e933.js"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.8a051c75736795faf464e93aee7362f6.js"><link rel="prefetch" as="script" href="https://disqus.com/next/config.js"><script async="" id="dsq_recs_scr" src="./Google Firestore REST API 示例 - Jean Snyman_files/recommendations.js.下載"></script><link rel="prefetch" as="style" href="https://c.disquscdn.com/next/recommendations/styles/recommendations.10022a97346f1c6e3798931bbd8e4bb5.css"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/recommendations/common.bundle.e74fcfd3f6ed52bbcd40cf72972ae6c3.js"><link rel="prefetch" as="script" href="https://c.disquscdn.com/next/recommendations/recommendations.bundle.926bc472e4859a48daa346b4ba2ab4f4.js"><link rel="prefetch" as="script" href="https://disqus.com/next/config.js"><script src="./Google Firestore REST API 示例 - Jean Snyman_files/alfie_v4.63f1ab6d6b9d5807dc0c94ef3fe0b851.js.下載" async="" charset="UTF-8"></script><link type="text/css" rel="stylesheet" charset="UTF-8" href="./Google Firestore REST API 示例 - Jean Snyman_files/translateelement.css"><style class="darkreader darkreader--cors" media="screen">.goog-te-banner-frame{left:0px;top:0px;height:39px;width:100%;z-index:10000001;position:fixed;border:none;border-bottom:1px solid #6b90da;margin:0;-moz-box-shadow:0 0 8px 1px #999999;-webkit-box-shadow:0 0 8px 1px #999999;box-shadow:0 0 8px 1px #999999;_position:absolute}.goog-te-menu-frame{z-index:10000002;position:fixed;border:none;-moz-box-shadow:0 3px 8px 2px #999999;-webkit-box-shadow:0 3px 8px 2px #999999;box-shadow:0 3px 8px 2px #999999;_position:absolute}.goog-te-ftab-frame{z-index:10000000;border:none;margin:0}.goog-te-gadget{font-family:arial;font-size:11px;color:#666;white-space:nowrap}.goog-te-gadget img{vertical-align:middle;border:none}.goog-te-gadget-simple{background-color:#fff;border-left:1px solid #d5d5d5;border-top:1px solid #9b9b9b;border-bottom:1px solid #e8e8e8;border-right:1px solid #d5d5d5;font-size:10pt;display:inline-block;padding-top:1px;padding-bottom:2px;cursor:pointer;zoom:1;*display:inline}.goog-te-gadget-icon{margin-left:2px;margin-right:2px;width:19px;height:19px;border:none;vertical-align:middle}.goog-te-combo{margin-left:4px;margin-right:4px;vertical-align:baseline;*vertical-align:middle}.goog-te-gadget .goog-te-combo{margin:4px 0}.goog-logo-link,.goog-logo-link:link,.goog-logo-link:visited,.goog-logo-link:hover,.goog-logo-link:active{font-size:12px;font-weight:bold;color:#444;text-decoration:none}.goog-te-banner .goog-logo-link,.goog-close-link{display:block;margin:0px 10px}.goog-te-banner .goog-logo-link{padding-top:2px;padding-left:4px}.goog-te-combo,.goog-te-banner *,.goog-te-ftab *,.goog-te-menu *,.goog-te-menu2 *,.goog-te-balloon *{font-family:arial;font-size:10pt}.goog-te-banner{margin:0;background-color:#e4effb;overflow:hidden}.goog-te-banner img{border:none}.goog-te-banner-content{color:#000}.goog-te-banner-content img{vertical-align:middle}.goog-te-banner-info{color:#666;vertical-align:top;margin-top:0px;font-size:7pt}.goog-te-banner-margin{width:8px}.goog-te-button{border-color:#e7e7e7;border-style:none solid solid none;border-width:0 1px 1px 0}.goog-te-button div{border-color:#cccccc #999999 #999999 #cccccc;border-right:1px solid #999999;border-style:solid;border-width:1px;height:20px}.goog-te-button button{background:transparent;border:none;cursor:pointer;height:20px;overflow:hidden;margin:0;vertical-align:top;white-space:nowrap}.goog-te-button button:active{background:none repeat scroll 0 0 #cccccc}.goog-te-ftab{margin:0px;background-color:#fff;white-space:nowrap}.goog-te-ftab-link{text-decoration:none;font-weight:bold;font-size:10pt;border:1px outset #888;padding:6px 10px;white-space:nowrap;position:absolute;left:0px;top:0px}.goog-te-ftab-link img{margin-left:2px;margin-right:2px;width:19px;height:19px;border:none;vertical-align:middle}.goog-te-ftab-link span{text-decoration:underline;margin-left:2px;margin-right:2px;vertical-align:middle}.goog-float-top .goog-te-ftab-link{padding:2px 2px;border-top-width:0px}.goog-float-bottom .goog-te-ftab-link{padding:2px 2px;border-bottom-width:0px}.goog-te-menu-value{text-decoration:none;color:#0000cc;white-space:nowrap;margin-left:4px;margin-right:4px}.goog-te-menu-value span{text-decoration:underline}.goog-te-menu-value img{margin-left:2px;margin-right:2px}.goog-te-gadget-simple .goog-te-menu-value{color:#000}.goog-te-gadget-simple .goog-te-menu-value span{text-decoration:none}.goog-te-menu{background-color:#ffffff;text-decoration:none;border:2px solid #c3d9ff;overflow-y:scroll;overflow-x:hidden;position:absolute;left:0;top:0}.goog-te-menu-item{padding:3px;text-decoration:none}.goog-te-menu-item,.goog-te-menu-item:link{color:#0000cc;background:#ffffff}.goog-te-menu-item:visited{color:#551a8b}.goog-te-menu-item:hover{background:#c3d9ff}.goog-te-menu-item:active{color:#0000cc}.goog-te-menu2{background-color:#ffffff;text-decoration:none;border:1px solid #6b90da;overflow:hidden;padding:4px}.goog-te-menu2-colpad{width:16px}.goog-te-menu2-separator{margin:6px 0;height:1px;background-color:#aaa;overflow:hidden}.goog-te-menu2-item div,.goog-te-menu2-item-selected div{padding:4px}.goog-te-menu2-item .indicator{display:none}.goog-te-menu2-item-selected .indicator{display:auto}.goog-te-menu2-item-selected .text{padding-left:4px;padding-right:4px}.goog-te-menu2-item,.goog-te-menu2-item-selected{text-decoration:none}.goog-te-menu2-item div,.goog-te-menu2-item:link div,.goog-te-menu2-item:visited div,.goog-te-menu2-item:active div{color:#0000cc;background:#ffffff}.goog-te-menu2-item:hover div{color:#ffffff;background:#3366cc}.goog-te-menu2-item-selected div,.goog-te-menu2-item-selected:link div,.goog-te-menu2-item-selected:visited div,.goog-te-menu2-item-selected:hover div,.goog-te-menu2-item-selected:active div{color:#000;font-weight:bold}.goog-te-balloon{background-color:#ffffff;overflow:hidden;padding:8px;border:none;-moz-border-radius:10px;border-radius:10px}.goog-te-balloon-frame{background-color:#ffffff;border:1px solid #6b90da;-moz-box-shadow:0 3px 8px 2px #999999;-webkit-box-shadow:0 3px 8px 2px #999999;box-shadow:0 3px 8px 2px #999999;-moz-border-radius:8px;border-radius:8px}.goog-te-balloon img{border:none}.goog-te-balloon-text{margin-top:6px}.goog-te-balloon-zippy{margin-top:6px;white-space:nowrap}.goog-te-balloon-zippy *{vertical-align:middle}.goog-te-balloon-zippy .minus{background-image:url("https://www.google.com/images/zippy_minus_sm.gif")}.goog-te-balloon-zippy .plus{background-image:url("https://www.google.com/images/zippy_plus_sm.gif")}.goog-te-balloon-zippy span{color:#00c;text-decoration:underline;cursor:pointer;margin:0 4px}.goog-te-balloon-form{margin:6px 0 0 0}.goog-te-balloon-form form{margin:0}.goog-te-balloon-form form textarea{margin-bottom:4px;width:100%}.goog-te-balloon-footer{margin:6px 0 4px 0}.goog-te-spinner-pos{z-index:1000;position:fixed;transition-delay:0.6s;left:-1000px;top:-1000px}.goog-te-spinner-animation{background:#ccc;display:flex;align-items:center;justify-content:center;width:104px;height:104px;border-radius:50px;background:#fff url("https://www.gstatic.com/images/branding/product/2x/translate_24dp.png") 50% 50% no-repeat;transition:all 0.6s ease-in-out;transform:scale(0.4);opacity:0}.goog-te-spinner-animation-show{transform:scale(0.5);opacity:1}.goog-te-spinner{margin:2px 0 0 2px;animation:goog-te-spinner-rotator 1.4s linear infinite}@keyframes goog-te-spinner-rotator{0%{transform:rotate(0deg)}100%{transform:rotate(270deg)}}.goog-te-spinner-path{stroke-dasharray:187;stroke-dashoffset:0;stroke:#4285f4;transform-origin:center;animation:goog-te-spinner-dash 1.4s ease-in-out infinite}@keyframes goog-te-spinner-dash{0%{stroke-dashoffset:187}50%{stroke-dashoffset:46.75;transform:rotate(135deg)}100%{stroke-dashoffset:187;transform:rotate(450deg)}}#goog-gt-tt html,#goog-gt-tt body,#goog-gt-tt div,#goog-gt-tt span,#goog-gt-tt iframe,#goog-gt-tt h1,#goog-gt-tt h2,#goog-gt-tt h3,#goog-gt-tt h4,#goog-gt-tt h5,#goog-gt-tt h6,#goog-gt-tt p,#goog-gt-tt a,#goog-gt-tt img,#goog-gt-tt ol,#goog-gt-tt ul,#goog-gt-tt li,#goog-gt-tt table,#goog-gt-tt form,#goog-gt-tt tbody,#goog-gt-tt tr,#goog-gt-tt td{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;text-align:left;line-height:normal}#goog-gt-tt ol,#goog-gt-tt ul{list-style:none}#goog-gt-tt table{border-collapse:collapse;border-spacing:0}#goog-gt-tt caption,#goog-gt-tt th,#goog-gt-tt td{text-align:left;font-weight:normal}#goog-gt-tt input::-moz-focus-inner{border:0}div#goog-gt-tt{padding:10px 14px}#goog-gt-tt{color:#222;background-color:#ffffff;border:1px solid #eee;box-shadow:0 4px 16px rgba(0,0,0,.2);-moz-box-shadow:0 4px 16px rgba(0,0,0,.2);-webkit-box-shadow:0 4px 16px rgba(0,0,0,.2);display:none;font-family:arial;font-size:10pt;width:420px;padding:12px;position:absolute;z-index:10000}#goog-gt-tt .original-text,.gt-hl-layer{clear:both;font-size:10pt;position:relative;text-align:justify;width:100%}#goog-gt-tt .title{color:#999;font-family:arial,sans-serif;margin:4px 0;text-align:left}#goog-gt-tt .close-button{display:none}#goog-gt-tt .logo{float:left;margin:0px}#goog-gt-tt .activity-links{display:inline-block}#goog-gt-tt .started-activity-container{display:none;width:100%}#goog-gt-tt .activity-root{margin-top:20px}#goog-gt-tt .left{float:left}#goog-gt-tt .right{float:right}#goog-gt-tt .bottom{min-height:15px;position:relative;height:1%}#goog-gt-tt .status-message{background:-moz-linear-gradient(top,#29910d 0%,#20af0e 100%);background:-webkit-linear-gradient(top,#29910d 0%,#20af0e 100%);background:-o-linear-gradient(top,#29910d 0%,#20af0e 100%);background:-ms-linear-gradient(top,#29910d 0%,#20af0e 100%);background:linear-gradient(top,#29910d 0%,#20af0e 100%);background:#29910d;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;box-shadow:inset 0px 2px 2px #1e6609;-moz-box-shadow:inset 0px 2px 2px #1e6609;-webkit-box-shadow:inset 0px 2px 2px #1e6609;color:white;font-size:9pt;font-weight:bolder;margin-top:12px;padding:6px;text-shadow:1px 1px 1px #1e6609}#goog-gt-tt .activity-link{color:#1155cc;cursor:pointer;font-family:arial;font-size:11px;margin-right:15px;text-decoration:none}#goog-gt-tt textarea{font-family:arial;resize:vertical;width:100%;margin-bottom:10px;-webkit-border-radius:1px;-moz-border-radius:1px;border-radius:1px;border:1px solid #d9d9d9;border-top:1px solid silver;font-size:13px;height:auto;overflow-y:auto;padding:1px}#goog-gt-tt textarea:focus{-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,0.3);box-shadow:inset 0 1px 2px rgba(0,0,0,0.3);border:1px solid #4d90fe;outline:none}#goog-gt-tt .activity-cancel{margin-right:10px}#goog-gt-tt .translate-form{min-height:25px;vertical-align:middle;padding-top:8px}#goog-gt-tt .translate-form .activity-form{margin-bottom:5px;margin-bottom:0px}#goog-gt-tt .translate-form .activity-form input{display:inline-block;min-width:54px;*min-width:70px;border:1px solid #dcdcdc;border:1px solid rgba(0,0,0,0.1);text-align:center;color:#444;font-size:11px;font-weight:bold;height:27px;outline:0;padding:0 8px;vertical-align:middle;line-height:27px;margin:0 16px 0 0;box-shadow:0 1px 2px rgba(0,0,0,.1);-moz-box-shadow:0 1px 2px rgba(0,0,0,.1);-webkit-box-shadow:0 1px 2px rgba(0,0,0,.1);-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;-webkit-transition:all 0.218s;-moz-transition:all 0.218s;-o-transition:all 0.218s;transition:all 0.218s;background-color:#f5f5f5;background-image:-webkit-gradient(linear,left top,left bottom,from(#f5f5f5),to(#f1f1f1));background-image:-webkit-linear-gradient(top,#f5f5f5,#f1f1f1);background-image:-moz-linear-gradient(top,#f5f5f5,#f1f1f1);background-image:-ms-linear-gradient(top,#f5f5f5,#f1f1f1);background-image:-o-linear-gradient(top,#f5f5f5,#f1f1f1);background-image:linear-gradient(top,#f5f5f5,#f1f1f1);-webkit-user-select:none;-moz-user-select:none;cursor:default}#goog-gt-tt .translate-form .activity-form input:hover{border:1px solid #c6c6c6;color:#222;-webkit-transition:all 0.0s;-moz-transition:all 0.0s;-o-transition:all 0.0s;transition:all 0.0s;background-color:#f8f8f8;background-image:-webkit-gradient(linear,left top,left bottom,from(#f8f8f8),to(#f1f1f1));background-image:-webkit-linear-gradient(top,#f8f8f8,#f1f1f1);background-image:-moz-linear-gradient(top,#f8f8f8,#f1f1f1);background-image:-ms-linear-gradient(top,#f8f8f8,#f1f1f1);background-image:-o-linear-gradient(top,#f8f8f8,#f1f1f1);background-image:linear-gradient(top,#f8f8f8,#f1f1f1)}#goog-gt-tt .translate-form .activity-form input:active{border:1px solid #c6c6c6;color:#333;background-color:#f6f6f6;background-image:-webkit-gradient(linear,left top,left bottom,from(#f6f6f6),to(#f1f1f1));background-image:-webkit-linear-gradient(top,#f6f6f6,#f1f1f1);background-image:-moz-linear-gradient(top,#f6f6f6,#f1f1f1);background-image:-ms-linear-gradient(top,#f6f6f6,#f1f1f1);background-image:-o-linear-gradient(top,#f6f6f6,#f1f1f1);background-image:linear-gradient(top,#f6f6f6,#f1f1f1)}#goog-gt-tt .translate-form .activity-form input:focus #goog-gt-tt .translate-form .activity-form input.focus #goog-gt-tt .translate-form .activity-form input:active,#goog-gt-tt .translate-form .activity-form input:focus:active,#goog-gt-tt .translate-form .activity-form input:.focus:active{box-shadow:inset 0 0 0 1px rgba(255,255,255,0.5);-webkit-box-shadow:inset 0 0 0 1px rgba(255,255,255,0.5);-moz-box-shadow:inset 0 0 0 1px rgba(255,255,255,0.5)}#goog-gt-tt .translate-form .activity-form input:focus,#goog-gt-tt .translate-form .activity-form input.focus{outline:none;border:1px solid #4d90fe;z-index:4!important}#goog-gt-tt .translate-form .activity-form input.selected{background-color:#eeeeee;background-image:-webkit-gradient(linear,left top,left bottom,from(#eeeeee),to(#e0e0e0));background-image:-webkit-linear-gradient(top,#eeeeee,#e0e0e0);background-image:-moz-linear-gradient(top,#eeeeee,#e0e0e0);background-image:-ms-linear-gradient(top,#eeeeee,#e0e0e0);background-image:-o-linear-gradient(top,#eeeeee,#e0e0e0);background-image:linear-gradient(top,#eeeeee,#e0e0e0);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);border:1px solid #ccc;color:#333}#goog-gt-tt .translate-form .activity-form input.activity-submit{color:white;border-color:#3079ed;background-color:#4d90fe;background-image:-webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#4787ed));background-image:-webkit-linear-gradient(top,#4d90fe,#4787ed);background-image:-moz-linear-gradient(top,#4d90fe,#4787ed);background-image:-ms-linear-gradient(top,#4d90fe,#4787ed);background-image:-o-linear-gradient(top,#4d90fe,#4787ed);background-image:linear-gradient(top,#4d90fe,#4787ed)}#goog-gt-tt .translate-form .activity-form input.activity-submit:hover #goog-gt-tt .translate-form .activity-form input.activity-submit:focus,#goog-gt-tt .translate-form .activity-form input.activity-submit.focus #goog-gt-tt .translate-form .activity-form input.activity-submit:active{border-color:#3079ed;background-color:#357ae8;background-image:-webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#357ae8));background-image:-webkit-linear-gradient(top,#4d90fe,#357ae8);background-image:-moz-linear-gradient(top,#4d90fe,#357ae8);background-image:-ms-linear-gradient(top,#4d90fe,#357ae8);background-image:-o-linear-gradient(top,#4d90fe,#357ae8);background-image:linear-gradient(top,#4d90fe,#357ae8)}#goog-gt-tt .translate-form .activity-form input.activity-submit:hover{box-shadow:inset 0 0 0 1px #fff,0px 1px 1px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0 0 0 1px #fff,0px 1px 1px rgba(0,0,0,0.1);-moz-box-shadow:inset 0 0 0 1px #fff,0px 1px 1px rgba(0,0,0,0.1)}#goog-gt-tt .translate-form .activity-form input:focus,#goog-gt-tt .translate-form .activity-form input.focus,#goog-gt-tt .translate-form .activity-form input:active,#goog-gt-tt .translate-form .activity-form input:hover,#goog-gt-tt .translate-form .activity-form input.activity-submit:focus,#goog-gt-tt .translate-form .activity-form input.activity-submit.focus,#goog-gt-tt .translate-form .activity-form input.activity-submit:active,#goog-gt-tt .translate-form .activity-form input.activity-submit:hover{border-color:#3079ed}#goog-gt-tt .gray{color:#999;font-family:arial,sans-serif}#goog-gt-tt .alt-helper-text{color:#999;font-size:11px;font-family:arial,sans-serif;margin:15px 0px 5px 0px}#goog-gt-tt .alt-error-text{color:#800;display:none;font-size:9pt}.goog-text-highlight{background-color:#c9d7f1;-webkit-box-shadow:2px 2px 4px #9999aa;-moz-box-shadow:2px 2px 4px #9999aa;box-shadow:2px 2px 4px #9999aa;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;position:relative}#goog-gt-tt .alt-menu.goog-menu{background:#ffffff;border:1px solid #dddddd;-webkit-box-shadow:0px 3px 3px #888;-moz-box-shadow:0px 2px 20px #888;box-shadow:0px 2px 4px #99a;min-width:0;outline:none;padding:0;position:absolute;z-index:2000}#goog-gt-tt .alt-menu .goog-menuitem{cursor:pointer;padding:2px 5px 5px;margin-right:0px;border-style:none}#goog-gt-tt .alt-menu div.goog-menuitem:hover{background:#ddd}#goog-gt-tt .alt-menu .goog-menuitem h1{font-size:100%;font-weight:bold;margin:4px 0px}#goog-gt-tt .alt-menu .goog-menuitem strong{color:#345aad}#goog-gt-tt .goog-submenu-arrow{text-align:right;position:absolute;right:0;left:auto}#goog-gt-tt .goog-menuitem-rtl .goog-submenu-arrow{text-align:left;position:absolute;left:0;right:auto}#goog-gt-tt .gt-hl-text,#goog-gt-tt .trans-target-highlight{background-color:#f1ea00;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;-moz-box-shadow:rgba(0,0,0,.5) 3px 3px 4px;-webkit-box-shadow:rgba(0,0,0,.5) 3px 3px 4px;box-shadow:rgba(0,0,0,.5) 3px 3px 4px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;color:#f1ea00;cursor:pointer;margin:-2px -2px -2px -3px;padding:2px 2px 2px 3px;position:relative}#goog-gt-tt .trans-target-highlight{color:#222}#goog-gt-tt .gt-hl-layer{color:white;position:absolute!important}#goog-gt-tt .trans-target,#goog-gt-tt .trans-target .trans-target-highlight{background-color:#c9d7f1;border-radius:4px 4px 0px 0px;-webkit-border-radius:4px 4px 0px 0px;-moz-border-radius:4px 4px 0px 0px;-moz-box-shadow:rgba(0,0,0,.5) 3px 3px 4px;-webkit-box-shadow:rgba(0,0,0,.5) 3px 3px 4px;box-shadow:rgba(0,0,0,.5) 3px 3px 4px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;cursor:pointer;margin:-2px -2px -2px -3px;padding:2px 2px 3px 3px;position:relative}#goog-gt-tt span:focus{outline:none}#goog-gt-tt .trans-edit{background-color:transparent;border:1px solid #4d90fe;border-radius:0em;-webkit-border-radius:0em;-moz-border-radius:0em;margin:-2px;padding:1px}#goog-gt-tt .gt-trans-highlight-l{border-left:2px solid red;margin-left:-2px}#goog-gt-tt .gt-trans-highlight-r{border-right:2px solid red;margin-right:-2px}#goog-gt-tt #alt-input{padding:2px}#goog-gt-tt #alt-input-text{font-size:11px;padding:2px 2px 3px;margin:0;background-color:#fff;color:#333;border:1px solid #d9d9d9;border-top:1px solid #c0c0c0;display:inline-block;vertical-align:top;height:21px;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-border-radius:1px}#goog-gt-tt #alt-input-text:hover{border:1px solid #b9b9b9;border-top:1px solid #a0a0a0;-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1)}#goog-gt-tt #alt-input-text:focus{-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);outline:none;border:1px solid #4d90fe}#goog-gt-tt #alt-input-submit{font-size:11px;padding:2px 6px 3px;margin:0 0 0 2px;height:21px}</style><style class="darkreader darkreader--sync" media="screen"></style></head>
+  <body>
+    <div data-app="true" id="app" class="application theme--dark"><div class="application--wrap"><aside class="text-xs-center v-navigation-drawer v-navigation-drawer--fixed v-navigation-drawer--open theme--dark" style="height: 100%; margin-top: 0px; transform: translateX(0px); width: 280px; background-color: rgb(24, 24, 24); --darkreader-inline-bgcolor:#121414; max-height: calc(100% - 0px);" data-darkreader-inline-bgcolor="" data-booted="true"><div class="layout align-center column fill-height justify-center py-5"><a href="https://www.jeansnyman.com/" class="text-capitalize text-decoration-none subheading font-weight-light white--text active"><h2 class="display-3 font-weight-black primary--text mb-2" style="cursor:pointer;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JS</font></font></h2></a><div class="display-1 mb-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">讓·斯尼曼</font></font></div><span class="title font-weight-light mb-5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">軟件工程師</font></font></span><div><!----><button type="button" class="text-capitalize subheading font-weight-light mb-3 v-btn v-btn--flat theme--dark"><div class="v-btn__content"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">關於我</font></font></span></div></button></div><div><!----><button type="button" class="text-capitalize subheading font-weight-light mb-3 v-btn v-btn--flat theme--dark"><div class="v-btn__content"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">經驗</font></font></span></div></button></div><div><!----><button type="button" class="text-capitalize subheading font-weight-light mb-3 v-btn v-btn--flat theme--dark"><div class="v-btn__content"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">技能與教育</font></font></span></div></button></div><div><!----><button type="button" class="text-capitalize subheading font-weight-light mb-3 v-btn v-btn--flat theme--dark"><div class="v-btn__content"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">接觸</font></font></span></div></button></div><button type="button" class="text-capitalize subheading font-weight-light mb-3 v-btn v-btn--flat theme--dark"><div class="v-btn__content"><a href="https://www.jeansnyman.com/blog" class="text-capitalize text-decoration-none subheading font-weight-light white--text"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">博客</font></font></a></div></button><div class="mt-auto"><div class="my-4" data-v-2d992f6c=""><a href="https://twitter.com/JeanSnyman" title="推特個人資料" class="mx-2" data-v-2d992f6c=""><i aria-hidden="true" class="v-icon mdi mdi-twitter-box theme--dark" style="font-size:2.3rem;" data-v-2d992f6c=""></i></a><a href="https://linkedin.com/in/jean-snyman-js" title="領英個人資料" class="mx-2" data-v-2d992f6c=""><i aria-hidden="true" class="v-icon mdi mdi-linkedin-box theme--dark" style="font-size:2.3rem;" data-v-2d992f6c=""></i></a><a href="https://github.com/snymanje" title="Github個人資料" class="mx-2" data-v-2d992f6c=""><i aria-hidden="true" class="v-icon mdi mdi-github-box theme--dark" style="font-size:2.3rem;" data-v-2d992f6c=""></i></a></div></div></div><div class="v-navigation-drawer__border"></div></aside><main class="v-content hide-overflow" style="padding: 0px 0px 0px 280px;" data-booted="true"><div class="v-content__wrap"><div class="container"><div class="mb-4 hidden-lg-and-up"><ul class="v-breadcrumbs theme--dark"><li><a href="https://www.jeansnyman.com/" class="v-breadcrumbs__item"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">家</font></font></a></li><li class="v-breadcrumbs__divider"><i aria-hidden="true" class="v-icon mdi mdi-forward theme--dark"></i></li><li><a href="https://www.jeansnyman.com/blog" class="v-breadcrumbs__item"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">博客</font></font></a></li><li class="v-breadcrumbs__divider"><i aria-hidden="true" class="v-icon mdi mdi-forward theme--dark"></i></li><li><a disabled="disabled" href="https://www.jeansnyman.com/" class="v-breadcrumbs__item v-breadcrumbs__item--disabled"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">郵政</font></font></a></li></ul></div><div class="layout"><div class="flex xs12 sm10 md10 lg8 offset-md1"><div><h1 id="google-firestore-rest-api-examples"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#google-firestore-rest-api-examples" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Google Firestore REST API 示例</font></font></h1>
+<br>
+<hr>
+<br>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在這篇文章中，我將記錄一些使用 Firestore REST API 的示例。</font><font style="vertical-align: inherit;">Googles Firestore 數據庫上的大多數示例將指導您通過 npm 安裝 sdk，這也是我在最新項目中所做的，效果很好。</font><font style="vertical-align: inherit;">Firestore\Firebase 非常棒，尤其是對於快速原型設計。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">當我終於準備好將我的項目部署到網絡上時，我意識到我的包非常大，比如 &gt; 2MB。</font><font style="vertical-align: inherit;">Firestore 是這個大小的最大貢獻者，所以我開始尋找減小包大小的方法。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">不幸的是，我已經以最好的方式使用它了。</font><font style="vertical-align: inherit;">像這樣的東西。</font></font></p>
+<pre class="language-javascript"><code class="language-javascript">   <span class="token keyword">import</span> <span class="token punctuation">{</span> firebase <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@firebase/app"</span><span class="token punctuation">;</span> 
+    <span class="token keyword">import</span> <span class="token string">"@firebase/firestore"</span><span class="token punctuation">;</span> <font></font>
+<font></font>
+    <span class="token keyword">const</span> firebaseApp <span class="token operator">=</span> firebase<span class="token punctuation">.</span><span class="token function">initializeApp</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+        apiKey<span class="token punctuation">:</span> <span class="token string">"xxxxxxxxxxxxxxxxxxxxxxxxxxx"</span><span class="token punctuation">,</span> 
+        authDomain<span class="token punctuation">:</span> <span class="token string">"your-project.firebaseapp.com"</span><span class="token punctuation">,</span> 
+        databaseURL<span class="token punctuation">:</span> <span class="token string">"https://your-project.firebaseio.com"</span><span class="token punctuation">,</span> 
+        projectId<span class="token punctuation">:</span> <span class="token string">"your-project"</span><span class="token punctuation">,</span> 
+        storageBucket<span class="token punctuation">:</span> <span class="token string">"your-project.appspot.com"</span><span class="token punctuation">,</span> 
+        messagingSenderId<span class="token punctuation">:</span> <span class="token string">"xxxxxxxxxxxx"</span> 
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <font></font>
+<font></font>
+    <span class="token keyword">export</span> <span class="token keyword">const</span> db <span class="token operator">=</span> firebaseApp<span class="token punctuation">.</span><span class="token function">firestore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">然後我決定嘗試使用 REST API 而不是 sdk。</font><font style="vertical-align: inherit;">我遇到的唯一問題是很難找到有關使用 REST API 的文檔。</font><font style="vertical-align: inherit;">（當您閱讀本文時，這可能已經改變）</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所以這裡有幾個例子。  </font></font></p>
+<h2 id="get-all-documents-in-a-collection"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#get-all-documents-in-a-collection" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">獲取集合中的所有文檔</font></font></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">這是最簡單的示例之一，它是對您的收藏的普通 Get 請求。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">這是假設您沒有對讀取操作設置授權。</font><font style="vertical-align: inherit;">如果你這樣做，你將不得不添加一個帶有不記名令牌的授權標頭。</font></font></p>
+<pre class="language-javascript"><code class="language-javascript">axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`https://firestore.googleapis.com/v1/projects/&lt;PROJECTIDHERE&gt;/databases/(default)/documents/&lt;COLLECTIONNAME&gt;`</span></span><span class="token punctuation">)</span>
+     <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> 
+         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> 
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="get-document-by-id"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#get-document-by-id" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">通過id獲取文檔</font></font></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">這裡我們只是將文檔 id 添加到 URL 的末尾，只返回這個文檔。</font></font></p>
+<pre class="language-javascript"><code class="language-javascript">axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`https://firestore.googleapis.com/v1/projects/&lt;PROJECTIDHERE&gt;/  databases/(default)/documents/&lt;COLLECTIONNAME&gt;/&lt;DOCID&gt;`</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="get-selected-fields-in-a-document-that-meets-specific-requirements-limit-it-to-4-results-and-order-by-created-date"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#get-selected-fields-in-a-document-that-meets-specific-requirements-limit-it-to-4-results-and-order-by-created-date" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">獲取文檔中滿足特定要求的選定字段，將其限制為 4 個結果並按創建日期排序。</font></font></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在這個例子中，我們發送一個帶有結構化查詢對象的 post 請求，這將在 Firestore 上運行一個查詢並只返回我們感興趣的數據。</font></font></p>
+<pre class="language-javascript"><code class="language-javascript">axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'https://firestore.googleapis.com/v1/projects/&lt;PROJECTIDHERE&gt;/databases/(default)/documents:runQuery'</span><span class="token punctuation">,</span> 
+        <span class="token punctuation">{</span> structuredQuery<span class="token punctuation">:</span> 
+            <span class="token punctuation">{</span> <span class="token keyword">from</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span> collectionId<span class="token punctuation">:</span> <span class="token string">'posts'</span> 
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span> 
+        orderBy<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span> field<span class="token punctuation">:</span> 
+                <span class="token punctuation">{</span> fieldPath<span class="token punctuation">:</span> <span class="token string">'created'</span> 
+            <span class="token punctuation">}</span><span class="token punctuation">,</span> direction<span class="token punctuation">:</span> <span class="token string">'DESCENDING'</span> <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span> select<span class="token punctuation">:</span> <span class="token punctuation">{</span> fields<span class="token punctuation">:</span> 
+            <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span> fieldPath<span class="token punctuation">:</span> <span class="token string">'title'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                <span class="token punctuation">{</span> fieldPath<span class="token punctuation">:</span> <span class="token string">'summary'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                <span class="token punctuation">{</span> fieldPath<span class="token punctuation">:</span> <span class="token string">'category'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                <span class="token punctuation">{</span> fieldPath<span class="token punctuation">:</span> <span class="token string">'created'</span> <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+        where<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+            compositeFilter<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+                filters<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token punctuation">{</span> fieldFilter<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+                        field<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+                            fieldPath<span class="token punctuation">:</span> <span class="token string">'published'</span> 
+                        <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                            op<span class="token punctuation">:</span> <span class="token string">'EQUAL'</span><span class="token punctuation">,</span> 
+                            value<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+                                booleanValue<span class="token punctuation">:</span> <span class="token boolean">true</span> 
+                            <span class="token punctuation">}</span> 
+                        <span class="token punctuation">}</span> 
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">]</span><span class="token punctuation">,</span> op<span class="token punctuation">:</span> <span class="token string">'AND'</span> 
+            <span class="token punctuation">}</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+            limit<span class="token punctuation">:</span> <span class="token number">4</span> 
+            <span class="token punctuation">}</span> 
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> 
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> 
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h2 id="create-document--post-requests-"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#create-document--post-requests-" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">創建文檔（發布請求）</font></font></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">在這裡，您只需要注意您發送到 Firestore 的對象的格式。</font></font></p>
+<pre class="language-javascript"><code class="language-javascript">axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"https://firestore.googleapis.com/v1/projects/&lt;PROJECTIDHERE&gt;/databases/(default)/documents/&lt;COLLECTIONNAME&gt;"</span><span class="token punctuation">,</span> 
+        <span class="token punctuation">{</span> 
+            fields<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+                title<span class="token punctuation">:</span> <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>title <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                category<span class="token punctuation">:</span> <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>category <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                post<span class="token punctuation">:</span> <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>post <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                summary<span class="token punctuation">:</span> <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>description <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                published<span class="token punctuation">:</span> <span class="token punctuation">{</span> booleanValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>published <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                created<span class="token punctuation">:</span> <span class="token punctuation">{</span> timestampValue<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                modified<span class="token punctuation">:</span> <span class="token punctuation">{</span> timestampValue<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span> 
+            <span class="token punctuation">}</span> 
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> 
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Post created"</span><span class="token punctuation">)</span> 
+        <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h2 id="patch-only-specific-fields"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#patch-only-specific-fields" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">僅修補特定字段</font></font></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">這是最難弄清楚的部分，經過大量谷歌搜索後，有人引導我朝著正確的方向前進，我終於做對了。</font><font style="vertical-align: inherit;">除了以與 Post 請求相同的方式傳遞對象之外，您還可以在 URL 查詢參數中指定要更新的字段。</font></font></p>
+<pre class="language-javascript"><code class="language-javascript">axios<span class="token punctuation">.</span><span class="token function">patch</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`https://firestore.googleapis.com/v1/projects/&lt;PROJECTIDHERE&gt;/databases/(default)/documents/&lt;COLLECTIONNAME&gt;/&lt;DOCID&gt;?updateMask.fieldPaths=title&amp;updateMask.fieldPaths=post&amp;updateMask.fieldPaths=summary&amp;updateMask.fieldPaths=category &amp;updateMask.fieldPaths=published&amp;updateMask.fieldPaths=modified`</span></span><span class="token punctuation">,</span> 
+        <span class="token punctuation">{</span> fields<span class="token punctuation">:</span> 
+            <span class="token punctuation">{</span> title<span class="token punctuation">:</span> 
+                <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>post<span class="token punctuation">.</span>title <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                post<span class="token punctuation">:</span> <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>post<span class="token punctuation">.</span>post <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                summary<span class="token punctuation">:</span> <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>post<span class="token punctuation">.</span>description <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                category<span class="token punctuation">:</span> <span class="token punctuation">{</span> stringValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>post<span class="token punctuation">.</span>category <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                published<span class="token punctuation">:</span> <span class="token punctuation">{</span> booleanValue<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>post<span class="token punctuation">.</span>published <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                modified<span class="token punctuation">:</span> <span class="token punctuation">{</span> timestampValue<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span> 
+            <span class="token punctuation">}</span> 
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">doc</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> 
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Document successfully updated!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span><span class="token punctuation">)</span> </code></pre>
+<h2 id="delete"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#delete" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">刪除</font></font></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">這很簡單，傳入您的項目 ID、集合名稱和文檔 ID。</font></font></p>
+<pre class="language-javascript"><code class="language-javascript">axios<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`https://firestore.googleapis.com/v1/projects/&lt;PROJECTIDHERE&gt;/databases/(default)/documents/&lt;COLLECTIONNAME&gt;/&lt;DOCIDHERE&gt;`</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">doc</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Document successfully deleted!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h2 id="conclusion"><a href="https://www.jeansnyman.com/posts/google-firestore-rest-api-examples/#conclusion" aria-hidden="true"><span class="icon icon-link"></span></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">結論</font></font></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我希望這對也想使用這些 API 的其他人有所幫助。</font><font style="vertical-align: inherit;">使用 REST 而不是 sdk 對我來說效果很好，我的包大小大大減少了。</font></font></p>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">謝謝閱讀！</font></font></p>
+</div></div></div><div class="layout pt-5 mt-5"><div class="flex xs12 md10 offset-md1"><div id="disqus_recommendations" style="margin-bottom: 12px;"><iframe id="dsq-app470" name="dsq-app470" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="迪克斯" width="100%" src="./Google Firestore REST API 示例 - Jean Snyman_files/saved_resource.html" style="width: 100% !important; border: none !important; overflow: hidden !important; height: 0px !important; display: inline !important; box-sizing: border-box !important; --darkreader-inline-border-top: initial; --darkreader-inline-border-right: initial; --darkreader-inline-border-bottom: initial; --darkreader-inline-border-left: initial;" data-darkreader-inline-border-top="" data-darkreader-inline-border-right="" data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left="" horizontalscrolling="no" verticalscrolling="no"></iframe></div><div id="disqus_thread"><iframe id="dsq-app8846" name="dsq-app8846" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="迪克斯" width="100%" src="./Google Firestore REST API 示例 - Jean Snyman_files/saved_resource(1).html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 5629px !important; --darkreader-inline-border-top: initial; --darkreader-inline-border-right: initial; --darkreader-inline-border-bottom: initial; --darkreader-inline-border-left: initial;" data-darkreader-inline-border-top="" data-darkreader-inline-border-right="" data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left="" horizontalscrolling="no" verticalscrolling="no"></iframe></div></div></div></div></div></main></div></div>
+    <script src="./Google Firestore REST API 示例 - Jean Snyman_files/app.85420962.js.下載" defer=""></script><script src="./Google Firestore REST API 示例 - Jean Snyman_files/page--src--templates--post-vue.ee8d0958.js.下載" defer=""></script>
+  
+
+<iframe style="display: none;" src="./Google Firestore REST API 示例 - Jean Snyman_files/saved_resource(2).html"></iframe><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Google Firestore REST API 示例 - Jean Snyman_files/translate_24dp.png" width="20" height="20" alt="Google 翻譯"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">原文</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">建議更好的譯法</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: rgb(204, 204, 204); background-color: rgb(204, 204, 204); height: 1px; border: none; --darkreader-inline-color:#c8c3bc; --darkreader-inline-bgcolor:#35393b; --darkreader-inline-border-top: initial; --darkreader-inline-border-right: initial; --darkreader-inline-border-bottom: initial; --darkreader-inline-border-left: initial;" data-darkreader-inline-color="" data-darkreader-inline-bgcolor="" data-darkreader-inline-border-top="" data-darkreader-inline-border-right="" data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left=""><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div><iframe style="display: none;" src="./Google Firestore REST API 示例 - Jean Snyman_files/saved_resource(3).html"></iframe><div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

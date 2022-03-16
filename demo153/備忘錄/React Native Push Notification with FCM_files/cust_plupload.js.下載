@@ -1,0 +1,434 @@
+// 套件集中放置，for JSP用
+const zh = {
+  'tiny.attachment.upload': '附件上傳',
+  'tiny.select': '選擇',
+  'tiny.file.toolarge': '上傳的檔案不可大於1MB。',
+  'tiny.upload': '上傳',
+  'tiny.lang': 'zh_TW',
+}
+const en = {
+  'tiny.attachment.upload': 'Upload attachment',
+  'tiny.upload': 'Upload',
+  'tiny.select': 'Select',
+  'tiny.file.toolarge': 'files size cannot be larger than 1MB.',
+  'tiny.lang': 'en',
+}
+
+//var urlParam = function(object) {
+//  object || (object = {})
+//  object._csrf = $('#csrf').val()
+//  return '?' + $.param(object)
+//}
+
+//抓語系
+var getAllMessage = function(xlang) {
+  // 東東外部語系是反的
+  const result = xlang === 'zh' ? en : zh
+  localStorage.setItem('allMessage', JSON.stringify(result))
+  return result
+}
+
+//字串Format
+var format = function() {
+  var s = arguments[0]
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp('\\{' + i + '\\}', 'gm')
+    s = s.replace(reg, arguments[i + 1])
+  }
+  return s
+}
+
+//編輯器 套件
+function tinyElement(xatcSeq, xserverUrl, lang, csrf) {
+  // var serverDomain = 'https://www.tpisoftware.com/tpu/'
+  var textResource =  getAllMessage(lang);
+  var getExtension = function(path) {
+    var basename = path.split(/[\\/]/).pop() // extract file name from full path ...
+    // (supports `\\` and `/` separators)
+    var pos = basename.lastIndexOf('.') // get last position of `.`
+
+    if (basename === '' || pos < 1)
+      // if file name is empty or ...
+      return '' //  `.` not found (-1) or comes first (0)
+
+    return basename.slice(pos + 1) // extract extension ignoring `.`
+  }
+    
+  var createFileUploadPlugin = function(editor) {
+    var win = editor.windowManager.open({
+      title: textResource['tiny.attachment.upload'],
+      html: format(
+        '<div style="display:flex;width:100%;align-items:center;">' +
+          '<input type="textbox" id="showFileName" style="padding-left:3px;font-size: 14px;margin:5px;width:300px;height:32px;border:1px solid #ccc;' +
+          'flex:4;margin-right:0;border-right:0;"/>' +
+          '<input type="button" id="fileUploadBtn"  value="{0}" style="height:32px;margin:5px;width:50px;text-align:center;' +
+          'background:#2276d2;color:#fff;flex:1;margin-left:0;"/><sapn id="fileUploadSizeText" style="flex:1;"></span></div>' +
+          '<input type="file" class="input form-control" name="file"  id="file_attach" accept=".xlsx, .xls, .doc, .docx, .ppt, ' +
+          '.pptx, .pdf, .txt" style="display:none"/>' +
+          '<div class="invalid-feedback" style="color:#dc3545 ">{1}</div>',
+        textResource['tiny.select'],
+        textResource['tiny.file.toolarge']
+      ),
+      width: 450,
+      height: 80,
+      /* body:[
+      {
+        type: 'textbox',
+            name: 'file',
+            subtype:'file'
+      }
+      ], */
+      buttons: [
+        {
+          text: textResource['tiny.upload'],
+          subtype: 'primary',
+          onclick: function(e) {
+            // TODO: handle primary btn click
+            win.submit()
+            win.close()
+          }
+        },
+        {
+          text: 'Close',
+          onclick: function() {
+            this.parent()
+              .parent()
+              .close()
+          }
+        }
+      ],
+      onsubmit: function(e) {
+        var $file_attach = $('#file_attach')
+        var file = $file_attach.prop('files')[0]
+        var filename = $('#showFileName').val()
+
+        var ext = getExtension(file.name).toLowerCase()
+        var allows = ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'pdf', 'txt']
+        if (allows.indexOf(ext) >= 0)
+          callUploadFunction(file, 'attach', function(uriLink) {
+            editor.insertContent(
+              '<a class="uploadFileTag" href=' +
+                uriLink +
+                '>附件--' +
+                filename +
+                '</a>'
+            )
+          })
+        else
+          tinymce.activeEditor.windowManager.alert(
+            '\u6a94\u6848\u683c\u5f0f\u9650\u005a\u0069\u0070\u3001\u0057\u006f\u0072\u0064\u3001\u0045\u0078\u0063\u0065\u006c\u3001\u0050\u006f\u0077\u0065\u0072\u0050\u006f\u0069\u006e\u0074\u3001\u0050\u0044\u0046\u8207\u6587\u5b57\u6a94!'
+          )
+      }
+    })
+  }
+  var callUploadFunction = function(file, type, callback) {
+    
+    var formData = new FormData()
+    formData.append('atcSeq', xatcSeq)
+    formData.append('status', 0)
+    formData.append('content', '')
+    formData.append('file', file)
+    
+     var serviceURL = xserverUrl+'api/Points/UploadFile' + csrf
+  
+    $.ajax({
+      url: serviceURL,
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+//        console.log(data)
+        data.data.uriLink = data.data.uriLink
+          // .replace('http://fakedomain.com:8080', DOMAIN)
+          // .replace('http://fakedomain.com:18080', DOMAIN)
+        callback(data.data.uriLink)
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        failure(errorThrown)
+      }
+    })
+  }.bind(this)
+  // 網頁編輯器綁定
+  tinymce.init({
+    selector: '#editContent_1',
+    language: textResource['tiny.lang'],
+    theme: 'modern',
+    mobile: {
+      theme: 'mobile',
+      plugins: ['autosave', 'lists', 'autolink'],
+      toolbar: [
+        'undo',
+        'bold',
+        'italic',
+        'styleselect',
+        'underline',
+        'link',
+        'unlink',
+        'image',
+        'bullist',
+        'numlist',
+        'fontselect',
+        'fontsizeselect',
+        'forecolor',
+        'removeformat'
+      ]
+    },
+    codesample_languages: [
+      { text: 'ASP.NET (C#)', value: 'aspnet' },
+      { text: 'BASIC', value: 'basic' },
+      { text: 'C', value: 'c' },
+      { text: 'C#', value: 'csharp' },
+      { text: 'C++', value: 'cpp' },
+      { text: 'C-like', value: 'clike' },
+      { text: 'CSS', value: 'css' },
+      { text: 'HTML', value: 'markup' },
+      { text: 'Java', value: 'java' },
+      { text: 'JSON', value: 'json' },
+      { text: 'Javascript', value: 'javascript' },
+      { text: 'Kotlin', value: 'kotlin' },
+      { text: 'Less', value: 'less' },
+      { text: 'Markdown', value: 'markdown' },
+      { text: 'Objective-C', value: 'objectivec' },
+      { text: 'Perl', value: 'perl' },
+      { text: 'PHP', value: 'php' },
+      { text: 'PL/SQL', value: 'plsql' },
+      { text: 'Ruby', value: 'ruby' },
+      { text: 'SQL', value: 'sql' },
+      { text: 'Sass (Scss)', value: 'scss' },
+      { text: 'Sass (Sass)', value: 'sass' },
+      { text: 'TypeScript', value: 'typescript' },
+      { text: 'VB.NET', value: 'vbnet' },
+      { text: 'Visual Basic', value: 'visual-basic' }
+    ],
+    height: 220,
+    /* plugin_preview_width: $(window).width()*(2/3), */
+    resize: true,
+    object_resizing: false,
+    visual_table_class: 'table',
+    // content_css:
+    //   '/tpu/css/edit/bootstrap.css,/tpucss/Content/css/layoutdisplay.css',
+    codesample_content_css: '/tpu/css/edit/prism.css',
+    external_plugins: {
+      codesample: '/tpu/js/codesample_external_plugin.js'
+    },
+    fontsize_formats: '8pt 10pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 36pt',
+    // menubar: "link insert",
+    plugins: [
+      'textcolor colorpicker charmap table code codesample   image fileuploader link anchor preview'
+    ],
+    toolbar:
+      'charmap | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | fontselect fontsizeselect | code    codesample | image fileuploader | anchor link | preview',
+    font_formats:
+      '新細明體=新細明體,serif;' +
+      '標楷體=標楷體,DFKai-sb;' +
+      '思源體=Noto Sans TC;' +
+      '仿宋體=cwTeXFangSong,serif;' +
+      '明體=cwTeXMing, serif;' +
+      '圓體=cwTeXYen, sans-serif;' +
+      'Andale Mono=andale mono,monospace;' +
+      'Arial=arial,helvetica,sans-serif;' +
+      'Arial Black=arial black,sans-serif;' +
+      'Book Antiqua=book antiqua,palatino,serif;' +
+      'Comic Sans MS=comic sans ms,sans-serif;' +
+      'Courier New=courier new,courier,monospace;' +
+      'Georgia=georgia,palatino,serif;' +
+      'Helvetica=helvetica,arial,sans-serif;' +
+      'Impact=impact,sans-serif;' +
+      'Symbol=symbol;' +
+      'Tahoma=tahoma,arial,helvetica,sans-serif;' +
+      'Terminal=terminal,monaco,monospace;' +
+      'Times New Roman=times new roman,times,serif;' +
+      'Trebuchet MS=trebuchet ms,geneva,sans-serif;' +
+      'Verdana=verdana,geneva,sans-serif;' +
+      'Webdings=webdings;' +
+      'Wingdings=wingdings,zapf dingbats',
+    content_css: [
+      '//fonts.googleapis.com/earlyaccess/notosanstc.css',
+      '//fonts.googleapis.com/earlyaccess/cwtexfangsong.css',
+      '//fonts.googleapis.com/earlyaccess/cwtexming.css',
+      '//fonts.googleapis.com/earlyaccess/cwtexyen.css'
+    ],
+    codesample_dialog_width: '400',
+    codesample_dialog_height: '400',
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    convert_urls: false,
+    /* images_upload_url: imgServiceURL, */
+    images_reuse_filename: false,
+    images_upload_handler: function(blobInfo, success, failure) {
+      if (blobInfo.blob().size / 1024 / 1024 > 1) {
+        failure(textResource['tiny.file.toolarge'])
+        return false
+      }
+      var ext = getExtension(blobInfo.filename()).toLowerCase()
+      var allows = ['jpg', 'gif', 'png']
+      if (allows.indexOf(ext) >= 0)
+        callUploadFunction(blobInfo.blob(), 'images', success)
+      else
+        failure(
+          '\u6a94\u6848\u683c\u5f0f\u9650\u006a\u0070\u0067\u3001\u0067\u0069\u0066\u3001\u0070\u006e\u0067'
+        )
+    },
+    table_toolbar:
+      'tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
+      setup : function(editor) {
+			console.log("ID为: " + editor.id + " 的编辑器即将初始化.");
+		},
+      init_instance_callback: function(editor){
+    	console.log("ID为: " + editor.id + " 的编辑器已初始化完成.");
+		// console.log(tinyContent)
+		tinyMCE.activeEditor.setContent(tinyContent)
+    }
+  })
+  tinymce.PluginManager.add('fileuploader', function(editor, url) {
+    // Add a button that opens a window
+    editor.addButton('fileuploader', {
+      tooltip: textResource['tiny.attachment.upload'],
+      icon: 'mce-ico mce-i-upload',
+      onclick: function() {
+        createFileUploadPlugin(editor)
+      },
+      onPostRender: function() {
+        var _this = this
+        editor.on('NodeChange', function(e) {
+          var is_active = $(editor.selection.getNode()).hasClass(
+            'uploadFileTag'
+          )
+          _this.active(is_active)
+        })
+      }
+    })
+
+    // Adds a menu item to the tools menu
+    editor.addMenuItem('fileuploader', {
+      text: textResource['tiny.attachment.upload'],
+      context: 'insert',
+      onclick: function() {
+        createFileUploadPlugin(editor)
+      }
+    })
+
+    return {
+      getMetadata: function() {
+        return {
+          name: 'fileuploader plugin',
+          url: 'https://www.tpisoftware.com'
+        }
+      }
+    }
+  })
+  layoutEditor.ResizeEditContainer()
+  $(window).resize(function() {
+    layoutEditor.ResizeEditContainer()
+  })
+}
+
+var bytesToSize = function(bytes) {
+  var sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  if (bytes === 0) return "0 Byte";
+  var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+  return Math.round(bytes / Math.pow(1024, i), 2) + " " + sizes[i];
+};
+
+// 不是預設圖片的話 下載開放點擊
+//function uploadFileInit() {
+
+  $(document).delegate("#fileUploadBtn", "click", function() {
+    $('#file_attach').trigger('click')
+  });
+
+  $(document).delegate("#file_attach", "change", function(e) {
+    if (e.target.files[0].size / 1024 / 1024 > 1) {
+      $("#file_attach").addClass("is-invalid");
+      return false;
+    } else {
+      $("#file_attach").removeClass("is-invalid");
+    }
+    $("#showFileName").val(e.target.files[0].name);
+    $("#fileUploadSizeText").text(bytesToSize(e.target.files[0].size));
+  });
+  // $("#previewImage").centerImage();
+//}
+
+//檔案上傳 套件
+function uploader() {
+  console.log(this.Url);
+  
+  var uploader = new plupload.Uploader({
+    required_features: {
+      send_browser_cookies: true
+    },
+    browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
+    runtimes: 'html5,flash,silverlight,html4',
+    url: this.Url,
+    multipart:false,
+    multipart_params: {
+      aoeSeq: this.atcSeq,
+      // file	是	MultipartFile	form-data
+      type: 'devkit'
+    },
+    max_file_size: '2mb',
+
+    chunk_size: '2mb',
+
+    // Resize images on clientside if we can
+    resize: {
+      width: 200,
+      height: 200,
+      quality: 90,
+      crop: true // crop to exact dimensions
+    },
+
+    // Specify what files to browse for
+    filters: [
+      // { title: 'Image files', extensions: 'jpg,gif,png' },
+      { title: 'Zip files', extensions: 'zip,7z,rar' }
+    ],
+
+    // Rename files by clicking on their titles
+    rename: true,
+
+    // Sort files
+    sortable: true,
+
+    // Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
+    dragdrop: true,
+
+    // Views to activate
+    views: {
+      list: true,
+      thumbs: true, // Show thumbs
+      active: 'thumbs'
+    },
+    // Flash settings
+    flash_swf_url: '/plupload/js/Moxie.swf',
+    // Silverlight settings
+    silverlight_xap_url: '/plupload/js/Moxie.xap'
+  })
+
+  uploader.init()
+  uploader.bind('FilesAdded', (up, files) => {
+	  console.log(files)
+    for (var item in files) {
+      this.devKitFileDetailList.push(files[item]);
+    }
+    this.update = true;
+  })
+  uploader.bind('Error', function(up, err) {
+    alert(err.message)
+    console.log(err)
+  })
+  //  直接上傳...
+  uploader.bind('FileUploaded', (up, file, res) => {
+    // const { data } = JSON.parse(res.response)
+    // for (var i in data) {
+    //   this.devKitFileDetailList.push(data[i])
+    // }
+  })
+
+  // uploader.bind('StateChanged', (uploader) => {
+  //   this.update = true;
+  // })
+}
+

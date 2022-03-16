@@ -1,0 +1,405 @@
+﻿var layoutEditor = {
+    ColumnsCount: 12,
+    ResizeEditContainer: function () {
+        var minheight = $(window).height() - 150;
+        if (minheight < 500)
+            minheight = 500;
+        $("div.edit-html-container").css("min-height", minheight);
+    },
+    GridSystemValidate: function () {
+        var columnNumber = $("#colNumber").attr("data-number");
+        var columnRatesInput = $("form#layoutRatesForm").find("input");
+        var rates = [];
+        if (columnRatesInput.length > 0) {
+            columnRatesInput.each(function (index) {
+                rates.push(parseInt($(this).val(), 10));
+            });
+        }
+        var sum = _.reduce(rates, function (memo, num) { return memo + num; }, 0);
+        if (sum === layoutEditor.ColumnsCount) {
+            $("#layoutRowAdd")
+                .removeClass("btn-default").addClass("btn-danger")
+                .draggable("option", "disabled", false)
+                .tooltip('destroy');
+
+        } else {
+            $("#layoutRowAdd")
+                .removeClass("btn-danger").addClass("btn-default")
+                .draggable("option", "disabled", true)
+                .tooltip({
+                    title: "比例分配總合需為「12」",
+                    placement: "bottom"
+                });
+        }
+    },
+    RenderGridRowHtml: function (columnNumber, columnRates) {
+        var rowColumnNumber = 12;
+        columnNumber = parseInt(columnNumber, 10);
+
+        if (columnNumber !== columnRates.length) {
+            columnRates = [];
+            var tempRate = rowColumnNumber / columnNumber;
+            for (var i = 0; i < columnNumber; i++) {
+                columnRates.push(tempRate);
+            }
+        }
+        var resultHtml = "";
+        for (var i = 0; i < columnNumber; i++) {
+            resultHtml += "<div class=\"col-md-" + columnRates[i] + "\" data-col-rate=\"" + columnRates[i] + "\">" +
+                "<div class=\"editor-col-valign-tool\">" +
+                "<button type=\"button\" class=\"btn btn-default\" data-bg-setting=\"true\" title=\"背景色設定\" data-show=\"tooltip\" data-placement=\"top\" data-toggle=\"modal\" data-target=\"#bgColorEditModal\"><span class=\"glyphicon glyphicon-tint\" aria-hidden=\"true\"></span></button>" +
+                "<button type=\"button\" class=\"btn btn-danger\" data-vertical-align=\"top\" title=\"靠上\" data-show=\"tooltip\" data-placement=\"top\"><span class=\"glyphicon glyphicon-object-align-top\" aria-hidden=\"true\"></span></button>" +
+                "<button type=\"button\" class=\"btn btn-warning\" data-vertical-align=\"middle\" title=\"置中\" data-show=\"tooltip\" data-placement=\"top\"><span class=\"glyphicon glyphicon-object-align-horizontal\" aria-hidden=\"true\"></span></button>" +
+                "<button type=\"button\" class=\"btn btn-warning\" data-vertical-align=\"bottom\" title=\"靠下\" data-show=\"tooltip\" data-placement=\"top\"><span class=\"glyphicon glyphicon-object-align-bottom\" aria-hidden=\"true\"></span></button>" +
+                "</div>" +
+                "</div>";
+        }
+
+        var cloneContainer = $("#layout-base").clone();
+        cloneContainer.removeClass("hidden").removeAttr("id").find("div.row").append(resultHtml);
+
+        return $("<div></div>").append(cloneContainer);
+    },
+    SetDroppable: function (obj, acceptSelector) {
+        obj.droppable({
+            accept: acceptSelector
+        });
+    },
+    SetSortable: function (obj, handleSelector) {
+        obj.sortable({
+            handle: handleSelector,
+            cancel: "",
+            opacity: 0.5,
+            connectWith: "div[class^=col-]",
+            placeholder: "sortable-placeholder",
+            items: " > div.compoment-container",
+            start: function (e, ui) {
+                //if (ui.item.height() > 150)
+                //    ui.placeholder.height(150);
+                //else
+                //    ui.placeholder.height(ui.item.height());
+
+                ui.placeholder.height(ui.item.height());
+            },
+            update: function (event, ui) {
+                ui.item.removeAttr("style");
+
+                $(event.target).find("table tbody td")
+                    .sortable({
+                        opacity: 0.5,
+                        cursor: "move",
+                        connectWith: "div[class^=col-] div.compoment-container div.compoment-view table > tbody td",
+                        placeholder: "sortable-placeholder",
+                        start: function (e, ui) {
+                            if (ui.item.hasClass("compoment-container"))
+                                ui.placeholder.height(25).width(50);
+                            else
+                                ui.placeholder.height(ui.item.height()).width(ui.item.width());
+                            ui.placeholder.css("display", "inline-block");
+                        },
+                        stop: function (event, ui) {
+                            //reomove parent div
+                            var newDiv = ui.item;
+                            //第一次加入控制項 將原有父容器移除
+                            if (newDiv.find("div.compoment-view").length > 0) {
+                                var htmlDom = newDiv.find("div.compoment-view").clone();
+                                $(event.target).append($(htmlDom.html()).css("display", "inline-block"));
+                                newDiv.remove();
+                            }
+                        }
+                    });
+            }
+        });
+    },
+    RenderCompoment: function (compomentType) {
+        var template = $("div[data-compoment-template=" + compomentType + "][class='compoment-container hidden']").clone();
+        if (template.length === 1) {
+            if (compomentType === "date") {
+                var now = new Date();
+                var dateElement = "<p>" + now.getFullYear() + "/" + this.LeftPad(now.getMonth() + 1, 2) + "/" + this.LeftPad(now.getDate(), 2) + "</p>";
+                template.find("div.compoment-view").append(dateElement);
+            }
+
+            template.removeClass("hidden");
+            template.find('[data-show="tooltip"]').tooltip({ trigger: "hover" });
+            return template;
+        }
+        else
+            return compomentType;
+    },
+    RenderCompomentHtml: function (compomentType, editContent) {
+        var template = $("div[data-compoment-template=" + compomentType + "][class='compoment-container hidden']").clone();
+        if (template.length === 1) {            
+            var editableTag = template.find(".compoment-view").attr("data-editable-tag");
+
+            template.removeClass("hidden");
+            template.find(".compoment-view").empty().append(editContent);
+            template.find("[data-compoment-template]").removeAttr("data-compoment-template");
+            if (editableTag !== undefined) {
+                var t = template.find(editableTag);
+                if (t.length > 0) {
+                    t.first().attr("contenteditable", true);
+                }
+            }            
+            //console.log(template[0].outerHTML);
+            return template[0].outerHTML;
+        }
+        else
+            return "";
+    },
+    LeftPad: function (number, targetLength) {
+        var output = number + '';
+        while (output.length < targetLength) {
+            output = '0' + output;
+        }
+        return output;
+    },
+    IsValidateURL: function (url) {
+        if ((url.indexOf("http://") > -1 || url.indexOf("https://") > -1) && url.indexOf("//localhost") > -1)
+            return true;
+
+        var myRegExp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+        return myRegExp.test(url);
+    },
+    RGBToHex: function (rgb) {
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        return "#" + this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);
+    },
+    hex: function (x) {
+        var hexDigits = new Array
+        ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
+        return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+    },
+    GetEditedLayoutHTML: function () {
+        var editedRow = $("div.edit-html-container").find(" > div.editor-drag-container").find(" > div.row");
+        var layoutHTML = $("<div></div>");
+        editedRow.each(function () {
+            var createTempRow = $("<div></div>").addClass($(this).attr("class"));
+            var cols = $(this).find(" > div[class*=col-]");
+            cols.each(function () {
+                var createTempCol = $("<div></div>")
+                    .addClass($(this).attr("class"))
+                    .removeClass("ui-droppable ui-sortable")
+                    .attr("data-col-rate", $(this).attr("data-col-rate"));
+                var colBackgroundColor = $(this).attr("data-bgcolor");
+                if (colBackgroundColor !== undefined)
+                    createTempCol.css("background-color", colBackgroundColor).attr("data-bgcolor", colBackgroundColor);
+
+                var compomentContainers = $(this).find("div.compoment-container");
+
+                compomentContainers.each(function () {
+                    var compomentType = $(this).attr("data-compoment-template");
+
+                    var compoment = $(this).find("div.compoment-view").clone();
+                    compoment.find("[contenteditable]").removeAttr("contenteditable");
+                    compoment.children().attr("data-compoment-template", compomentType);
+                    createTempCol.append(compoment.html());
+                });
+
+                createTempRow.append(createTempCol);
+            });
+            layoutHTML.append(createTempRow);
+        });
+        return "<div class=\"container\">" + layoutHTML.html() + "</div>";
+    },
+    PreviewHTMLWithNewWindow: function (title,serverDomain,htmlContent) {
+        var win = window.open("", "LayoutPreview");
+        title = title === undefined ? "昕力大學-Preview" : title;
+		var pathname = window.location.pathname; // Returns path only
+		var url  = window.location.href.replace(pathname,'/tpu');  
+		serverDomain = serverDomain === undefined ? url : serverDomain;
+
+        win.document.open();
+        win.document.write("<!DOCTYPE html>");
+        win.document.write("<html>");
+        win.document.write("<head>");
+        win.document.write('<meta charset="utf-8" />');
+        win.document.write('<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />');
+        win.document.write('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">');
+        win.document.write('<meta name="title"content="[昕力大學]【MAC】客製化 Terminal(終端機)"/>');
+        win.document.write('<meta name="description" content="本篇將會用另一個工具，來替代MAC預設的終端機指令介面，並進行簡單的說明及客製化。"/>');
+        win.document.write('<meta name="image" content="https://www.tpisoftware.com/tpu/images/og-image.png"/>');
+        win.document.write('<meta name="keywords" content="昕力大學, 昕力, 昕力資訊, ThinkPower, ThinkPower University"/>');
+        win.document.write('<meta itemprop="image" content="https://www.tpisoftware.com/tpu/images/og-image.png"/>');
+        win.document.write('<meta property="og:image" content="https://www.tpisoftware.com/tpu/images/og-image.png"/>');
+        win.document.write('<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />');
+        win.document.write('<title>' + title + '</title>');
+		
+        win.document.write('<link href="'+serverDomain+'/css/edit/layoutdisplay.css" rel="stylesheet" />');
+        win.document.write('<link href="'+serverDomain+'/css/edit/bootstrap.css" rel="stylesheet" />');
+        win.document.write('<link href="'+serverDomain+'/css/edit/bootstrap-theme.css" rel="stylesheet" />');
+		win.document.write('<link href="'+serverDomain+'/css/edit/prism.css" rel="stylesheet" />');
+		 
+        win.document.write("<script src=\""+serverDomain+"/js/edit/jquery-2.2.2.js\"><\/script>");
+        win.document.write("<script src=\""+serverDomain+"/js/edit/jquery-ui-1.11.4.js\"><\/script>");
+        win.document.write("<script src=\""+serverDomain+"/js/edit/bootstrap.js\"><\/script>");
+        win.document.write("<script src=\""+serverDomain+"/js/edit/paging.js\"><\/script>");
+        win.document.write("<script src=\""+serverDomain+"/js/edit/loadTablePaging.js\"><\/script>");
+		win.document.write("<script src=\""+serverDomain+"/js/edit/prism.js\"><\/script>");
+		
+        win.document.write("<script>$(function(){ initTablePaging(); });<\/script>");
+        win.document.write("</head>");
+        win.document.write("<body class='editbody'>");
+        win.document.write('<div class="editheader"><img style="height:46px;width:auto;margin-left: 35px;" src="https://www.tpisoftware.com/tpu/images/logo.png" alt="ThinkPower University">');
+        win.document.write('	<div class="editbtn-btn">');
+		win.document.write('		<span class="editbtn editbtn-blue"><a>回昕力大學瀏覽更多文章</a></span>');
+        win.document.write('	</div></div>');
+        win.document.write('<div style="width:595.0pt;margin-bottom:42.0pt;margin-top:42.0pt;margin-left:28.0pt;margin-right:28.0pt;">');
+        win.document.write(htmlContent ? htmlContent : this.GetEditedLayoutHTML());
+        win.document.write("</body>");
+        win.document.write("</html>");
+        win.document.close();
+    },
+    LoadSavePageToDom: function (htmlContent) {
+        var htmlDom = $(htmlContent);
+        var loadToEditorHtml = "";
+        var editContainer = $("div.edit-html-container");
+
+        htmlDom.find("div.row").each(function () {
+            var _row = $(this);
+            var isVerticalAlign = _row.hasClass("vertical-align-row");
+            var cloneContainer = $("#layout-base").clone();
+            var _rowContainer = cloneContainer.removeClass("hidden").removeAttr("id").find("div.row");
+
+            if (isVerticalAlign)
+                _rowContainer.addClass("vertical-align-row");
+
+            _row.find("div[class*=col-md-]").each(function () {
+                var _col = $(this);
+                var colRate = _col.attr("data-col-rate");
+                var _colTempHTML = "";
+
+                var vAlignClass = "";
+                if (isVerticalAlign) {
+                    var isVerticalAlignMiddle = _col.hasClass("col-vertical-middle");
+                    var isVerticalAlignBottom = _col.hasClass("col-vertical-bottom");
+                    if (isVerticalAlignMiddle)
+                        vAlignClass = " col-vertical-middle";
+                    else if (isVerticalAlignBottom)
+                        vAlignClass = " col-vertical-bottom";
+                }
+
+                _colTempHTML += "<div class=\"col-md-" + colRate + vAlignClass + "\" data-col-rate=\"" + colRate + "\"";
+
+                var colBgColor = _col.attr("data-bgcolor");
+                if (colBgColor !== undefined) {
+                    _colTempHTML += " data-bgcolor=\"" + colBgColor + "\" style=\"background-color:" + colBgColor + ";\"";
+                }
+
+                _colTempHTML += ">";
+
+                _colTempHTML += "<div class=\"editor-col-valign-tool\">" +
+                "<button type=\"button\" class=\"btn btn-default\" data-bg-setting=\"true\" title=\"背景色設定\" data-show=\"tooltip\" data-placement=\"top\" data-toggle=\"modal\" data-target=\"#bgColorEditModal\"><span class=\"glyphicon glyphicon-tint\" aria-hidden=\"true\"></span></button>" +
+                "<button type=\"button\" class=\"btn " + (!isVerticalAlign || (isVerticalAlign && !isVerticalAlignMiddle && !isVerticalAlignBottom) ? "btn-danger" : "btn-warning") + "\" data-vertical-align=\"top\" title=\"靠上\" data-show=\"tooltip\" data-placement=\"top\"><span class=\"glyphicon glyphicon-object-align-top\" aria-hidden=\"true\"></span></button>" +
+                "<button type=\"button\" class=\"btn " + (isVerticalAlign && isVerticalAlignMiddle ? "btn-danger" : "btn-warning") + "\" data-vertical-align=\"middle\" title=\"置中\" data-show=\"tooltip\" data-placement=\"top\"><span class=\"glyphicon glyphicon-object-align-horizontal\" aria-hidden=\"true\"></span></button>" +
+                "<button type=\"button\" class=\"btn " + (isVerticalAlign && isVerticalAlignBottom ? "btn-danger" : "btn-warning") + "\" data-vertical-align=\"bottom\" title=\"靠下\" data-show=\"tooltip\" data-placement=\"top\"><span class=\"glyphicon glyphicon-object-align-bottom\" aria-hidden=\"true\"></span></button>" +
+                "</div>";
+
+                _col.find("[data-compoment-template]").each(function () {
+                    var _compoment = $(this);
+                    var compomentType = _compoment.attr("data-compoment-template");
+
+                    var _compomentHTML = layoutEditor.RenderCompomentHtml(compomentType, _compoment[0].outerHTML);
+                    _colTempHTML += _compomentHTML;
+                });
+
+                _colTempHTML += "</div>";
+                _rowContainer.append(_colTempHTML);
+            });
+
+            loadToEditorHtml += cloneContainer[0].outerHTML;
+        });
+
+        editContainer.empty().append(loadToEditorHtml);
+        editContainer.find('[data-show="tooltip"]').tooltip({ trigger: "hover" });
+        editContainer.find("table tbody td")
+                    .sortable({
+                        opacity: 0.5,
+                        cursor: "move",
+                        connectWith: "div[class^=col-] div.compoment-container div.compoment-view table > tbody td",
+                        placeholder: "sortable-placeholder",
+                        start: function (e, ui) {
+                            if (ui.item.hasClass("compoment-container"))
+                                ui.placeholder.height(25).width(50);
+                            else
+                                ui.placeholder.height(ui.item.height()).width(ui.item.width());
+                            ui.placeholder.css("display", "inline-block");
+                        },
+                        stop: function (event, ui) {
+                            //reomove parent div
+                            var newDiv = ui.item;
+                            //第一次加入控制項 將原有父容器移除
+                            if (newDiv.find("div.compoment-view").length > 0) {
+                                var htmlDom = newDiv.find("div.compoment-view").clone();
+                                $(event.target).append($(htmlDom.html()).css("display", "inline-block"));
+                                newDiv.remove();
+                            }
+                        }
+                    });
+        layoutEditor.SetSortable(editContainer.find("div[class^=col-]"), "div.compoment-tool-move");
+    }
+}
+	
+	var dragapproved = false;  
+	var dragObj;  
+	var zIndex = 80;  
+	var offX,offY;  
+	
+	document.onmousedown = beginDrag;  
+	document.onmouseup = function() {dragapproved = false};  
+	document.onmousemove = dragDrop; 
+
+	function dragDrop(evt) {  
+		if (dragapproved) {  
+			var e = evt || window.event;
+
+			//暫解 bug
+			if (dragObj.id =="toolbox"){
+				dragObj.style.left = e.clientX - offX + document.documentElement.scrollLeft + 'px';
+				dragObj.style.top = e.clientY - offY + document.documentElement.scrollTop + 'px';
+			}
+		}  
+	}  
+	
+	function beginDrag(evt) {  
+		dragObj = window.event ? event.srcElement : evt.target;  
+		if (dragapproved == false && dragObj.className.indexOf("drag") >= 0) {  
+			dragObj.style.zIndex = zIndex++;  
+			offX = window.event ? event.offsetX : evt.layerX;  
+			offY = window.event ? event.offsetY : evt.layerY;  
+			dragapproved = true;  
+		}  
+		if (dragapproved == false && dragObj.className.indexOf("comment") >= 0) {  
+			dragapproved = false;  
+		}  
+	}
+	
+	function closeItem(target) {
+		target.css("display","none");
+		//document.getElementById(objId).style.display = 'none';
+	}
+	function openItem(target) {
+		target.css("display","block");
+		//document.getElementById(objId).style.display = 'block';
+		
+	}
+
+	function FormatNumberLength(num, length) {
+		var r = "" + num;
+		while (r.length < length) {
+			r = "0" + r;
+		}
+		return r;
+	}
+	
+	
+	function hashCode(str){
+		var hash = 0;
+		if (str.length == 0) return hash;
+		for (i = 0; i < str.length; i++) {
+			char = str.charCodeAt(i);
+			hash = ((hash<<5)-hash)+char;
+			hash = hash & hash; // Convert to 32bit integer
+		}
+		return hash;
+	}
