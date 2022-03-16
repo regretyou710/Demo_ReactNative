@@ -5,7 +5,8 @@ class Info extends Component {
     constructor() {
         super();
         this.state = {
-
+            Id: '',
+            Description: ''
         }
     }
 

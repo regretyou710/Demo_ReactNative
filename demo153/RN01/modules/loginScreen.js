@@ -12,10 +12,11 @@ class LoginScreen extends Component {
         super();
         this.state = {
             tel: '',
-            verifyCode: '',
+            verifyCode: '',// 動態驗證碼內容
             verifyCodeText: '發送驗證碼',
             verifyCodeDisabled: false,
-            userid: '',
+            usedID: '',
+            inputVerifyCode: ''// 輸入的驗證碼
         };
         this.telRef = React.createRef();
     }
@@ -42,8 +43,17 @@ class LoginScreen extends Component {
                         //reject與throw差別說明C:\Demo_ReactNative\demo153\備忘錄\執行流程與錯誤處理 · 從Promise開始的JavaScript異步生活.html                        
                     }
                     else {
-                        this.setState({ userid: response[0].id })
-                        updateData({ id: response[0].id, verifyCode: this.state.verifyCode });
+                        this.setState({
+                            usedID: response[0].id,
+                            verifyCode: getVerifyCode(4).join(''),
+                            verifyCodeDisabled: true
+                        })
+
+                        updateData({
+                            id: response[0].id,
+                            verifyCode: this.state.verifyCode
+                        });
+
                         resolve();
                     }
                 });
@@ -75,53 +85,23 @@ class LoginScreen extends Component {
         // .catch();
 
         promise.then(() => {
-            this.setState(
-                {
-                    verifyCode: getVerifyCode(4).join(''),
-                    verifyCodeDisabled: true
-                }
-            );
-
             let time = 5;
-
-            //#region
-            /*        
-            // 使用NetBeans glassfish DB調用webservice
-            // 域名要使用本機IP，localhost、127.0.0.1會報錯
-            let url1 = 'http://10.0.2.3:8080/RN_demo153_DBREST/api/service/queryCustomer/key/' + this.state.tel + '/rawdata';
-            
-            // GET測試
-            console.log(url1);
-            axios.get(url1).then(
-                response => console.log(response)
-            ).catch(
-                error => console.log(error)
-            )
-            
-            // axios.post(url, {
-            //     tel: this.state.tel
-            // }).then(
-            //     response => console.log(response)
-            // ).catch(
-            //     error => console.log(error)
-            // )
-            */
-            //#endregion
 
             let timer = setInterval(() => {
                 this.setState({ verifyCodeText: time + '秒' });
 
                 if (time == 0) {
                     clearInterval(timer);
-                    this.setState(
-                        {
-                            verifyCode: '',
-                            verifyCodeText: '發送驗證碼',
-                            verifyCodeDisabled: false
-                        }
-                    );
+                    this.setState({
+                        verifyCode: '',
+                        verifyCodeText: '發送驗證碼',
+                        verifyCodeDisabled: false
+                    });
 
-                    updateData({ id: this.state.userid, verifyCode: this.state.verifyCode });
+                    // updateData({
+                    //     id: this.state.usedID,
+                    //     verifyCode: this.state.verifyCode
+                    // });
                 }
 
                 time--;
@@ -139,26 +119,111 @@ class LoginScreen extends Component {
     }
 
     loginBtn() {
-        // this.props.navigation.navigate('Tab');
+        //#region 方式一
+        /*        
+        // 使用NetBeans glassfish DB調用webservice
+        // 域名要使用本機IP，localhost、127.0.0.1會報錯
+        let url1 = 'http://10.0.2.3:8080/RN_demo153_DBREST/api/service/queryCustomer/key/' + this.state.tel + '/rawdata';
+        
+        // GET測試
+        console.log(url1);
+        axios.get(url1).then(
+            response => console.log(response)
+        ).catch(
+            error => console.log(error)
+        )
+        
+        // axios.post(url, {
+        //     tel: this.state.tel
+        // }).then(
+        //     response => console.log(response)
+        // ).catch(
+        //     error => console.log(error)
+        // )
+        */
+        //#endregion
 
-        // 登入後返回上一頁就離開APP
-        // 使用說明C:\Demo_ReactNative\demo153\備忘錄\React Navigation 5.x（一）常用知识点梳理 - 简书_files
-        this.props.navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [
+        //#region 方式二
+        const projectID = 'reactnative-4876e';
+        let url = `https://firestore.googleapis.com/v1/projects/${projectID}/databases/(default)/documents:runQuery`;
+        let postObj = {
+            "structuredQuery": {
+                "from": [
                     {
-                        name: 'Tab',
-                        params: { tel: this.state.tel }
+                        "collectionId": "users"
                     }
                 ],
-            })
+                "select": {
+                    "fields": [
+                        {
+                            "fieldPath": "name"
+                        },
+                        {
+                            "fieldPath": "tel"
+                        },
+                        {
+                            "fieldPath": "verifyCode"
+                        }
+                    ]
+                },
+                "where": {
+                    "compositeFilter": {
+                        "filters": [
+                            {
+                                "fieldFilter": {
+                                    "field": {
+                                        "fieldPath": "verifyCode"
+                                    },
+                                    "op": "EQUAL",
+                                    "value": {
+                                        "stringValue": this.state.inputVerifyCode
+                                    }
+                                }
+                            }
+                        ],
+                        "op": "AND"
+                    }
+                }
+            }
+        };
+
+        let promise = new Promise((resolve, reject) => {
+            axios.post(url, postObj).then(
+                response => {
+                    if (response.data[0].document == undefined)
+                        reject(new Error(`登入失敗，請重新輸入!`));
+                    else
+                        resolve();
+                })
+        });
+
+        promise.then(
+            () => {
+                // this.props.navigation.navigate('Tab');// 單純轉跳頁面
+
+                // 登入後返回上一頁就離開APP
+                // 使用說明C:\Demo_ReactNative\demo153\備忘錄\React Navigation 5.x（一）常用知识点梳理 - 简书_files
+                this.props.navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            {
+                                name: 'Tab',
+                                params: { usedID: this.state.usedID, tel: this.state.tel }
+                            }
+                        ],
+                    })
+                );
+            }
+        ).catch(
+            err => alert(err)
         );
+        //#endregion
     }
 
     render() {
         return (
-            <View ref={this.v1} style={styles.screen}>
+            <View style={styles.screen}>
                 <View style={styles.body}>
                     {/* 背景圖片Start */}
                     <Image
@@ -216,6 +281,9 @@ class LoginScreen extends Component {
                                     placeholderTextColor={'rgba(0,0,0,0.5)'}
                                     underlineColorAndroid={'transparent'}
                                     style={styles.inputText}
+                                    onChangeText={(inputVal) =>
+                                        this.setState({ inputVerifyCode: inputVal })
+                                    }
                                 >
                                 </TextInput>
                                 <View style={[styles.sendVerifyCode, {

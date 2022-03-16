@@ -1,11 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
 
+const docCollection = 'users';// 文檔集合
 const serverTimestamp = firestore.FieldValue.serverTimestamp;// 服務器時間戳
 
 // 建立數據
 let createData = async function ({ name, tel } = {}) {
     // for (i = 1; i <= 5; i++) {
-    //     const res = await firestore().collection('users').add({
+    //     const res = await firestore().collection(docCollection).add({
     //         name: '用户' + i,
     //         sex: i % 2 == 0 ? '男' : '女',
     //         regdate: serverTimestamp()
@@ -13,7 +14,7 @@ let createData = async function ({ name, tel } = {}) {
     //     console.log('Added document with ID: ', res.id);
     // }
 
-    const res = await firestore().collection('users')
+    const res = await firestore().collection(docCollection)
         .add(
             {
                 name,
@@ -32,7 +33,7 @@ let createData = async function ({ name, tel } = {}) {
 let readData = async function ({ tel } = {}) {
     let rs = [];
 
-    await firestore().collection('users')
+    await firestore().collection(docCollection)
         .get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
@@ -50,7 +51,7 @@ let readData = async function ({ tel } = {}) {
 
 // 更新數據
 let updateData = async function ({ id, verifyCode } = {}) {
-    const refData = firestore().collection('users').doc(id);
+    const refData = firestore().collection(docCollection).doc(id);
 
     await refData
         .update(
@@ -67,7 +68,7 @@ let updateData = async function ({ id, verifyCode } = {}) {
 
 // 刪除數據
 let deleteData = async function ({ id } = {}) {
-    await firestore().collection('users').doc(id)
+    await firestore().collection(docCollection).doc(id)
         .delete()
         .catch((err) => {
             console.log('Error getting documents', err);
