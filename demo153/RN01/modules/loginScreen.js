@@ -5,7 +5,7 @@ import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
 import { crateData, readData, updateData, deleteData } from './Firebase/transaction';
 import { getVerifyCode } from './verifyCode';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 class LoginScreen extends Component {
     constructor() {
@@ -15,10 +15,10 @@ class LoginScreen extends Component {
             verifyCode: '',// 動態驗證碼內容
             verifyCodeText: '發送驗證碼',
             verifyCodeDisabled: false,
-            usedID: '',
+            userID: '',
             inputVerifyCode: ''// 輸入的驗證碼
         };
-        this.telRef = React.createRef();
+        this.telRef = React.createRef();     
     }
 
     phoneInput(phoneNum) {
@@ -44,7 +44,7 @@ class LoginScreen extends Component {
                     }
                     else {
                         this.setState({
-                            usedID: response[0].id,
+                            userID: response[0].id,
                             verifyCode: getVerifyCode(4).join(''),
                             verifyCodeDisabled: true
                         })
@@ -85,13 +85,13 @@ class LoginScreen extends Component {
         // .catch();
 
         promise.then(() => {
-            let time = 5;
+            let time = 2;
 
-            let timer = setInterval(() => {
+            this.timer = setInterval(() => {
                 this.setState({ verifyCodeText: time + '秒' });
 
                 if (time == 0) {
-                    clearInterval(timer);
+                    clearInterval(this.timer);
                     this.setState({
                         verifyCode: '',
                         verifyCodeText: '發送驗證碼',
@@ -99,7 +99,7 @@ class LoginScreen extends Component {
                     });
 
                     // updateData({
-                    //     id: this.state.usedID,
+                    //     id: this.state.userID,
                     //     verifyCode: this.state.verifyCode
                     // });
                 }
@@ -199,26 +199,41 @@ class LoginScreen extends Component {
 
         promise.then(
             () => {
-                // this.props.navigation.navigate('Tab');// 單純轉跳頁面
+                // 將數據儲存到本地端
+                AsyncStorage.setItem('userID', this.state.userID,
+                    () => AsyncStorage.setItem('tel', this.state.tel,
+                        () =>
+                            // this.props.navigation.navigate('Tab');// 單純轉跳頁面
 
-                // 登入後返回上一頁就離開APP
-                // 使用說明C:\Demo_ReactNative\demo153\備忘錄\React Navigation 5.x（一）常用知识点梳理 - 简书_files
-                this.props.navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [
-                            {
-                                name: 'Tab',
-                                params: { usedID: this.state.usedID, tel: this.state.tel }
-                            }
-                        ],
-                    })
-                );
+                            // 登入後返回上一頁就離開APP
+                            // 使用說明C:\Demo_ReactNative\demo153\備忘錄\React Navigation 5.x（一）常用知识点梳理 - 简书_files
+                            this.props.navigation.dispatch(
+                                CommonActions.reset({
+                                    index: 0,
+                                    routes: [
+                                        {
+                                            name: 'Tab',
+                                            params: { userID: this.state.userID, tel: this.state.tel }// 轉跳時傳遞參數
+                                        }
+                                    ],
+                                })
+                            )
+                    ));
             }
         ).catch(
             err => alert(err)
         );
         //#endregion
+    }
+
+    // 組件將要卸載
+    componentWillUnmount() {
+        // 清除定時器
+        clearInterval(this.timer);
+
+        this.setState = (state, callback) => {
+            return
+        }
     }
 
     render() {
