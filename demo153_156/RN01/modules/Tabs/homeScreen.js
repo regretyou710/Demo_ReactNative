@@ -52,7 +52,6 @@ class HomeScreen extends Component {
             () => this.setState({ dom: (<HomeScreenPage />) })
         ).catch(
             err => {
-                this.setState({ flag: false })
                 if (this.state.userID == '' || this.state.tel == '') {
                     this.props.navigation.dispatch(
                         CommonActions.reset({
@@ -60,17 +59,17 @@ class HomeScreen extends Component {
                             routes: [
                                 {
                                     name: 'Login'
-                                },
-                                {
+                                }, {
                                     name: 'Page'
-                                }
+                                },
                             ],
                         })
                     )
-                    alert('非法登入');
+
+                    alert(new Error('非法登入'));
                 }
                 else
-                    alert(err);
+                    alert(new Error(err));
             }
         );
 
@@ -89,7 +88,6 @@ class HomeScreen extends Component {
         return this.state.dom;
     }
 }
-
 
 class HomeScreenPage extends Component {
     render() {

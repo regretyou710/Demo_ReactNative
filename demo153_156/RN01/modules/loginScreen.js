@@ -16,18 +16,23 @@ class LoginScreen extends Component {
             verifyCodeText: '發送驗證碼',
             verifyCodeDisabled: false,
             userID: '',
-            inputVerifyCode: ''// 輸入的驗證碼
+            inputVerifyCode: '',// 輸入的驗證碼
+            loginBtnDisabled: false,
         };
-        this.telRef = React.createRef();     
+        this.telRef = React.createRef();
+        this.verifyCodeRef = React.createRef();
+        this.inputVerifyCodeRef = React.createRef();
     }
 
     phoneInput(phoneNum) {
-        this.setState({ tel: phoneNum });
+        this.setState({ tel: phoneNum });       
     };
 
     sendVerifyCodeBtn() {
+        this.inputVerifyCodeRef.current.focus();
+
         if (this.state.tel === '') {
-            alert('請輸入手機號碼');
+            alert(new Error('請輸入手機號碼'));
             return;
         }
 
@@ -46,7 +51,8 @@ class LoginScreen extends Component {
                         this.setState({
                             userID: response[0].id,
                             verifyCode: getVerifyCode(4).join(''),
-                            verifyCodeDisabled: true
+                            verifyCodeDisabled: true,
+                            loginBtnDisabled: true,
                         })
 
                         updateData({
@@ -95,7 +101,8 @@ class LoginScreen extends Component {
                     this.setState({
                         verifyCode: '',
                         verifyCodeText: '發送驗證碼',
-                        verifyCodeDisabled: false
+                        verifyCodeDisabled: false,
+                        loginBtnDisabled: false,
                     });
 
                     // updateData({
@@ -114,11 +121,17 @@ class LoginScreen extends Component {
             // this.setState({ tel: '' });// 方式一
             this.telRef.current.clear();// 方式二
 
+            this.telRef.current.focus();
             // console.log('Error getting documents', err);           
         });
     }
 
     loginBtn() {
+        if (this.state.tel == '' || this.state.inputVerifyCode == '') {
+            alert(new Error('請檢查手機號碼或驗證碼是否輸入'));
+            return;
+        }
+
         //#region 方式一
         /*        
         // 使用NetBeans glassfish DB調用webservice
@@ -292,6 +305,7 @@ class LoginScreen extends Component {
                             <Ionicons name={'lock-closed'} style={styles.inputIcon} />
                             <View style={styles.inputRight}>
                                 <TextInput
+                                    ref={this.inputVerifyCodeRef}
                                     placeholder={'請輸入驗證碼'}
                                     placeholderTextColor={'rgba(0,0,0,0.5)'}
                                     underlineColorAndroid={'transparent'}
@@ -305,9 +319,11 @@ class LoginScreen extends Component {
                                     borderColor: 'transparent',
                                     backgroundColor: !this.state.verifyCodeDisabled ? 'transparent' : 'rgba(0,0,0,0.3)'
                                 }]}>
-                                    <Text style={[styles.sendVerifyCodeBtn, {
-                                        color: !this.state.verifyCodeDisabled ? 'transparent' : 'rgba(0,0,0,0.8)'
-                                    }]}
+                                    <Text
+                                        ref={this.verifyCodeRef}
+                                        style={[styles.sendVerifyCodeBtn, {
+                                            color: !this.state.verifyCodeDisabled ? 'transparent' : 'rgba(0,0,0,0.8)'
+                                        }]}
                                     >{this.state.verifyCode}</Text>
                                 </View>
                             </View>
@@ -317,6 +333,7 @@ class LoginScreen extends Component {
                             <Button
                                 title={'登入'}
                                 onPress={this.loginBtn.bind(this)}
+                                disabled={this.state.loginBtnDisabled}
                             ></Button>
                         </View>
                         {/* 登入按鈕End */}
