@@ -1,0 +1,86 @@
+((function ($) {
+  $.fn.thselect = function (settings) {
+    var defaultSettings = {
+      bind: 'change',
+      change: function (e) {
+    	   
+      }
+    };
+    
+    if (settings === 'reset')
+      return this.each(function () {
+        $(this).unbind('change');
+        $(this).removeClass('select-hidden').unwrap().parent().find('.select-options,.select-styled').remove();
+        $(this).empty();
+      })
+    else{
+      var _settings = $.extend(defaultSettings, settings);
+      return this.each(function () {
+        $(this).bind(_settings.bind, _settings.change);
+        var $this = $(this),
+            numberOfOptions = $(this).children('option').length;
+
+        $this.addClass('select-hidden');
+        var $wrapper = $('<div/>').addClass('select');
+        if (_settings.width) $wrapper.attr('style','width:'+_settings.width);
+        $this.wrap($wrapper);
+        
+        $this.after('<div class="select-styled"></div>');
+
+        var $styledSelect = $this.next('div.select-styled');
+        $this.children('option:selected').length ? $styledSelect.text($this.children('option:selected').text()) : 
+        $styledSelect.text($this.children('option').eq(0).text());
+        var cust_style;
+        var cust_style_control;
+        if(settings){
+        	 cust_style = settings.hasOwnProperty('drowup') ? 'select-options-up': 'select-options' //20191015 add by jasonHan
+        	 cust_style_control = settings.hasOwnProperty('drowup') ? 'ul.select-options-up': 'ul.select-options' //20191015 add by jasonHan
+        }else{
+        	 cust_style = 'select-options' //20191015 add by jasonHan
+        	 cust_style_control = 'ul.select-options' //20191015 add by jasonHan
+        }       
+
+        var $list = $('<ul />', {
+          // 'class': 'select-options'  //20191015 mark by jasonHan
+          'class': cust_style           //20191015 add by jasonHan
+        }).insertAfter($styledSelect);
+
+        
+
+        for (var i = 0; i < numberOfOptions; i++) {
+          $('<li />', {
+            text: $this.children('option').eq(i).text(),
+            rel: $this.children('option').eq(i).val()
+          }).appendTo($list);
+        }
+
+        var $listItems = $list.children('li');
+
+        $styledSelect.click(function (e) {
+          e.stopPropagation();
+          $('div.select-styled.active').not(this).each(function () {
+            // $(this).removeClass('active').next('ul.select-options').hide();//20191015 mark by jasonHan
+            $(this).removeClass('active').next(cust_style_control).hide(); //20191015 add by jasonHan
+          });
+          // $(this).toggleClass('active').next('ul.select-options').toggle();//20191015 mark by jasonHan
+          $(this).toggleClass('active').next(cust_style_control).toggle(); //20191015 add by jasonHan
+        });
+
+        $listItems.click(function (e) {
+          e.stopPropagation();
+          $styledSelect.text($(this).text()).removeClass('active');
+          $this.val($(this).attr('rel'));
+          $list.hide(function () {
+            $this.trigger('change');
+          });
+          //console.log($this.val());
+        });
+
+        $(document).click(function () {
+          $styledSelect.removeClass('active');
+          $list.hide();
+        });
+      });
+    }
+  }
+})(jQuery));

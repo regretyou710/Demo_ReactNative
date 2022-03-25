@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)https://www.twle.cn/c/yufei/reactnative/reactnative-basic-asyncstorage.html -->
+<html data-darkreader-mode="dynamic" data-darkreader-scheme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, #bit-notification-bar-iframe, ::-webkit-calendar-picker-indicator {
+    filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
+}</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
+  background-color: var(--darkreader-inline-bgcolor) !important;
+}
+[data-darkreader-inline-bgimage] {
+  background-image: var(--darkreader-inline-bgimage) !important;
+}
+[data-darkreader-inline-border] {
+  border-color: var(--darkreader-inline-border) !important;
+}
+[data-darkreader-inline-border-bottom] {
+  border-bottom-color: var(--darkreader-inline-border-bottom) !important;
+}
+[data-darkreader-inline-border-left] {
+  border-left-color: var(--darkreader-inline-border-left) !important;
+}
+[data-darkreader-inline-border-right] {
+  border-right-color: var(--darkreader-inline-border-right) !important;
+}
+[data-darkreader-inline-border-top] {
+  border-top-color: var(--darkreader-inline-border-top) !important;
+}
+[data-darkreader-inline-boxshadow] {
+  box-shadow: var(--darkreader-inline-boxshadow) !important;
+}
+[data-darkreader-inline-color] {
+  color: var(--darkreader-inline-color) !important;
+}
+[data-darkreader-inline-fill] {
+  fill: var(--darkreader-inline-fill) !important;
+}
+[data-darkreader-inline-stroke] {
+  stroke: var(--darkreader-inline-stroke) !important;
+}
+[data-darkreader-inline-outline] {
+  outline-color: var(--darkreader-inline-outline) !important;
+}
+[data-darkreader-inline-stopcolor] {
+  stop-color: var(--darkreader-inline-stopcolor) !important;
+}</style><style class="darkreader darkreader--variables" media="screen">:root {
+   --darkreader-neutral-background: #131516;
+   --darkreader-neutral-text: #d8d4cf;
+   --darkreader-selection-background: #004daa;
+   --darkreader-selection-text: #e8e6e3;
+}</style><style class="darkreader darkreader--root-vars" media="screen"></style><style class="darkreader darkreader--user-agent" media="screen">html {
+    background-color: #181a1b !important;
+}
+html {
+    color-scheme: dark !important;
+}
+html, body, input, textarea, select, button {
+    background-color: #181a1b;
+}
+html, body, input, textarea, select, button {
+    border-color: #736b5e;
+    color: #e8e6e3;
+}
+a {
+    color: #3391ff;
+}
+table {
+    border-color: #545b5e;
+}
+::placeholder {
+    color: #b2aba1;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: #404400 !important;
+    color: #e8e6e3 !important;
+}
+::-webkit-scrollbar {
+    background-color: #202324;
+    color: #aba499;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #454a4d;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #575e62;
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: #484e51;
+}
+::-webkit-scrollbar-corner {
+    background-color: #181a1b;
+}
+::selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}
+::-moz-selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}</style>
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta content="True" name="HandheldFriendly">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+	<title>React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="./React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程_files/forum.css"><style class="darkreader darkreader--sync" media="screen"></style>
+    
+    
+	<link rel="shortcut icon" href="https://www.twle.cn/favicon.ico">
+	
+	<link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/v2ex/latest">
+    
+	<link rel="canonical" href="http://www.twle.cn/">
+	<script type="text/javascript" async="" src="./React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程_files/analytics.js.下載"></script><script src="./React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程_files/hm.js.下載"></script><script src="./React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程_files/jquery.min.js.下載"></script><meta name="darkreader" content="1250c0976ba0468baf89a10dcf0a7f07"><style class="darkreader darkreader--override" media="screen">.vimvixen-hint {
+    background-color: #7b5300 !important;
+    border-color: #d8b013 !important;
+    color: #f3e8c8 !important;
+}
+::placeholder {
+    opacity: 0.5 !important;
+}
+#edge-translate-panel-body,
+.MuiTypography-body1 {
+    color: var(--darkreader-neutral-text) !important;
+}
+gr-main-header {
+    background-color: #0f3a48 !important;
+}
+embed[type="application/pdf"][src="about:blank"] { filter: invert(100%) contrast(90%); }</style>
+	
+    
+    
+    <meta name="description" content="React Native 提供了 `AsyncStorage`  组件用于存储数据。 
+
+在 `0.60` 版本之前，这个组件是内置的，`0.60` 版本把它移到了 [react-native-community/react-native-async- - 简单教程，简单编程 ">
+    
+    <meta name="keywords" content="React Native 存储数据组件 AsyncStorage,React Native 基础教程,reactnative">
+    <meta name="robots" content="all">
+    <meta name="baidu-site-verification" content="n4uM2imCZD">
+    <meta name="author" content="简单教程(www.twle.cn)">
+    <meta name="Copyright" content="Copyright www.twle.cn All Rights Reserved.">
+    <meta name="sogou_site_verification" content="bzfILh5OnV">
+    <meta name="360-site-verification" content="94c6b7a524ec457615bea7e6fd54c37a">
+    <meta name="MSSmartTagsPreventParsing" content="true">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-18625785-4');
+</script>
+<script async="" src="./React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程_files/f.txt"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4935541724929119",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+<body class="cc_column course">
+<div id="app" class="App App--index affix" style="min-height: 756px;">
+    <div id="app-navigation" class="App-navigation">
+        <div class="Navigation ButtonGroup App-backControl">
+            <button class="Button Button--icon Navigation-drawer hasIcon" type="button">
+                <i class="icon fa fa-reorder Button-icon"></i>
+            </button>
+        </div>
+    </div>
+    <div id="drawer" class="App-drawer">
+        <header id="header" class="App-header">
+            <div id="header-navigation" class="Header-navigation">
+                <div class="Navigation ButtonGroup "></div>
+            </div>
+            <div class="container">
+                <h1 class="Header-title">
+                    <a href="https://www.twle.cn/" id="home-link" title="简单教程 简单编程">简单教程</a>
+                </h1>
+            <div>
+        </div>
+        <div id="header-primary" class="Header-primary">
+            <ul class="Header-controls">
+                <li class="item-link1">
+                    <a class="LinksButton Button Button--link" target="" href="https://www.twle.cn/" title="首页">首页</a>
+                </li>                
+                <li class="item-link1">
+                    <a class="LinksButton Button Button--link" target="" href="https://www.twle.cn/?tab=all" title="论坛">论坛</a>
+                </li>
+                <li class="item-link3">
+                    <a class="LinksButton Button Button--link" target="" href="https://www.twle.cn/l/explore/" title="全部课程">教程</a>
+                </li>
+                <li class="item-link3">
+                    <a class="LinksButton Button Button--link" target="" href="https://www.twle.cn/c/explore/" title="专栏">专栏</a>
+                </li>
+                <li class="item-link4">
+                    <a class="LinksButton Button Button--link" target="_blank" href="https://www.twle.cn/md/" title="Markdown 在线编辑器">Markdown 编辑器</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header-secondary" class="Header-secondary">
+            <ul class="Header-controls">
+                <li class="item-search">
+                    <div class="Search ">
+                        <div class="Search-input">
+                            <input class="FormControl" type="search" placeholder="搜索">
+                        </div>
+                        <ul class="Dropdown-menu Search-results"></ul>
+                    </div>
+                </li>
+                
+                <li class="item-signUp"><a class="Button Button--link" title="注册" href="https://www.twle.cn/signup"><span class="Button-label">注册</span></a></li>
+                <li class="item-logIn"><a class="Button Button--link" title="登录" href="https://www.twle.cn/signin"><span class="Button-label">登录</span></a></li>
+                
+            </ul>
+        </div>
+      </div>
+    </header>
+  </div>
+  <main class="App-content bg-shadow-light">
+    <div id="content">
+        <div class="container">
+<div class="sideNavOffset">
+
+        
+        <div class="q-nav clearfix">
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-alert.html">←  React Native 弹出框 Alert </a>
+            
+            <a class="right" href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-animations.html">React Native 动画组件 Animated →</a>
+            
+        </div>
+        
+
+        <div class="lession_title App-titleControl"><h1>React Native 存储数据组件 AsyncStorage</h1></div>
+
+        
+
+        <div class="content markdown-body"><p>React Native 提供了 <code>AsyncStorage</code>  组件用于存储数据。 </p>
+<p>在 <code>0.60</code> 版本之前，这个组件是内置的，<code>0.60</code> 版本把它移到了 <a href="https://github.com/react-native-community/react-native-async-storage">react-native-community/react-native-async-storage</a>。</p>
+<p>AsyncStorage 是一个简单的，未加密的，异步的，持久的键值存储系统。</p>
+<p>AsyncStorage 是一个全局的存储系统，没有实例这一概念。要存储数据就往里面扔，要读取数据就发起请求。</p>
+<p>AsyncStorage 对外提供了简单的 <a href="https://www.twle.cn/l/yufei/javascript/javascript-basic-index.html">JavaScript</a> 接口。每一个接口都是 <strong>异步</strong> 的，每一个接口都返回一个 <code>Promise</code> 对象。</p>
+<h2>React Native 存储数据组件 AsyncStorage</h2>
+<h3>安装组件</h3>
+<p>虽然之前的版本都是内置，但 0.60 版本将组件移到了 <a href="https://github.com/react-native-community/react-native-async-storage">react-native-community/react-native-async-storage</a>。</p>
+<p>为了兼容所有版本，我们推荐安装 <a href="https://github.com/react-native-community/react-native-async-storage">react-native-community/react-native-async-storage</a>。</p>
+<div class="codehilite"><pre><span></span>yarn add @react-native-community/async-storage
+</pre></div>
+
+
+<p>或</p>
+<div class="codehilite"><pre><span></span>npm i @react-native-community/async-storage
+</pre></div>
+
+
+<h3>链接组件</h3>
+<p><strong>React Native 0.60+ 版本会自动链接</strong>。</p>
+<p>但之前的版本则需要我们手动链接</p>
+<div class="codehilite"><pre><span></span>react-native link @react-native-community/async-storage
+</pre></div>
+
+
+<p>如果你从低版本升级到 0.60+ 版本，反而要删除链接，命令如下</p>
+<div class="codehilite"><pre><span></span>react-native unlink @react-native-community/async-storage
+</pre></div>
+
+
+<h3>引入组件</h3>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">AsyncStorage</span> <span class="nx">from</span> <span class="s1">'@react-native-community/async-storage'</span><span class="p">;</span>
+</pre></div>
+
+
+<h3>对外提供的方法</h3>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">getItem()</td>
+<td align="left">根据给定的 key 来读取数据</td>
+</tr>
+<tr>
+<td align="left">setItem()</td>
+<td align="left">将一个键值对添加到系统中，如果已经存在 key 则覆盖</td>
+</tr>
+<tr>
+<td align="left">removeItem()</td>
+<td align="left">根据给定的 key 删除指定的键值对</td>
+</tr>
+<tr>
+<td align="left">getAllKeys()</td>
+<td align="left">返回数据库中所有的 <strong>键</strong></td>
+</tr>
+<tr>
+<td align="left">multiGet()</td>
+<td align="left">根据给定的 key 列表获取多个键值对</td>
+</tr>
+<tr>
+<td align="left">multiSet()</td>
+<td align="left">将多个键值对存储到系统中</td>
+</tr>
+<tr>
+<td align="left">multiRemove()</td>
+<td align="left">根据多个 key 删除多个键值对</td>
+</tr>
+<tr>
+<td align="left">clear()</td>
+<td align="left">清空整个数据库系统</td>
+</tr>
+</tbody>
+</table>
+<p>每一个接口的详细信息，可以 <a href="https://github.com/react-native-community/async-storage">官方 API 文档</a></p>
+<h3>使用示例</h3>
+<p>存储数据</p>
+<div class="codehilite"><pre><span></span><span class="nx">storeData</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="nx">await</span> <span class="nx">AsyncStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">'@storage_Key'</span><span class="p">,</span> <span class="s1">'stored value'</span><span class="p">)</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 保存失败</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>读取数据</p>
+<div class="codehilite"><pre><span></span><span class="nx">getData</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">AsyncStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">'@storage_Key'</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">value</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// 之前存储的数据</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 读取数据失败</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>最佳实战</h3>
+<ul>
+<li>
+<p>数据可能不存在，推荐在 <code>constructor()</code> 构造函数中先初始化一个默认值</p>
+</li>
+<li>
+<p>推荐把读取数据的逻辑放到 <code>componentDidMount()</code> 中。</p>
+</li>
+</ul>
+<h2>范例</h2>
+<p>下面的代码演示了如何在存储数据组件 AsyncStorage 中存储和读取数据。</p>
+<h4>App.js</h4>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Text</span><span class="p">,</span> <span class="nx">View</span><span class="p">,</span> <span class="nx">Alert</span><span class="p">,</span><span class="nx">TextInput</span><span class="p">,</span> <span class="nx">StyleSheet</span><span class="p">,</span><span class="nx">TouchableHighlight</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react-native'</span>
+<span class="kr">import</span> <span class="nx">AsyncStorage</span> <span class="nx">from</span> <span class="s1">'@react-native-community/async-storage'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+   <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">'name'</span><span class="o">:</span> <span class="s1">'你好 www.twle.cn'</span><span class="p">,</span>
+      <span class="s1">'inputText'</span><span class="o">:</span><span class="s1">'你好，简单教程'</span><span class="p">,</span>
+   <span class="p">}</span>
+
+   <span class="nx">async</span> <span class="nx">readName</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="p">{</span>
+          <span class="kr">const</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">AsyncStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span>
+          <span class="k">if</span><span class="p">(</span><span class="nx">value</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="s1">'name'</span><span class="o">:</span> <span class="nx">value</span> <span class="p">})</span>
+          <span class="p">}</span>
+          <span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s2">"读取数据成功"</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+          <span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s2">"读取数据失败!"</span><span class="p">)</span>
+        <span class="p">}</span>
+   <span class="p">}</span>
+
+   <span class="nx">setName</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">AsyncStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">inputText</span><span class="p">);</span>
+      <span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s2">"保存成功!"</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">(</span>
+         <span class="o">&lt;</span><span class="nx">View</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">TextInput</span> 
+              <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">textInput</span><span class="p">}</span> 
+              <span class="nx">autoCapitalize</span> <span class="o">=</span> <span class="s1">'none'</span> 
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">inputText</span><span class="p">}</span> <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="nx">flexDirection</span><span class="o">:</span><span class="s1">'row'</span><span class="p">}}</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">TouchableHighlight</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,{</span><span class="nx">marginRight</span><span class="o">:</span><span class="mi">8</span><span class="p">}]}</span> <span class="nx">onPress</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">setName</span><span class="p">}</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">buttonTxt</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">保存</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+                <span class="o">&lt;</span><span class="err">/TouchableHighlight&gt;</span>
+                <span class="o">&lt;</span><span class="nx">TouchableHighlight</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,{</span><span class="nx">backgroundColor</span><span class="o">:</span><span class="s1">'blue'</span><span class="p">}]}</span> <span class="nx">onPress</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">readName</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">buttonTxt</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">读取</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+                <span class="o">&lt;</span><span class="err">/TouchableHighlight&gt;</span>
+            <span class="o">&lt;</span><span class="err">/View&gt;</span>
+            <span class="o">&lt;</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="nx">marginTop</span><span class="o">:</span><span class="mi">8</span><span class="p">}}</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Text</span><span class="o">&gt;</span><span class="nx">当前的值</span><span class="err">：</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+            <span class="o">&lt;</span><span class="err">/View&gt;</span>
+         <span class="o">&lt;</span><span class="err">/View&gt;</span>
+      <span class="p">)</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span> <span class="p">({</span>
+   <span class="nx">container</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">margin</span><span class="o">:</span><span class="mi">10</span>
+   <span class="p">},</span>
+   <span class="nx">textInput</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">margin</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+      <span class="nx">height</span><span class="o">:</span> <span class="mi">44</span><span class="p">,</span>
+      <span class="nx">width</span><span class="o">:</span><span class="s1">'100%'</span><span class="p">,</span>
+      <span class="nx">borderWidth</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">borderColor</span><span class="o">:</span> <span class="s1">'#dddddd'</span>
+   <span class="p">},</span>
+   <span class="nx">button</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">flex</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+      <span class="nx">height</span><span class="o">:</span><span class="mi">44</span><span class="p">,</span>
+      <span class="nx">justifyContent</span><span class="o">:</span><span class="s1">'center'</span><span class="p">,</span>
+      <span class="nx">alignItems</span><span class="o">:</span><span class="s1">'center'</span><span class="p">,</span>
+      <span class="nx">width</span><span class="o">:</span><span class="mi">100</span><span class="p">,</span>
+      <span class="nx">backgroundColor</span><span class="o">:</span> <span class="s1">'red'</span>
+   <span class="p">},</span>
+   <span class="nx">buttonTxt</span><span class="o">:</span><span class="p">{</span>
+      <span class="nx">justifyContent</span><span class="o">:</span><span class="s1">'center'</span><span class="p">,</span>
+      <span class="nx">color</span><span class="o">:</span><span class="s1">'#ffffff'</span>
+   <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+
+
+<p>演示效果如下</p>
+<video width="240" controls="" src="https://www.twle.cn/static/upload/img/2019/07/16/20190716224120_4.mp4"></video></div>
+        
+        
+
+        <div class="q-nav q-nav-bottom b-nav clearfix">
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-alert.html">←  React Native 弹出框 Alert </a>
+            
+            <a class="right" href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-animations.html">React Native 动画组件 Animated →</a>
+            
+        </div>
+
+</div>
+<div class="sideNav">
+        <h3>React Native 基础教程 </h3>
+        <nav>
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-index.html" class="" title="React Native 基础教程">React Native 基础教程</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-overview.html" class="" title="React Native 简介">React Native 简介</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-env.html" class="" title="React Native 环境配置">React Native 环境配置</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-createproject.html" class="" title="React Native 创建项目">React Native 创建项目</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-android.html" class="" title="React Native 在 Android 平台上运行">React Native 在 Android 平台上运行</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-ios.html" class="" title="React Native 在 iOS 平台运行">React Native 在 iOS 平台运行</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-start.html" class="" title="React Native 目录结构">React Native 目录结构</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-view.html" class="" title="React Native 视图 View">React Native 视图 View</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-styling.html" class="" title="React Native 组件样式 style">React Native 组件样式 style</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-text.html" class="" title="React Native 文本组件 Text">React Native 文本组件 Text</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-state.html" class="" title="React Native 组件状态 state">React Native 组件状态 state</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-props.html" class="" title="React Native 组件属性 props">React Native 组件属性 props</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-textinput.html" class="" title="React Native 输入组件 TextInput">React Native 输入组件 TextInput</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-images.html" class="" title="React Native 图片组件 Image">React Native 图片组件 Image</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-activityindicator.html" class="" title="React Native 活动指示器组件 ActivityIndicator">React Native 活动指示器组件 ActivityIndicator</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-alert.html" class="" title="React Native 弹出框 Alert">React Native 弹出框 Alert</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-asyncstorage.html" class="cur" title="React Native 存储数据组件 AsyncStorage">React Native 存储数据组件 AsyncStorage</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-animations.html" class="" title="React Native 动画组件 Animated">React Native 动画组件 Animated</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-switch.html" class="" title="React Native 开关组件 Switch">React Native 开关组件 Switch</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-statusbar.html" class="" title="React Native  状态栏组件  StatusBar">React Native  状态栏组件  StatusBar</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-scrollview.html" class="" title="React Native 滚动视图 ScrollView">React Native 滚动视图 ScrollView</a>
+            
+            
+            
+            <a href="https://www.twle.cn/c/yufei/reactnative/reactnative-basic-picker.html" class="" title="React Native 选择器 Picker">React Native 选择器 Picker</a>
+            
+            
+        </nav>
+</div>
+<div class="c"></div>
+<div class="c"></div></div>
+    </div>
+  </main>
+<div class="page-bottom border-top">
+    <div class="container">
+        <div class="fr" align="right"></div>
+        <div style="display:none">
+            <strong><a href="https://www.twle.cn/about" class="dark">关于</a></strong> &nbsp; | &nbsp; <strong><a href="https://www.twle.cn/faq" class="dark">FAQ</a></strong> &nbsp; | &nbsp; <strong><a href="https://www.twle.cn/mission" class="dark">我们的愿景</a></strong> &nbsp; | &nbsp; <strong><a href="https://www.twle.cn/advertise" class="dark">广告投放</a></strong> &nbsp; | &nbsp;<strong><a href="http://livid.v2ex.com/" class="dark" target="_blank">博客</a></strong>
+        </div>
+        <div class="sep10"></div>
+        <p style="color: rgb(51, 51, 51); --darkreader-inline-color:#c8c3bc;" data-darkreader-inline-color=""><span style="color: red; --darkreader-inline-color:#ff1a1a;" data-darkreader-inline-color="">♥</span> &nbsp; 简单教程，简单编程 - IT 入门首选站</p>
+        <p style="color: rgb(51, 51, 51); --darkreader-inline-color:#c8c3bc;" data-darkreader-inline-color="">Copyright © 2013-2022 简单教程  twle.cn All Rights Reserved.</p>
+    </div>
+    <script src="./React Native 存储数据组件 AsyncStorage - React Native 基础教程 - 简单教程，简单编程_files/popper.min.js.下載"></script>
+    <script>
+        var Drawer = function(){
+
+            $("#content").on('click',function(e){
+                if (this.isOpen && this.isOpen()) {
+                    e.preventDefault();
+                    this.hide();
+                }
+            });
+
+        };
+
+        Drawer.prototype.isOpen = function() {
+            return $('#app').hasClass('drawerOpen');
+        };
+
+        Drawer.prototype.hide = function() {
+            $('#app').removeClass('drawerOpen');
+            if (this.$backdrop)
+                this.$backdrop.remove();
+        };
+
+        Drawer.prototype.show = function()
+        {
+            var that = this;
+
+            this.$backdrop = $('<div/>').addClass('drawer-backdrop fade').appendTo('body')
+                .click(function(){ that.hide()});
+
+            
+            setTimeout(function(){ that.$backdrop.addClass('in')});
+        }
+
+        $(document).ready(function(){
+            window.drawer = new Drawer(); 
+
+            $('.Navigation-drawer').on('click',function(e){
+                e.preventDefault();
+                drawer.show();
+                $('#app').addClass('drawerOpen');
+            });
+            
+
+            $(".Dropdown-toggle").on('click',function(){
+                $(this).closest('.Dropdown').addClass('show')
+                drawer.show();
+            })
+
+            $("#app").css('min-height',$(window).height())
+
+            $('.Dropdown').on('click',function(){
+                $(this).toggleClass('open');
+            });
+
+            $(".item-search .Search").on('focusin',function(){
+                $(this).addClass('focused');
+            });
+
+            $(".item-search .Search").on('focusout',function(){
+                $(this).removeClass('focused');
+            });
+
+            $(window).on('scroll',function(e){
+                if ( $(document).scrollTop() > 0 ){
+                    $("#app").addClass('scrolled')
+                } else {
+                    $("#app").removeClass('scrolled')
+                }
+            })
+
+            $(".Search-input input[type=search]").on('keypress',function(e){
+                  if(e.keyCode == 13 )      
+                     window.location="/q/" + $(this).val(); 
+             });
+
+        })
+        
+    </script>
+
+    
+<script>
+    // reply a reply
+    function replyOne(username){
+        replyContent = $("#reply_content");
+        oldContent = replyContent.val();
+        prefix = "@" + username + " ";
+        newContent = ''
+        if(oldContent.length > 0){
+            if (oldContent != prefix) {
+                newContent = prefix + oldContent;
+            }
+        } else {
+            newContent = prefix
+        }
+        replyContent.focus();
+        replyContent.val(newContent);
+    }
+</script>
+
+
+    
+</div>
+<div style="display:none">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?ea38ff51ae9a7b7c4c1136308b7c083f";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</div>
+
+</div></body></html>

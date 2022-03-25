@@ -1,0 +1,90 @@
+/**
+ * 跳出警告視窗
+ * @param msg 跳出訊息
+ */
+function alert(msg){
+	$("#alertMsg").html(msg);
+	//判斷是否要顯示登入按鈕
+	if(msg == "您尚未登入，請先登入！" || msg == "Please login!"){
+		$("#modalFooter").attr("style", "");
+	}else{
+		$("#modalFooter").attr("style", "display:none;");
+	}
+	$('#alertMessageBox').modal('show');
+}
+
+/**
+ * 確認視窗 
+ * @param label	確認視窗主題
+ * @param msg	確認視窗訊息
+ * @param url	確認後跳至url
+ */
+function triggerConfirmModal(label, msg, url){
+	$('#confirmLabel').text(label);
+	$('#confirmMsg').text(msg);
+	
+	$("#confirmModal").modal('show');
+	$('#confirmBtnTrigger').on('click',function(evt){
+	    	console.log('triggered url: ' + url);
+	    	window.location.assign(url);
+		}
+	);
+}
+/**
+ * 加入hidden value 至 form
+ * @param key 	 hidden Id and Name
+ * @param value	 hidden Value
+ * @param formId append to form Id
+ */
+function createHiddenValue(key, value, formId){
+	$('<input>').attr({
+	    type: 'hidden',
+	    id: key,
+	    name: key,
+	    value: value
+	}).appendTo('#' + formId);
+}
+
+function fakeSubmit(event) {  
+    var target = event ? event.target : this;
+    /* Fire a submit event */
+    if (target['submitted1'] === true) {
+    	// Previously submitted - don't submit again
+    	console.log('Do not submit again...');
+        return false;
+    } else {
+    	// Mark it so that the next submit can be ignored
+    	target['submitted1'] = true;
+    	// Call the real submit function
+    	this._submit();
+    }
+}
+
+//prevent all form for double submit
+if(window.HTMLElement){  
+    /* DOM-compliant Browsers */
+    HTMLFormElement.prototype._submit = HTMLFormElement.prototype.submit;
+    HTMLFormElement.prototype.submit = fakeSubmit;
+} else { 
+    /* IE does not expose it's HTMLElement object or its children
+        Let the document load so all forms are accounted for */
+    document.observe("dom:loaded", function(){
+        for(var i=0; i<document.forms.length; i++){
+            document.forms[i]._submit= document.forms[i].submit;
+            document.forms[i].submit = function(event){
+                var target = event ? event.target : this;
+                /* Fire a submit event */
+                if (target['submitted1'] === true) {
+                	// Previously submitted - don't submit again
+                	console.log('Do not submit again...');
+                    return false;
+                } else {
+                	// Mark it so that the next submit can be ignored
+                	target['submitted1'] = true;
+                	// Call the real submit function
+                	this._submit();
+                }
+            }
+        }
+    });
+}

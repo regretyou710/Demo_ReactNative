@@ -1,0 +1,71 @@
+//檢核頁面資料
+
+/**
+ * 檢核失敗
+ * @param obj 檢核物件
+ * @param msg 錯誤訊息
+ */
+function checkNotPass(obj, msg) {
+  alert(msg)
+  obj.focus()
+  return false
+}
+
+/**
+ * 檢核必填
+ * @param obj 檢核物件
+ * @param itemName 檢核物件欄位名稱
+ */
+const allMessage = JSON.parse(localStorage.getItem('allMessage'))
+function checkRequired(obj, itemName) {
+  var value = obj.val()
+  if ($.trim(value) == '') {
+    var msg = itemName + allMessage['devkit.required']
+    return checkNotPass(obj, msg)
+  }
+  return true
+}
+
+/**
+ * 檢核必填
+ * @param obj 檢核物件
+ * @param itemName 檢核下拉選單欄位名稱
+ */
+function checkDdlRequired(obj, itemName) {
+  var value = obj.val()
+  if ($.trim(value) == '') {
+    var msg = itemName + '!'
+    return checkNotPass(obj, msg)
+  }
+  return true
+}
+
+/**
+ * 檢核Email格式
+ * @param obj 檢核物件
+ * @param itemName 檢核物件欄位名稱
+ */
+function checkEmailAddrValidate(obj, itemName) {
+  var emailAddress = obj.val()
+  var pattern = new RegExp(
+    /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i
+  )
+  if (!pattern.test(emailAddress)) {
+    var msg = itemName + allMessage['devkit.validation.failed']
+    return checkNotPass(obj, msg)
+  }
+  return true
+}
+
+/**
+ * 檢核失敗
+ * @param mainString 檢核字串
+ * @param subString 子字串
+ */
+function checkContainSubstring(mainString, subString) {
+  if (mainString.toLowerCase().indexOf(subString) >= 0) {
+    //match
+    return true
+  }
+  return false
+}
