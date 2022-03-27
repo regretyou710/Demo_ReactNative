@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TextInput, BackHandler, ToastAndroid } from 'react-native';
+import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
 import { crateData, readData, updateData, deleteData } from './Firebase/transaction';
 import { getVerifyCode } from './Util/verifyCode';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Base64 } from 'js-base64';
 
 class LoginScreen extends Component {
     constructor() {
@@ -212,26 +213,27 @@ class LoginScreen extends Component {
 
         promise.then(
             () => {
-                // 將數據儲存到本地端(把userID、tel當作為token)
-                AsyncStorage.setItem('userID', this.state.userID,
-                    () => AsyncStorage.setItem('tel', this.state.tel,
-                        () => {
-                            // this.props.navigation.navigate('Tab');// 單純轉跳頁面
+                let token = Base64.encode(`${this.state.userID}:${this.state.tel}`);
 
-                            // 登入後返回上一頁就離開APP
-                            // 使用說明C:\Demo_ReactNative\demo153\備忘錄\React Navigation 5.x（一）常用知识点梳理 - 简书_files
-                            this.props.navigation.dispatch(
-                                CommonActions.reset({
-                                    index: 0,
-                                    routes: [
-                                        {
-                                            name: 'Tab',
-                                            params: { userID: this.state.userID, tel: this.state.tel }// 轉跳時傳遞參數
-                                        }
-                                    ],
-                                })
-                            )
-                        })
+                // 將數據儲存到本地端
+                AsyncStorage.setItem('token', token,
+                    () => {
+                        // this.props.navigation.navigate('Tab');// 單純轉跳頁面
+
+                        // 登入後返回上一頁就離開APP
+                        // 使用說明C:\Demo_ReactNative\demo153\備忘錄\React Navigation 5.x（一）常用知识点梳理 - 简书_files
+                        this.props.navigation.dispatch(
+                            CommonActions.reset({
+                                index: 0,
+                                routes: [
+                                    {
+                                        name: 'Tab',
+                                        params: { userID: this.state.userID, tel: this.state.tel }// 轉跳時傳遞參數
+                                    }
+                                ],
+                            })
+                        )
+                    }
                 );
             }
         ).catch(
@@ -240,11 +242,17 @@ class LoginScreen extends Component {
         //#endregion
     }
 
+    // 組件掛載完畢
+    componentDidMount() {
+
+    }
+
     // 組件將要卸載
     componentWillUnmount() {
         // 清除定時器
         clearInterval(this.timer);
 
+        // 終止狀態設定
         this.setState = (state, callback) => {
             return
         }

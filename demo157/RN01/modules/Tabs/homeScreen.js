@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Dimensions, StatusBar } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, StatusBar, DeviceEventEmitter } from 'react-native';
 import TopFlash from '../HomeScreen/topFlash';
 import Service from '../HomeScreen/service';
 import Icons from '../HomeScreen/icons';
@@ -7,6 +7,7 @@ import BottomFlash from '../HomeScreen/bottomFlash';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CommonActions } from '@react-navigation/native';
 import DefaultPage from '../defaultPage';
+import { Base64 } from 'js-base64';
 
 class HomeScreen extends Component {
     constructor() {
@@ -15,44 +16,41 @@ class HomeScreen extends Component {
             userID: '',
             tel: '',
             dom: (<DefaultPage />),
-        };        
+        };
         this.setDOM();// 組件渲染前獲取本地端資料
     }
 
     setDOM = () => {
-        // 從本地端取出userID
-        let userIDPromise = new Promise((resolve, reject) =>
-            AsyncStorage.getItem('userID', (err, result) => {
-                // console.log(`userID:${result}`);
-                if (result) {
-                    this.setState({ userID: result });
-                    resolve();
+        this.subscription = DeviceEventEmitter.addListener('loginData', (data) => {
+            this.setState({ userID: data.userID, tel: data.tel });
+        });
+
+        let promise = new Promise((resolve, reject) => {
+            AsyncStorage.getItem('token', (err, result) => {
+                // console.log(`token:${result}`);
+
+                // 檢查是否有token
+                if (result && this.state.userID != '' && this.state.tel != '') {
+                    let token = Base64.decode(result);
+                    let tokenUserID = token.split(':')[0];
+                    let tokenTel = token.split(':')[1];
+
+                    // 驗證token是否合法
+                    if (this.state.userID === tokenUserID && this.state.tel === tokenTel) {
+                        this.setState({ dom: (<HomeScreenPage />) });
+                        resolve();
+                    }
+                    else
+                        reject('token不正確,非法登入');
                 }
                 else
-                    reject(err);
-            })
-        );
+                    reject('沒有token,非法登入');
+            });
+        });
 
-        // 從本地端取出tel
-        let telPromise = new Promise((resolve, reject) =>
-            AsyncStorage.getItem('tel', (err, result) => {
-                // console.log(`tel:${result}`)
-                if (result) {
-                    this.setState({ tel: result });
-                    resolve();
-                }
-                else
-                    reject(err);
-            })
-        );
-
-        let promise = Promise.all([userIDPromise, telPromise]);
-
-        promise.then(
-            () => this.setState({ dom: (<HomeScreenPage />) })
-        ).catch(
+        promise.catch(
             err => {
-                if (this.state.userID == '' || this.state.tel == '') {
+                if (err.includes('非法登入')) {
                     this.props.navigation.dispatch(
                         CommonActions.reset({
                             index: 1,
@@ -65,23 +63,22 @@ class HomeScreen extends Component {
                             ],
                         })
                     )
-
-                    alert(new Error('非法登入'));
                 }
-                else
-                    alert(new Error(err));
+                alert(new Error(err));
             }
         );
-
     }
 
     // 組件即將卸載
     componentWillUnmount() {
-        // console.log('componentWillUnmount')
+        // console.log('HomeScreen componentWillUnmount');
         this.setState = (state, callback) => {
             return
         }
         // 使用說明C:\Demo_ReactNative\demo153\備忘錄\react 在componentWillUnmount中卸載異步操作設置狀態 - 台部落.html
+
+        // 清除訂閱者
+        this.subscription.remove();
     }
 
     render() {
