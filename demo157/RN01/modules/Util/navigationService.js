@@ -4,6 +4,7 @@ let navigator;
 
 //ref傳值
 const setTopLevelNavigator = navigatorRef => {
+    // console.log(`navigatorRef:${navigatorRef}`);
     navigator = navigatorRef;
 };
 

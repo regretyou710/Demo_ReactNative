@@ -46,7 +46,7 @@ let readData = async function ({ tel } = {}) {
             console.log('Error getting documents', err);
         });
 
-    return rs = tel != undefined ? rs.filter(doc => doc.tel == tel) : rs;
+    return rs = tel != undefined ? rs.filter(doc => doc.TEL == tel) : rs;
 }
 
 // 更新數據
@@ -56,8 +56,8 @@ let updateData = async function ({ id, verifyCode } = {}) {
     await refData
         .update(
             {
-                verifyCode,
-                updateTime: serverTimestamp(),
+                VERIFYCODE: verifyCode,
+                UPDATETIME: serverTimestamp(),
                 // age: firestore.FieldValue.delete()// 更新時同時刪除欄位
             }
         )

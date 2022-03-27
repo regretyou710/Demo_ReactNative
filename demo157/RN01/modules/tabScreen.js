@@ -5,19 +5,20 @@ import { Text, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './Tabs/homeScreen';
+import OrderScreen from './Tabs/orderScreen';
 import MyCenterScreen from './Tabs/myCenterScreen';
-
-function OrderScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Order!</Text>
-    </View>
-  );
-}
 
 const Tab = createBottomTabNavigator();
 
 class TabScreen extends Component {
+  tabNavigatorOnPress(navigation, route, e) {
+    // Prevent default action(取消默認行為)
+    e.preventDefault();
+
+    // Do something with the `navigation` object
+    navigation.navigate(route.name, { userID: this.props.route.params.userID, tel: this.props.route.params.tel })
+  }
+
   render() {
     // console.log('TabScreen>>>', this.props.route);
 
@@ -41,14 +42,24 @@ class TabScreen extends Component {
           },
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
-          // tabBarIconStyle: { display: "none" }
+          // tabBarIconStyle: { display: "none" },
           tabBarStyle: { height: 60, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#B4B4B4' },
           tabBarLabelStyle: { fontSize: 12, marginTop: -10, marginBottom: 5 },
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: '首頁', headerShown: false }} />
-        <Tab.Screen name="Order" component={OrderScreen} options={{ tabBarLabel: '訂單', headerShown: false }} />
-        <Tab.Screen name="MyCenter" component={MyCenterScreen} options={{ tabBarLabel: '我的', headerShown: false }} />
+        <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: '首頁', headerShown: false }}
+          listeners={({ navigation, route }) => ({
+            tabPress: e => this.tabNavigatorOnPress(navigation, route, e),
+          })} />
+        <Tab.Screen name="Order" component={OrderScreen} options={{ tabBarLabel: '訂單', headerShown: false }}
+          listeners={({ navigation, route }) => ({
+            tabPress: e => this.tabNavigatorOnPress(navigation, route, e),
+          })} />
+        <Tab.Screen name="MyCenter" component={MyCenterScreen} options={{ tabBarLabel: '我的', headerShown: false }}
+          listeners={({ navigation, route }) => ({
+            tabPress: e => this.tabNavigatorOnPress(navigation, route, e),
+          })}
+        />
       </Tab.Navigator>
     );
   }

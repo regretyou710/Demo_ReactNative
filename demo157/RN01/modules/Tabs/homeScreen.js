@@ -15,11 +15,12 @@ class HomeScreen extends Component {
             userID: '',
             tel: '',
             dom: (<DefaultPage />),
-        };
+        };        
         this.setDOM();// 組件渲染前獲取本地端資料
     }
 
     setDOM = () => {
+        // 從本地端取出userID
         let userIDPromise = new Promise((resolve, reject) =>
             AsyncStorage.getItem('userID', (err, result) => {
                 // console.log(`userID:${result}`);
@@ -29,10 +30,10 @@ class HomeScreen extends Component {
                 }
                 else
                     reject(err);
-            }
-            )
+            })
         );
 
+        // 從本地端取出tel
         let telPromise = new Promise((resolve, reject) =>
             AsyncStorage.getItem('tel', (err, result) => {
                 // console.log(`tel:${result}`)
@@ -42,8 +43,7 @@ class HomeScreen extends Component {
                 }
                 else
                     reject(err);
-            }
-            )
+            })
         );
 
         let promise = Promise.all([userIDPromise, telPromise]);
@@ -106,7 +106,6 @@ class HomeScreenPage extends Component {
                 {/* 五個小圖標Start */}
                 <Icons />
                 {/* 五個小圖標End */}
-
 
                 {/* 底部輪播圖Start */}
                 <BottomFlash />

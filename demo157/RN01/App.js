@@ -6,26 +6,16 @@ import LoginScreen from './modules/loginScreen';
 import TabScreen from './modules/tabScreen';
 import PageScreen from './modules/pageScreen';
 import NavigationService from './modules/Util/navigationService';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Stack = createNativeStackNavigator();
 
 export default class App extends Component {
   backHandler;
 
-  // 組件掛載完畢
-  componentDidMount() {
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress',
-      this.onBackButtonPressAndroid, //處理返回事件函數
-    );
-  }
-
-  // 組件即將卸載
-  componentWillUnmount() {
-    this.backHandler && this.backHandler.remove('hardwareBackPress');
-  }
-
   onBackButtonPressAndroid = () => {
     const routeName = NavigationService.getCurrentRouteName();
+    // console.log(`routeName:${routeName}`);
 
     if (
       //處理Login和tabs
@@ -39,11 +29,24 @@ export default class App extends Component {
 
       this.lastBackPressed = Date.now();
       ToastAndroid.show('再按一次離開', ToastAndroid.SHORT);
+      AsyncStorage.clear();
       return true; //true阻止返回鍵向下傳遞
     } else {
       return false; //不做任何事情，返回鍵向下傳遞，系統默認處理
     }
   };
+
+  // 組件掛載完畢
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress',
+      this.onBackButtonPressAndroid, //處理返回事件函數
+    );
+  }
+
+  // 組件即將卸載
+  componentWillUnmount() {  
+    this.backHandler && this.backHandler.remove('hardwareBackPress');
+  }
 
   render() {
     return (

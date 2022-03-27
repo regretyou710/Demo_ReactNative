@@ -132,7 +132,7 @@ class LoginScreen extends Component {
             return;
         }
 
-        //#region 方式一
+        //#region RESTAPI方式一
         /*        
         // 使用NetBeans glassfish DB調用webservice
         // 域名要使用本機IP，localhost、127.0.0.1會報錯
@@ -156,7 +156,7 @@ class LoginScreen extends Component {
         */
         //#endregion
 
-        //#region 方式二
+        //#region RESTAPI方式二
         const projectID = 'reactnative-4876e';
         let url = `https://firestore.googleapis.com/v1/projects/${projectID}/databases/(default)/documents:runQuery`;
         let postObj = {
@@ -169,13 +169,13 @@ class LoginScreen extends Component {
                 "select": {
                     "fields": [
                         {
-                            "fieldPath": "name"
+                            "fieldPath": "NAME"
                         },
                         {
-                            "fieldPath": "tel"
+                            "fieldPath": "TEL"
                         },
                         {
-                            "fieldPath": "verifyCode"
+                            "fieldPath": "VERIFYCODE"
                         }
                     ]
                 },
@@ -185,7 +185,7 @@ class LoginScreen extends Component {
                             {
                                 "fieldFilter": {
                                     "field": {
-                                        "fieldPath": "verifyCode"
+                                        "fieldPath": "VERIFYCODE"
                                     },
                                     "op": "EQUAL",
                                     "value": {
@@ -212,10 +212,10 @@ class LoginScreen extends Component {
 
         promise.then(
             () => {
-                // 將數據儲存到本地端
+                // 將數據儲存到本地端(把userID、tel當作為token)
                 AsyncStorage.setItem('userID', this.state.userID,
                     () => AsyncStorage.setItem('tel', this.state.tel,
-                        () =>
+                        () => {
                             // this.props.navigation.navigate('Tab');// 單純轉跳頁面
 
                             // 登入後返回上一頁就離開APP
@@ -231,7 +231,8 @@ class LoginScreen extends Component {
                                     ],
                                 })
                             )
-                    ));
+                        })
+                );
             }
         ).catch(
             err => alert(err)
