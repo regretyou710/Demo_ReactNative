@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TextInput
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
-import { crateData, readData, updateData, deleteData } from './Firebase/transaction';
+import Transaction from './Firebase/transaction';
 import { getVerifyCode } from './Util/verifyCode';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Base64 } from 'js-base64';
@@ -42,7 +42,7 @@ class LoginScreen extends Component {
 
         // 更新/寫入資料庫驗證碼
         let promise = new Promise((resolve, reject) => {
-            readData({ tel: this.state.tel })
+            Transaction.readData({ tel: this.state.tel })
                 .then(response => {
                     if (response.length == 0) {
                         reject(new Error(`\r\n手機號碼:${this.state.tel}不存在`));
@@ -56,7 +56,7 @@ class LoginScreen extends Component {
                             loginBtnDisabled: true,
                         })
 
-                        updateData({
+                        Transaction.updateData({
                             id: response[0].id,
                             verifyCode: this.state.verifyCode
                         });
@@ -106,7 +106,7 @@ class LoginScreen extends Component {
                         loginBtnDisabled: false,
                     });
 
-                    // updateData({
+                    // Transaction.updateData({
                     //     id: this.state.userID,
                     //     verifyCode: this.state.verifyCode
                     // });

@@ -21,7 +21,7 @@ class TabScreen extends Component {
 
   // 組件掛載完畢
   componentDidMount() {
-    console.log('TabScreen componentDidMount');
+    // console.log('TabScreen componentDidMount');
     // 發佈者發佈訊息(觸發訂閱)
     DeviceEventEmitter.emit('loginData', { userID: this.props.route.params.userID, tel: this.props.route.params.tel });
   }

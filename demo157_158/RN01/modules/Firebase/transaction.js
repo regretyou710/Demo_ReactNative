@@ -75,4 +75,4 @@ let deleteData = async function ({ id } = {}) {
         });
 }
 
-export { createData, readData, updateData, deleteData };
+export default { createData, readData, updateData, deleteData };
