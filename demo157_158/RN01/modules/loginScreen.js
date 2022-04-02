@@ -119,8 +119,8 @@ class LoginScreen extends Component {
             alert(err);
 
             // 清除手機號碼
-            // this.setState({ tel: '' });// 方式一
-            this.telRef.current.clear();// 方式二
+            this.setState({ tel: '' });
+            this.telRef.current.clear();
 
             this.telRef.current.focus();
             // console.log('Error getting documents', err);           
@@ -405,6 +405,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginLeft: 20,
         marginRight: 10,
+        color: 'rgba(0,0,0,0.5)',
     },
     inputRight: {
         flexDirection: 'row',

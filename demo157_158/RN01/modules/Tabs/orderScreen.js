@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     orderNum: {
         marginLeft: 20,
         marginRight: 10,
+        color: 'rgba(0,0,0,0.5)',
     },
     pickupContainer: {
         width: screenWidth,
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     pickupTime: {
         marginLeft: 20,
         marginRight: 10,
+        color: 'rgba(0,0,0,0.5)',
     },
     pickupIcon: {
         fontSize: 22,

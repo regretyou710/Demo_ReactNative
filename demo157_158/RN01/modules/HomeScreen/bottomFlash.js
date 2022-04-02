@@ -31,8 +31,8 @@ class BottomFlash extends Component {
     _renderItem({ item, index }) {
         return (
             <View style={styles.bottomContent}>
-                <Text style={{ fontSize: 24 }}>{item.userName}</Text>
-                <Text>{item.content}</Text>
+                <Text style={{ fontSize: 24, color: 'rgba(0,0,0,0.5)', }}>{item.userName}</Text>
+                <Text style={{ fontSize: 14, color: 'rgba(0,0,0,0.5)', }}>{item.content}</Text>
             </View>
         )
     }
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
         marginRight: 25,
         alignItems: 'center',
         opacity: 0.8,
+        color: 'red',
     }
 });
 

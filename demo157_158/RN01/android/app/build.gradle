@@ -138,6 +138,16 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('DEMO158_RELEASE_STORE_FILE')) {
+                storeFile file(DEMO158_RELEASE_STORE_FILE)
+                storePassword DEMO158_RELEASE_STORE_PASSWORD
+                keyAlias DEMO158_RELEASE_KEY_ALIAS
+                keyPassword DEMO158_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     splits {
         abi {
             reset()
@@ -152,7 +162,7 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-        }
+        }      
     }
     buildTypes {
         debug {
@@ -169,6 +179,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 
